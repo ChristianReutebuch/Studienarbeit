@@ -60,5 +60,6 @@ $RECYCLE.BIN/
 
 
 #eigene
+.metadata/*
 bin/*
 *.project
