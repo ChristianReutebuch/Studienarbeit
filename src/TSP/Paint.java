@@ -15,6 +15,7 @@ public class Paint extends JPanel{
 		super();
 	}
 	
+	//blablabla
 	public void paintComponent(Graphics g){
 		
 //		new PaintCircle();
