@@ -8,6 +8,21 @@ public class Node {
 	private boolean isStartnode = false;
 	private boolean isEndnode = false;
 	
+	//Konstruktor für "normale" Knoten
+	public Node( int x, int y, int r) {
+		posX = x;
+		posY = y;
+		radius = r;		
+	}
+	//Konstruktor für Start- und Endknoten
+	public Node( int x, int y, int r, boolean start, boolean end ) {
+		posX = x;
+		posY = y;
+		radius = r;
+		isStartnode = start;
+		isEndnode = end;
+	}
+	
 	int getPosX() {
 		return posX;
 	}

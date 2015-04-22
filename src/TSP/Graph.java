@@ -1,37 +1,50 @@
 package TSP;
 
+import java.util.LinkedList;
+
 public class Graph {
-	private int numberOfNodes = 0;
-	private int[][] neighborhoods;
-	private int startNode = 0;
 	
-	void setNumberOfNodes( int number ){
-		neighborhoods = new int[number][number];
+	private int numberOfNodes = 0;
+	LinkedList<Node> nodesList;
+	LinkedList<Neighborhood> neighborhoodList;
+	
+	
+	
+	void setNumberOfNodes( int number ) {
+		numberOfNodes = number;
 	}
 	
 	int getNumberOfNodes(){
 		return numberOfNodes;
 	}
 	
-	void setNeighborhood( int firstNode, int secondNode, int dist ){
-		if( firstNode < secondNode ) {
-			neighborhoods[firstNode][secondNode] = dist;
-		} else {
-			neighborhoods[secondNode][firstNode] = dist;
-		}				
+	
+	boolean insertNode( Node node ) {
+		if( nodesList.add( node ) ) {
+			return true;
+		}
+		return false;
 	}
-		
-	int getNeighborhood( int firstNode, int secondNode ){
-		return neighborhoods[firstNode][secondNode];
+	boolean deleteNode( Node node ) {
+		if ( nodesList.remove( node ) ) {
+			return true;
+		}
+		return false;
 	}
 	
-	void setStartnode( int start ){
-		startNode = start;
+	boolean insertNeighborhood( Neighborhood neighbor ) {
+		if( neighborhoodList.add( neighbor ) ) {
+			return true;
+		}
+		return false;
+	}
+	boolean deleteNeighborhood( Neighborhood neighbor ) {
+		if ( nodesList.remove( neighbor ) ) {
+			return true;
+		}
+		return false;
 	}
 	
-	int getStartNode(){
-		return startNode;
-	}
 
 
 }
