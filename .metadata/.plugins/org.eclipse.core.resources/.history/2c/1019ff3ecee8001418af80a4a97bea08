@@ -1,0 +1,36 @@
+package Testumgebung;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JTextArea;
+
+public class Listener implements MouseListener {
+	int xpos, ypos;
+	JTextArea txtpos;
+	ZeichnenPanel zp = new ZeichnenPanel();
+	
+	public Listener(int xpos, int ypos, JTextArea txtpos){
+		this.xpos = xpos;
+		this.ypos = ypos;
+		this.txtpos = txtpos;
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent me) {
+		xpos = me.getX();
+		ypos = me.getY();
+		txtpos.setText("X: " + xpos + " Y: " + ypos);
+		zp.checkFigur();
+		zp.zeichnen();
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
+}

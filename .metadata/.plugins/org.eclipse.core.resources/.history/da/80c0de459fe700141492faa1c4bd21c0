@@ -1,0 +1,20 @@
+package Testumgebung;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class ZeichneKreis extends ZeichneObjekt{
+	int xstart, ystart, radius;
+	public ZeichneKreis(int xstart, int ystart, int xende, int yende){
+		super(xstart, ystart, xende, yende);
+		this.xstart = xstart;
+		this.ystart = ystart;
+		this.radius = 40;
+	}
+	public void zeichnen(Graphics g){
+		//zeichne Kreis;
+		Color customColor = new Color(10,10,255); 
+		g.setColor(customColor);
+		g.fillOval(xstart, ystart, radius, radius);
+	}
+}
