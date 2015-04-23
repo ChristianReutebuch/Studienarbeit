@@ -1,10 +1,11 @@
 package TSP;
 
-public class Node {
+import java.awt.Graphics;
 
-	private int posX = 0;
-	private int posY = 0;
-	private int radius = 0;
+public class Node{
+	private int posX;
+	private int posY;
+	private int radius;
 	private boolean isStartnode = false;
 	private boolean isEndnode = false;
 	
@@ -21,6 +22,15 @@ public class Node {
 		radius = r;
 		isStartnode = start;
 		isEndnode = end;
+	}
+	
+	public void addNode(int xpos, int ypos, int radius){
+		posX = xpos;
+		posY = ypos;
+	}
+	
+	public void paintNode(Graphics g){
+		g.fillOval(posX, posY, radius, radius);
 	}
 	
 	int getPosX() {
