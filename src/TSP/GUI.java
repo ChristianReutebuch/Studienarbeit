@@ -86,19 +86,17 @@ public class GUI extends JFrame {
 	
 	public void checkLink() {
 		if (selectednodes.size() == 2) {
-			System.out.println("Es kann verbunden werden");
 			Node startlink = selectednodes.get(0);
 			Node endlink = selectednodes.get(1);
 			int startx = startlink.getXPos()+20;
 			int starty = startlink.getYPos()+20;
 			int endx = endlink.getXPos()+20;
 			int endy = endlink.getYPos()+20;
-			System.out.println(startx+starty+endx+endy);
 			createLink(startx, starty, endx, endy);
 			paintLinks();
 			selectednodes.clear();
 		} else {
-			System.out.println("Es kann nicht verbunden werden");
+//			Es kann nicht verbunden werden"
 		}
 	}
 

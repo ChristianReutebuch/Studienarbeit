@@ -39,5 +39,11 @@ public class Node{
 	public int getYPos(){
 		return ypos;
 	}
+	public void setXPos(int xpos){
+		this.xpos = xpos;
+	}
+	public void setYPos(int ypos){
+		this.ypos = ypos;
+	}
 	
 }
