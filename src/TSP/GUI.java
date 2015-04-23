@@ -15,12 +15,14 @@ import javax.swing.JPanel;
 public class GUI extends JFrame{
 	final int radius = 40;
 	ArrayList<Node> nodes = new ArrayList<Node>();
+	ArrayList<Node> selectednodes = new ArrayList<Node>();
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
 	JPanel checkpanel = new JPanel();
 	JLabel titel = new JLabel("Travelling Salesman Problem");
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
+	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cblink = new JCheckBox("Paint Link");
 	
 	public GUI(){
@@ -37,19 +39,28 @@ public class GUI extends JFrame{
 		paintpanel.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				if(cbnode.isSelected() == true && nodes.size()<5){
-					createNode(e.getX(), e.getY());
+					createNode(e.getX(), e.getY(), false);
+					paintNodes();
+					if(nodes.size() == 5){
+						JOptionPane.showMessageDialog(paintpanel,"Algorithm cannot handle more than 5 Nodes.");
+					}
+				}
+				if(cbstart.isSelected() == true){
+					createNode(e.getX(), e.getY(), true);
 					paintNodes();
 				}
-				if(cbnode.isSelected() == true && nodes.size()>=5){
-					JOptionPane.showMessageDialog(paintpanel,"Only 5 Nodes allowed");
+				if(cblink.isSelected() == true){
+					nodeSelected(e.getX(), e.getY());
 				}
 			}
 		});
 		
 		//CheckPanel Settings
 		btngr.add(cbnode);
+		btngr.add(cbstart);
 		btngr.add(cblink);
 		checkpanel.add(cbnode);
+		checkpanel.add(cbstart);
 		checkpanel.add(cblink);
 		
 		//Design Frame
@@ -58,8 +69,8 @@ public class GUI extends JFrame{
 		this.add(checkpanel, BorderLayout.EAST);
 	}
 	
-	public void createNode(int xpos, int ypos){
-		Node node = new Node(xpos, ypos, radius);
+	public void createNode(int xpos, int ypos, boolean isStart){
+		Node node = new Node(xpos, ypos, radius, isStart);
 		nodes.add(node);
 	}
 	
@@ -67,6 +78,14 @@ public class GUI extends JFrame{
 		for(int i=0;i<nodes.size();i++){
 			Node node = nodes.get(i);
 			node.paintNode(paintpanel.getGraphics());
+		}
+	}
+	public void nodeSelected(int xposMouse, int yposMouse){
+		for(int i=0;i<nodes.size();i++){
+			Node node = nodes.get(i);
+			if(xposMouse >= node.getXPos() && xposMouse <= node.getXPos()+radius && yposMouse >= node.getYPos() && yposMouse <= node.getYPos()+radius){
+				selectednodes.add(node);
+			}
 		}
 	}
 }
