@@ -9,7 +9,7 @@ public class Node{
 	private int radius;
 	private boolean isStartnode = false;
 
-	//Konstruktor für alle Knoten
+	//Konstruktor
 	public Node( int xpos, int ypos, int radius, boolean start) {
 		this.xpos = xpos;
 		this.ypos = ypos;
