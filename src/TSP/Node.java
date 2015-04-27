@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public class Node{
 	private int xpos;
 	private int ypos;
+	//public static final int RADIUS = 20; 
 	private int radius;
 	private boolean isStartnode = false;
 
