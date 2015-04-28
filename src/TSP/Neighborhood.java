@@ -14,13 +14,8 @@ public class Neighborhood {
 	//Konstruktor
 	public Neighborhood( Node first, Node second, int dist ) {
 		distance = dist;
-		if( fist > second ) {
-			firstNode = second;
-			secondNode = first;
-		} else {
-			firstNode = first;
-			secondNode = second;
-		}
+		firstNode = first;
+		secondNode = second;
 	}
 
 	//gibt die Entfernung der beiden Knoten an, die an dieser Nachbarschaft beteiligt sind
