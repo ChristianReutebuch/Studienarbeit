@@ -4,17 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Link {
-	private int startx, starty, endx, endy;
+	private Node firstNode;
+	private Node secondNode;
+	private int distance;
 	
-	public Link(int startx, int starty, int endx, int endy){
-		this.startx = startx;
-		this.starty = starty;
-		this.endx = endx;
-		this.endy = endy;
+	public Link(Node firstNode, Node secondNode, int distance){
+		this.firstNode = firstNode;
+		this.secondNode = secondNode;
+		this.distance = distance;
 	}
 	
 	public void paintLink(Graphics g){
 		g.setColor(Color.BLACK);
-		g.drawLine(startx, starty, endx, endy);
+		g.drawLine(firstNode.getXPos()+20, firstNode.getYPos()+20, secondNode.getXPos()+20, secondNode.getYPos()+20);
 	}
 }

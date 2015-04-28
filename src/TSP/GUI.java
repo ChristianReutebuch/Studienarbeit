@@ -100,11 +100,7 @@ public class GUI extends JFrame {
 		if (selectednodes.size() == 2) {
 			Node startlink = selectednodes.get(0);
 			Node endlink = selectednodes.get(1);
-			int startx = startlink.getXPos()+20;
-			int starty = startlink.getYPos()+20;
-			int endx = endlink.getXPos()+20;
-			int endy = endlink.getYPos()+20;
-			createLink(startx, starty, endx, endy);
+			createLink(startlink, endlink);
 			paintLinks();
 			selectednodes.clear();
 		} else {
@@ -112,8 +108,8 @@ public class GUI extends JFrame {
 		}
 	}
 
-	public void createLink(int startx, int starty, int endx, int endy){
-		Link link = new Link(startx, starty, endx, endy);
+	public void createLink(Node startlink, Node endlink){
+		Link link = new Link(startlink, endlink, 1);
 		links.add(link);
 	}
 	
