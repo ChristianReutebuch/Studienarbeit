@@ -1,6 +1,7 @@
 package TSP;
 
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 
 public class Algorithm {
@@ -18,6 +19,17 @@ public class Algorithm {
 		
 		for( int i = 0; i < numberOfNeigborhoods; ++i ) {
 			//Array mit Distanzen füllen
+			Node firstNode;
+			Node secondNode;
+			Neighborhood neighborhood;
+			ListIterator<Neighborhood> listIterator = neighborhoodList.listIterator();
+	        while (listIterator.hasNext()) {
+	        	neighborhood = listIterator.next();
+	        	firstNode = neighborhood.getFirstNode();
+	        	secondNode = neighborhood.getSecondNode();
+	        	
+	        }
+
 		}
 	}
 	
