@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 public class GUI extends JFrame {
-	final int radius = 40;
 	ArrayList<Node> nodes = new ArrayList<Node>();
 	ArrayList<Node> selectednodes = new ArrayList<Node>();
 	ArrayList<Link> links = new ArrayList<Link>();
@@ -86,7 +85,7 @@ public class GUI extends JFrame {
 	}
 
 	public void createNode(int xpos, int ypos, boolean isStart) {
-		Node node = new Node(xpos, ypos, radius, isStart);
+		Node node = new Node(xpos, ypos, isStart);
 		nodes.add(node);
 	}
 
@@ -129,9 +128,9 @@ public class GUI extends JFrame {
 		for (int i = 0; i < nodes.size(); i++) {
 			Node node = nodes.get(i);
 			if (xposMouse >= node.getXPos()
-					&& xposMouse <= node.getXPos() + radius
+					&& xposMouse <= node.getXPos() + node.radius
 					&& yposMouse >= node.getYPos()
-					&& yposMouse <= node.getYPos() + radius) {
+					&& yposMouse <= node.getYPos() + node.radius) {
 				selectednodes.add(node);
 				node.isSelected=true;
 				paintNodes();

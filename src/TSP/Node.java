@@ -6,16 +6,14 @@ import java.awt.Graphics;
 public class Node{
 	private int xpos;
 	private int ypos;
-	//public static final int RADIUS = 20; 
-	private int radius;
+	public final int radius = 40;
 	private boolean isStartnode = false;
 	public boolean isSelected = false;
 
 	//Konstruktor
-	public Node( int xpos, int ypos, int radius, boolean start) {
+	public Node( int xpos, int ypos, boolean start) {
 		this.xpos = xpos;
 		this.ypos = ypos;
-		this.radius = radius;
 		isStartnode = start;
 	}
 	
