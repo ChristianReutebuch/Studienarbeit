@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public class Node{
 	private int xpos;
 	private int ypos;
-	public final int radius = 40;
+	public final int RADIUS = 40;
 	private boolean isStartnode = false;
 	public boolean isSelected = false;
 
@@ -26,15 +26,15 @@ public class Node{
 	public void paintNode(Graphics g){
 		if(isStartnode == true){
 			g.setColor(Color.BLUE);
-			g.fillOval(xpos, ypos, radius, radius);
+			g.fillOval(xpos, ypos, RADIUS, RADIUS);
 		}
 		if(isStartnode == false){
 			g.setColor(Color.BLACK);
-			g.fillOval(xpos, ypos, radius, radius);
+			g.fillOval(xpos, ypos, RADIUS, RADIUS);
 		}
 		if(isSelected == true){
 			g.setColor(Color.GREEN);
-			g.fillOval(xpos, ypos, radius, radius);
+			g.fillOval(xpos, ypos, RADIUS, RADIUS);
 		}
 	}
 	public int getXPos(){

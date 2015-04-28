@@ -126,9 +126,9 @@ public class GUI extends JFrame {
 		for (int i = 0; i < nodes.size(); i++) {
 			Node node = nodes.get(i);
 			if (xposMouse >= node.getXPos()
-					&& xposMouse <= node.getXPos() + node.radius
+					&& xposMouse <= node.getXPos() + node.RADIUS
 					&& yposMouse >= node.getYPos()
-					&& yposMouse <= node.getYPos() + node.radius) {
+					&& yposMouse <= node.getYPos() + node.RADIUS) {
 				selectednodes.add(node);
 				node.isSelected=true;
 				paintNodes();

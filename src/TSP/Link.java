@@ -14,16 +14,20 @@ public class Link {
 		this.distance = distance;
 	}
 	
-	public void paintLink(Graphics g){
+	public void paintLink(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.drawLine(firstNode.getXPos()+20, firstNode.getYPos()+20, secondNode.getXPos()+20, secondNode.getYPos()+20);
 	}
 	
-	public Node getFirstNode(){
+	public Node getFirstNode() {
 		return firstNode;
 	}
 	
-	public Node getSecondNode(){
+	public Node getSecondNode() {
 		return secondNode;
+	}
+	
+	public int getDistance() {
+		return distance;
 	}
 }
