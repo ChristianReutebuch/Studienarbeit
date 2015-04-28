@@ -2,6 +2,7 @@ package TSP;
 
 //import Node;
 
+
 public class Neighborhood {
 	
 	//Eigenschaften einer Nachbarschaft
@@ -13,8 +14,13 @@ public class Neighborhood {
 	//Konstruktor
 	public Neighborhood( Node first, Node second, int dist ) {
 		distance = dist;
-		firstNode = first;
-		secondNode = second;
+		if( fist > second ) {
+			firstNode = second;
+			secondNode = first;
+		} else {
+			firstNode = first;
+			secondNode = second;
+		}
 	}
 
 	//gibt die Entfernung der beiden Knoten an, die an dieser Nachbarschaft beteiligt sind
