@@ -5,28 +5,27 @@ import java.util.ListIterator;
 
 
 public class Algorithm {
-	//private int numberOfNodes = nodesList.lenght();
-	int numberOfNodes = 0;
-	//int numberOfNeighborhoods = neighborhoodList.legth();
-	int numberOfNeigborhoods = 0;
-	private int[][] neighborhoods = new int[numberOfNodes][numberOfNodes];
+	private int numOfNodes, numOfLinks;
+	private Node firstNode, secondNode;
+	private LinkedList<Node> nodes = new LinkedList<Node>();
+	private LinkedList<Link> links = new LinkedList<Link>();
 	
 	//Konstruktor
-	public Algorithm( LinkedList<Node> nodesList, LinkedList<Link> neighborhoodList ) {
+	public Algorithm( LinkedList<Node> nodes, LinkedList<Link> links ) {
 		//aktuelle Werte zuweisen
-		numberOfNodes = nodesList.size();
-		numberOfNeigborhoods = neighborhoodList.size();
+		this.nodes = nodes;
+		this.links = links;
+		numOfNodes = nodes.size();
+		numOfLinks = links.size();
 		
-		for( int i = 0; i < numberOfNeigborhoods; ++i ) {
+		for( int i = 0; i < numOfLinks; ++i ) {
 			//Array mit Distanzen füllen
-			Node firstNode;
-			Node secondNode;
-			Link neighborhood;
-			ListIterator<Link> listIterator = neighborhoodList.listIterator();
+			Link link;
+			ListIterator<Link> listIterator = links.listIterator();
 	        while (listIterator.hasNext()) {
-	        	neighborhood = listIterator.next();
-	        	firstNode = neighborhood.getFirstNode();
-	        	secondNode = neighborhood.getSecondNode();
+	        	link = listIterator.next();
+	        	firstNode = link.getFirstNode();
+	        	secondNode = link.getSecondNode();
 	        	
 	        }
 

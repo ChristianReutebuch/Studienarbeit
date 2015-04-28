@@ -3,7 +3,7 @@ package TSP;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -14,9 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 public class GUI extends JFrame {
-	ArrayList<Node> nodes = new ArrayList<Node>();
-	ArrayList<Node> selectednodes = new ArrayList<Node>();
-	ArrayList<Link> links = new ArrayList<Link>();
+	  
+	//Datendeklaration
+	public static LinkedList<Node> nodes = new LinkedList<Node>();
+	LinkedList<Node> selectednodes = new LinkedList<Node>();
+	LinkedList<Link> links = new LinkedList<Link>();
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
 	JPanel checkpanel = new JPanel();
@@ -133,5 +135,25 @@ public class GUI extends JFrame {
 				node.isSelected=false;
 			}
 		}
+	}
+	
+//	Siehe Meethode addNode
+//	boolean insertNode( Node node ) {}
+	
+	boolean deleteNode( Node node ) {
+		if ( nodes.remove( node ) ) {
+			return true;
+		}
+		return false;
+	}
+	
+//	Siehe Methode createLink
+//	boolean insertNeighborhood( Link neighbor ) {}
+	
+	boolean deleteLink( Link link ) {
+		if ( links.remove( link ) ) {
+			return true;
+		}
+		return false;
 	}
 }
