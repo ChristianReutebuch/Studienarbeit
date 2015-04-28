@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 public class GUI extends JFrame {
 	final int radius = 40;
@@ -25,6 +26,7 @@ public class GUI extends JFrame {
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cblink = new JCheckBox("Paint Link");
+	JPopupMenu popup = new JPopupMenu();
 
 	public GUI() {
 		// Frame Settings
@@ -55,7 +57,15 @@ public class GUI extends JFrame {
 					nodeSelected(e.getX(), e.getY());
 					checkLink();
 				}
+				if(e.getButton()==3){
+					System.out.println("Rechtsklick");
+				}
 			}
+//			public void checkPopup(MouseEvent pu){
+//				if(pu.isPopupTrigger()){
+//					popup.show(PopupMenu)
+//				}
+//			}
 		});
 
 		// CheckPanel Settings
@@ -70,6 +80,9 @@ public class GUI extends JFrame {
 		this.add(titelpanel, BorderLayout.NORTH);
 		this.add(paintpanel, BorderLayout.CENTER);
 		this.add(checkpanel, BorderLayout.EAST);
+		
+		// Design PopupMenu
+		popup.setLabel("Testpopup");
 	}
 
 	public void createNode(int xpos, int ypos, boolean isStart) {
@@ -120,6 +133,9 @@ public class GUI extends JFrame {
 					&& yposMouse >= node.getYPos()
 					&& yposMouse <= node.getYPos() + radius) {
 				selectednodes.add(node);
+				node.isSelected=true;
+				paintNodes();
+				node.isSelected=false;
 			}
 		}
 	}

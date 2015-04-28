@@ -9,6 +9,7 @@ public class Node{
 	//public static final int RADIUS = 20; 
 	private int radius;
 	private boolean isStartnode = false;
+	public boolean isSelected = false;
 
 	//Konstruktor
 	public Node( int xpos, int ypos, int radius, boolean start) {
@@ -31,6 +32,10 @@ public class Node{
 		}
 		if(isStartnode == false){
 			g.setColor(Color.BLACK);
+			g.fillOval(xpos, ypos, radius, radius);
+		}
+		if(isSelected == true){
+			g.setColor(Color.GREEN);
 			g.fillOval(xpos, ypos, radius, radius);
 		}
 	}
