@@ -12,7 +12,7 @@ public class Algorithm {
 	private int[][] neighborhoods = new int[numberOfNodes][numberOfNodes];
 	
 	//Konstruktor
-	public Algorithm( LinkedList<Node> nodesList, LinkedList<Neighborhood> neighborhoodList ) {
+	public Algorithm( LinkedList<Node> nodesList, LinkedList<Link> neighborhoodList ) {
 		//aktuelle Werte zuweisen
 		numberOfNodes = nodesList.size();
 		numberOfNeigborhoods = neighborhoodList.size();
@@ -21,8 +21,8 @@ public class Algorithm {
 			//Array mit Distanzen füllen
 			Node firstNode;
 			Node secondNode;
-			Neighborhood neighborhood;
-			ListIterator<Neighborhood> listIterator = neighborhoodList.listIterator();
+			Link neighborhood;
+			ListIterator<Link> listIterator = neighborhoodList.listIterator();
 	        while (listIterator.hasNext()) {
 	        	neighborhood = listIterator.next();
 	        	firstNode = neighborhood.getFirstNode();

@@ -18,4 +18,12 @@ public class Link {
 		g.setColor(Color.BLACK);
 		g.drawLine(firstNode.getXPos()+20, firstNode.getYPos()+20, secondNode.getXPos()+20, secondNode.getYPos()+20);
 	}
+	
+	public Node getFirstNode(){
+		return firstNode;
+	}
+	
+	public Node getSecondNode(){
+		return secondNode;
+	}
 }

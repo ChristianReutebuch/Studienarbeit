@@ -6,7 +6,7 @@ public class Graph {
 	
 	private int numberOfNodes = 0;
 	LinkedList<Node> nodesList;
-	LinkedList<Neighborhood> neighborhoodList;
+	LinkedList<Link> neighborhoodList;
 	
 	
 	
@@ -32,13 +32,13 @@ public class Graph {
 		return false;
 	}
 	
-	boolean insertNeighborhood( Neighborhood neighbor ) {
+	boolean insertNeighborhood( Link neighbor ) {
 		if( neighborhoodList.add( neighbor ) ) {
 			return true;
 		}
 		return false;
 	}
-	boolean deleteNeighborhood( Neighborhood neighbor ) {
+	boolean deleteNeighborhood( Link neighbor ) {
 		if ( nodesList.remove( neighbor ) ) {
 			return true;
 		}
