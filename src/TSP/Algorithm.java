@@ -75,12 +75,16 @@ public class Algorithm {
 				++row;
 			}
 		}
-		//folgende Möglichkeiten
-		for( int n = 1; n < ( numOfNodes - 1 ); ++n ) {
-			//letzte zwei Knoten wechseln immer ab
-			if( n > ( numOfNodes - 2 ) ) {
-				ways[n][row] = ways[n+1][row-n];
-				ways[n+1][row+1] = ways[n][row-n];
+		//Möglichkeiten
+		//Zeilenweise über die Spalten schleifen
+		for(int rowCount = row; rowCount < numberOfWays; ++rowCount) {
+			
+			for( int n = 1; n < ( numOfNodes - 1 ); ++n ) {
+				//letzte zwei Knoten wechseln immer ab
+				//if( n > ( numOfNodes - 2 ) ) {
+				//	ways[n][row] = ways[n+1][row-n];
+				//	ways[n+1][row+1] = ways[n][row-n];
+				//}			
 			}
 		}
 	}
