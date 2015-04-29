@@ -49,5 +49,8 @@ public class Node{
 	public void setYPos(int ypos){
 		this.ypos = ypos;
 	}
+	public boolean isStartNode() {
+		return isStartnode;
+	}
 	
 }
