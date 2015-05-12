@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 public class GUI extends JFrame {
-	  
-	//Datendeklaration
+
+	// Datendeklaration
 	public static LinkedList<Node> nodes = new LinkedList<Node>();
 	LinkedList<Node> selectednodes = new LinkedList<Node>();
 	LinkedList<Link> links = new LinkedList<Link>();
@@ -27,6 +27,7 @@ public class GUI extends JFrame {
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cblink = new JCheckBox("Paint Link");
+	JCheckBox cbmove = new JCheckBox("Move Node");
 	JPopupMenu popup = new JPopupMenu();
 
 	public GUI() {
@@ -58,30 +59,31 @@ public class GUI extends JFrame {
 					nodeSelected(e.getX(), e.getY());
 					checkLink();
 				}
-				if(e.getButton()==3){
+				if (e.getButton() == 3) {
 					System.out.println("Rechtsklick");
 				}
+				if (cbmove.isSelected() == true){
+					nodeSelected(e.getX(), e.getY());
+					moveNode(e.getX(), e.getY());
+				}
 			}
-//			public void checkPopup(MouseEvent pu){
-//				if(pu.isPopupTrigger()){
-//					popup.show(PopupMenu)
-//				}
-//			}
 		});
 
 		// CheckPanel Settings
 		btngr.add(cbnode);
 		btngr.add(cbstart);
 		btngr.add(cblink);
+		btngr.add(cbmove);
 		checkpanel.add(cbnode);
 		checkpanel.add(cbstart);
 		checkpanel.add(cblink);
+		checkpanel.add(cbmove);
 
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
 		this.add(paintpanel, BorderLayout.CENTER);
 		this.add(checkpanel, BorderLayout.EAST);
-		
+
 		// Design PopupMenu
 		popup.setLabel("Testpopup");
 	}
@@ -97,7 +99,7 @@ public class GUI extends JFrame {
 			node.paintNode(paintpanel.getGraphics());
 		}
 	}
-	
+
 	public void checkLink() {
 		if (selectednodes.size() == 2) {
 			Node startlink = selectednodes.get(0);
@@ -106,23 +108,24 @@ public class GUI extends JFrame {
 			paintLinks();
 			selectednodes.clear();
 		} else {
-//			Es kann nicht verbunden werden"
+			// Es kann nicht verbunden werden"
 		}
 	}
 
-	public void createLink(Node startlink, Node endlink){
+	public void createLink(Node startlink, Node endlink) {
 		Link link = new Link(startlink, endlink, 1);
 		links.add(link);
 	}
-	
+
 	public void paintLinks() {
 		for (int i = 0; i < links.size(); i++) {
 			Link link = links.get(i);
 			link.paintLink(paintpanel.getGraphics());
 		}
 	}
-	
+
 	public void nodeSelected(int xposMouse, int yposMouse) {
+		boolean selanynode = false;
 		for (int i = 0; i < nodes.size(); i++) {
 			Node node = nodes.get(i);
 			if (xposMouse >= node.getXPos()
@@ -130,28 +133,56 @@ public class GUI extends JFrame {
 					&& yposMouse >= node.getYPos()
 					&& yposMouse <= node.getYPos() + node.RADIUS) {
 				selectednodes.add(node);
-				node.isSelected=true;
+				node.isSelected = true;
 				paintNodes();
-				node.isSelected=false;
+				node.isSelected = false;
+				selanynode = true;
 			}
 		}
-	}
-	
-//	Siehe Meethode addNode
-//	boolean insertNode( Node node ) {}
-	
-	boolean deleteNode( Node node ) {
-		if ( nodes.remove( node ) ) {
-			return true;
+		if (selanynode == true){
+			System.out.println("One Node selected.");
+			if (selectednodes.size() == 2 && cbmove.isSelected()==true){
+				selectednodes.clear();
+			}
 		}
+		else{
+			System.out.println("None Node selected.");
+			selectednodes.clear();
+			paintNodes();
+		}
+	}
+
+	public void moveNode(int xposMouse, int yposMouse) {
+		if (selectednodes.size() == 1) {
+			Node selnode = selectednodes.get(0);
+			for (int i = 0; i < nodes.size(); i++) {
+				Node node = nodes.get(i);
+				if (selnode == node) {
+//					System.out.println("Match");
+					deleteNode(node);
+					createNode(xposMouse, yposMouse, false);
+//					node.setXPos(xposMouse);
+//					node.setYPos(yposMouse);
+				}
+			}
+			paintNodes();
+			System.out.println(selectednodes.size());
+		}
+	}
+
+	// Siehe Meethode addNode
+	// boolean insertNode( Node node ) {}
+
+	boolean deleteNode(Node node) {
+		nodes.remove(node);
 		return false;
 	}
-	
-//	Siehe Methode createLink
-//	boolean insertNeighborhood( Link neighbor ) {}
-	
-	boolean deleteLink( Link link ) {
-		if ( links.remove( link ) ) {
+
+	// Siehe Methode createLink
+	// boolean insertNeighborhood( Link neighbor ) {}
+
+	boolean deleteLink(Link link) {
+		if (links.remove(link)) {
 			return true;
 		}
 		return false;
