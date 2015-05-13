@@ -36,6 +36,10 @@ public class Node{
 			g.setColor(Color.GREEN);
 			g.fillOval(xpos, ypos, RADIUS, RADIUS);
 		}
+		if(isSelected == false){
+			g.setColor(Color.BLACK);
+			g.fillOval(xpos, ypos, RADIUS, RADIUS);
+		}
 	}
 	public int getXPos(){
 		return xpos;

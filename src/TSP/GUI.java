@@ -64,7 +64,7 @@ public class GUI extends JFrame {
 				}
 				if (cbmove.isSelected() == true){
 					nodeSelected(e.getX(), e.getY());
-					moveNode(e.getX(), e.getY());
+//					moveNode(e.getX(), e.getY());
 				}
 			}
 		});
@@ -125,61 +125,50 @@ public class GUI extends JFrame {
 	}
 
 	public void nodeSelected(int xposMouse, int yposMouse) {
-		boolean selanynode = false;
-		for (int i = 0; i < nodes.size(); i++) {
-			Node node = nodes.get(i);
+		boolean selected = false;
+		for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
+			Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
 			if (xposMouse >= node.getXPos()
 					&& xposMouse <= node.getXPos() + node.RADIUS
 					&& yposMouse >= node.getYPos()
-					&& yposMouse <= node.getYPos() + node.RADIUS) {
-				selectednodes.add(node);
-				node.isSelected = true;
-				paintNodes();
+					&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
+				selectednodes.add(node);	//Knoten zu ausgewählte Liste hinzufügen
+				node.isSelected = true;		//Knoten ist selektiert
+				selected = true;
+			}
+			else{					//Maus nicht in Kreis
 				node.isSelected = false;
-				selanynode = true;
 			}
 		}
-		if (selanynode == true){
-			System.out.println("One Node selected.");
-			if (selectednodes.size() == 2 && cbmove.isSelected()==true){
-				selectednodes.clear();
-			}
-		}
-		else{
-			System.out.println("None Node selected.");
+		if (selected == false){
 			selectednodes.clear();
-			paintNodes();
 		}
+		paintNodes();
 	}
 
 	public void moveNode(int xposMouse, int yposMouse) {
-		if (selectednodes.size() == 1) {
-			Node selnode = selectednodes.get(0);
-			for (int i = 0; i < nodes.size(); i++) {
-				Node node = nodes.get(i);
-				if (selnode == node) {
-//					System.out.println("Match");
+		if (selectednodes.size() == 1){ //ein Knoten ist ausgewählt
+			Node selnode = selectednodes.get(0); //ausgewählten Knoten temporär speichern
+			for (int i = 0; i < nodes.size(); i++){ //Knotenliste durchsuchen
+				Node node = nodes.get(i);//aktueller Knoten temporär speichern
+				if (selnode == node){ //ausgewählter Knoten gefunden
 					deleteNode(node);
 					createNode(xposMouse, yposMouse, false);
 //					node.setXPos(xposMouse);
 //					node.setYPos(yposMouse);
+					System.out.println("Knoten in Tabelle gefunden.");
 				}
 			}
-			paintNodes();
-			System.out.println(selectednodes.size());
 		}
-	}
-
-	// Siehe Meethode addNode
-	// boolean insertNode( Node node ) {}
+		}
 
 	boolean deleteNode(Node node) {
+		System.out.println(nodes.size());
 		nodes.remove(node);
+		System.out.println(nodes.size());
+		paintNodes();
 		return false;
 	}
-
-	// Siehe Methode createLink
-	// boolean insertNeighborhood( Link neighbor ) {}
 
 	boolean deleteLink(Link link) {
 		if (links.remove(link)) {
