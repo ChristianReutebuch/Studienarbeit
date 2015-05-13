@@ -29,6 +29,8 @@ public class GUI extends JFrame {
 	JCheckBox cblink = new JCheckBox("Paint Link");
 	JCheckBox cbmove = new JCheckBox("Move Node");
 	JPopupMenu popup = new JPopupMenu();
+	boolean selected = false;
+	boolean moving = false;
 
 	public GUI() {
 		// Frame Settings
@@ -56,14 +58,15 @@ public class GUI extends JFrame {
 					paintNodes();
 				}
 				if (cblink.isSelected() == true) {
-					nodeSelected(e.getX(), e.getY());
+					nodeSelLink(e.getX(), e.getY());
 					checkLink();
 				}
 				if (e.getButton() == 3) {
 					System.out.println("Rechtsklick");
 				}
 				if (cbmove.isSelected() == true){
-					nodeSelected(e.getX(), e.getY());
+					nodeSelMove(e.getX(), e.getY());
+					deleteNode();
 //					moveNode(e.getX(), e.getY());
 				}
 			}
@@ -124,8 +127,8 @@ public class GUI extends JFrame {
 		}
 	}
 
-	public void nodeSelected(int xposMouse, int yposMouse) {
-		boolean selected = false;
+	public void nodeSelLink(int xposMouse, int yposMouse) {
+		selected = false;
 		for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
 			Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
 			if (xposMouse >= node.getXPos()
@@ -140,34 +143,35 @@ public class GUI extends JFrame {
 				node.isSelected = false;
 			}
 		}
-		if (selected == false){
+		if (selected == false || selectednodes.size() == 3){
 			selectednodes.clear();
 		}
 		paintNodes();
 	}
+	
+	public void nodeSelMove(int xposMouse, int yposMouse){
+		//Deklare
+	}
 
 	public void moveNode(int xposMouse, int yposMouse) {
-		if (selectednodes.size() == 1){ //ein Knoten ist ausgewählt
-			Node selnode = selectednodes.get(0); //ausgewählten Knoten temporär speichern
-			for (int i = 0; i < nodes.size(); i++){ //Knotenliste durchsuchen
-				Node node = nodes.get(i);//aktueller Knoten temporär speichern
-				if (selnode == node){ //ausgewählter Knoten gefunden
-					deleteNode(node);
-					createNode(xposMouse, yposMouse, false);
-//					node.setXPos(xposMouse);
-//					node.setYPos(yposMouse);
-					System.out.println("Knoten in Tabelle gefunden.");
+
+	}
+
+	public void deleteNode() {
+		if (selectednodes.size()==0 && selected == false){
+			Node selnode = selectednodes.get(0);
+			for (int i = 0; i < nodes.size(); i++){
+				Node node = nodes.get(i);
+				if (selnode == node){
+					selectednodes.remove(0);
+					nodes.remove(i);
+					paintpanel.repaint();
+//					paintpanel.repaint(100);
+//					paintNodes();
+					System.out.println("Loeschen.");
 				}
 			}
 		}
-		}
-
-	boolean deleteNode(Node node) {
-		System.out.println(nodes.size());
-		nodes.remove(node);
-		System.out.println(nodes.size());
-		paintNodes();
-		return false;
 	}
 
 	boolean deleteLink(Link link) {
