@@ -54,9 +54,10 @@ public class GUI extends JFrame {
 		paint.add(start);
 		
 		// Paintpanel Listener
+		paintpanel.setBackground(Color.WHITE);
 		paintpanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (cbnode.isSelected() == true && nodes.size() < 5) {
+				if (cbnode.isSelected() == true) {
 					createNode(e.getX(), e.getY(), false);
 					paintAll();
 					if (nodes.size() == 5) {
@@ -68,16 +69,17 @@ public class GUI extends JFrame {
 					paintAll();
 				}
 				if (cblink.isSelected() == true) {
-					nodeSelLink(e.getX(), e.getY());
+					nodeSelected(e.getX(), e.getY());
 					checkLink();
-				}
-				if (e.getButton() == 3) {
-					System.out.println("Rechtsklick");
+					paintAll();
 				}
 				if (cbmove.isSelected() == true){
 					deleteNode(e.getX(), e.getY());
 					paintAll();
 				}
+//				if (e.getButton() == 3) {
+//					System.out.println("Rechtsklick");
+//				}
 			}
 		});
 
@@ -103,11 +105,15 @@ public class GUI extends JFrame {
 		Node node = new Node(xpos, ypos, isStart);
 		nodes.add(node);
 	}
+	
+	public void createLink(Node startlink, Node endlink) {
+		Link link = new Link(startlink, endlink, 1);
+		links.add(link);
+	}
 
 	public void paintAll(){
 		paintpanel.paintComponents(paintpanel.getGraphics());
 		for (int i = 0; i < nodes.size(); i++){
-			System.out.println("Paint "+ i);
 			Node node = nodes.get(i);
 			node.paintNode(paintpanel.getGraphics());
 		}
@@ -125,11 +131,6 @@ public class GUI extends JFrame {
 		}
 	}
 
-	public void createLink(Node startlink, Node endlink) {
-		Link link = new Link(startlink, endlink, 1);
-		links.add(link);
-	}
-
 	public void paintLinks() {
 		for (int i = 0; i < links.size(); i++) {
 			Link link = links.get(i);
@@ -137,7 +138,7 @@ public class GUI extends JFrame {
 		}
 	}
 
-	public void nodeSelLink(int xposMouse, int yposMouse) {
+	public void nodeSelected(int xposMouse, int yposMouse) {
 		boolean selected = false;
 		for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
 			Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
@@ -160,13 +161,12 @@ public class GUI extends JFrame {
 
 	public void deleteNode(int xposMouse, int yposMouse) {
 		for (int i = 0; i < nodes.size(); i++){
-			System.out.println("Node "+i);
 			Node node = nodes.get(i);
 			if (xposMouse >= node.getXPos()
 					&& xposMouse <= node.getXPos() + node.RADIUS
 					&& yposMouse >= node.getYPos()
 					&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
-				nodes.remove(i);
+				node.isDeleted = true;
 			}
 		}
 	}
