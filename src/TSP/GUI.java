@@ -53,21 +53,19 @@ public class GUI extends JFrame {
 		paint.add(node);
 		paint.add(start);
 		
-		
-
 		// Paintpanel Listener
 		paintpanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (cbnode.isSelected() == true && nodes.size() < 5) {
 					createNode(e.getX(), e.getY(), false);
-					paintNodes();
+					paintAll();
 					if (nodes.size() == 5) {
 						System.out.println("Algorithm gets slow with more than 5 nodes.");
 					}
 				}
 				if (cbstart.isSelected() == true) {
 					createNode(e.getX(), e.getY(), true);
-					paintNodes();
+					paintAll();
 				}
 				if (cblink.isSelected() == true) {
 					nodeSelLink(e.getX(), e.getY());
@@ -77,8 +75,8 @@ public class GUI extends JFrame {
 					System.out.println("Rechtsklick");
 				}
 				if (cbmove.isSelected() == true){
-					nodeSelMove(e.getX(), e.getY());
-//					moveNode(e.getX(), e.getY());
+					deleteNode(e.getX(), e.getY());
+					paintAll();
 				}
 			}
 		});
@@ -106,8 +104,10 @@ public class GUI extends JFrame {
 		nodes.add(node);
 	}
 
-	public void paintNodes() {
-		for (int i = 0; i < nodes.size(); i++) {
+	public void paintAll(){
+		paintpanel.paintComponents(paintpanel.getGraphics());
+		for (int i = 0; i < nodes.size(); i++){
+			System.out.println("Paint "+ i);
 			Node node = nodes.get(i);
 			node.paintNode(paintpanel.getGraphics());
 		}
@@ -156,32 +156,19 @@ public class GUI extends JFrame {
 		if (selected == false || selectednodes.size() == 3){
 			selectednodes.clear();
 		}
-		paintNodes();
 	}
-	
-	public void nodeSelMove(int xposMouse, int yposMouse){
-		for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
-			Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
+
+	public void deleteNode(int xposMouse, int yposMouse) {
+		for (int i = 0; i < nodes.size(); i++){
+			System.out.println("Node "+i);
+			Node node = nodes.get(i);
 			if (xposMouse >= node.getXPos()
 					&& xposMouse <= node.getXPos() + node.RADIUS
 					&& yposMouse >= node.getYPos()
 					&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
-				node.isSelected = true;
-				repaint();
-			}
-			else{					//Maus nicht in Kreis
-				node.isSelected = false;
+				nodes.remove(i);
 			}
 		}
-		paintNodes();
-	}
-
-	public void moveNode(int xposMouse, int yposMouse) {
-
-	}
-
-	public void deleteNode(Node node) {
-		
 	}
 
 	boolean deleteLink(Link link) {

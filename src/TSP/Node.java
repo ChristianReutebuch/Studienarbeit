@@ -37,6 +37,11 @@ public class Node{
 			g.fillOval(xpos, ypos, RADIUS, RADIUS);
 		}
 	}
+	
+	public void deleteNode(Graphics g){
+		g.clearRect(xpos, ypos, RADIUS, RADIUS);
+	}
+	
 	public int getXPos(){
 		return xpos;
 	}
