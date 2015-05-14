@@ -1,14 +1,20 @@
 package TSP;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -22,15 +28,17 @@ public class GUI extends JFrame {
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
 	JPanel checkpanel = new JPanel();
-	JLabel titel = new JLabel("Travelling Salesman Problem");
+	JButton btndelnode = new JButton ("Delete Node");
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cblink = new JCheckBox("Paint Link");
 	JCheckBox cbmove = new JCheckBox("Move Node");
-	JPopupMenu popup = new JPopupMenu();
-	boolean selected = false;
-	boolean moving = false;
+	
+	JMenuBar menubar = new JMenuBar();
+	JMenu paint = new JMenu("Paint");
+	JMenuItem node = new JMenuItem("Paint Nodes");
+	JMenuItem start = new JMenuItem("Paint StartNode");
 
 	public GUI() {
 		// Frame Settings
@@ -40,7 +48,12 @@ public class GUI extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Titelpanel Settings
-		titelpanel.add(titel);
+		titelpanel.add(menubar);
+		menubar.add(paint);
+		paint.add(node);
+		paint.add(start);
+		
+		
 
 		// Paintpanel Listener
 		paintpanel.addMouseListener(new MouseAdapter() {
@@ -49,8 +62,7 @@ public class GUI extends JFrame {
 					createNode(e.getX(), e.getY(), false);
 					paintNodes();
 					if (nodes.size() == 5) {
-						JOptionPane.showMessageDialog(paintpanel,
-								"Algorithm cannot handle more than 5 Nodes.");
+						System.out.println("Algorithm gets slow with more than 5 nodes.");
 					}
 				}
 				if (cbstart.isSelected() == true) {
@@ -66,7 +78,6 @@ public class GUI extends JFrame {
 				}
 				if (cbmove.isSelected() == true){
 					nodeSelMove(e.getX(), e.getY());
-					deleteNode();
 //					moveNode(e.getX(), e.getY());
 				}
 			}
@@ -77,18 +88,17 @@ public class GUI extends JFrame {
 		btngr.add(cbstart);
 		btngr.add(cblink);
 		btngr.add(cbmove);
+		checkpanel.setBackground(Color.red);
 		checkpanel.add(cbnode);
 		checkpanel.add(cbstart);
 		checkpanel.add(cblink);
 		checkpanel.add(cbmove);
+		checkpanel.add(btndelnode);
 
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
 		this.add(paintpanel, BorderLayout.CENTER);
-		this.add(checkpanel, BorderLayout.EAST);
-
-		// Design PopupMenu
-		popup.setLabel("Testpopup");
+		this.add(checkpanel, BorderLayout.SOUTH);
 	}
 
 	public void createNode(int xpos, int ypos, boolean isStart) {
@@ -128,7 +138,7 @@ public class GUI extends JFrame {
 	}
 
 	public void nodeSelLink(int xposMouse, int yposMouse) {
-		selected = false;
+		boolean selected = false;
 		for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
 			Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
 			if (xposMouse >= node.getXPos()
@@ -150,28 +160,28 @@ public class GUI extends JFrame {
 	}
 	
 	public void nodeSelMove(int xposMouse, int yposMouse){
-		//Deklare
+		for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
+			Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
+			if (xposMouse >= node.getXPos()
+					&& xposMouse <= node.getXPos() + node.RADIUS
+					&& yposMouse >= node.getYPos()
+					&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
+				node.isSelected = true;
+				repaint();
+			}
+			else{					//Maus nicht in Kreis
+				node.isSelected = false;
+			}
+		}
+		paintNodes();
 	}
 
 	public void moveNode(int xposMouse, int yposMouse) {
 
 	}
 
-	public void deleteNode() {
-		if (selectednodes.size()==0 && selected == false){
-			Node selnode = selectednodes.get(0);
-			for (int i = 0; i < nodes.size(); i++){
-				Node node = nodes.get(i);
-				if (selnode == node){
-					selectednodes.remove(0);
-					nodes.remove(i);
-					paintpanel.repaint();
-//					paintpanel.repaint(100);
-//					paintNodes();
-					System.out.println("Loeschen.");
-				}
-			}
-		}
+	public void deleteNode(Node node) {
+		
 	}
 
 	boolean deleteLink(Link link) {
