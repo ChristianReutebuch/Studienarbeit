@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public class Node{
 	private int xpos;
 	private int ypos;
+	private String name;
 	public final int RADIUS = 40;
 	private boolean isStartnode = false;
 	public boolean isSelected = false;
@@ -28,23 +29,23 @@ public class Node{
 		String text = "";
 		if(isStartnode == true){
 			g.setColor(Color.BLUE);
-			text = "A";
 		}
 		if(isStartnode == false){
 			g.setColor(Color.BLACK);
-			text = "B";
 		}
 		if(isSelected == true){
 			g.setColor(Color.GREEN);
-			text = "B";
 		}
 		g.fillOval(xpos, ypos, RADIUS, RADIUS);
 		g.setColor(Color.WHITE);
-		g.drawString(text, xpos + RADIUS/2, ypos + RADIUS/2);
+		g.drawString(name, xpos + RADIUS/2, ypos + RADIUS/2);
 	}
 	
-	public void deleteNode(Graphics g){
-		g.clearRect(xpos, ypos, RADIUS, RADIUS);
+	public void setName(int number){
+		this.name = Integer.toString(number);
+	}
+	public String getName(){
+		return name;
 	}
 	
 	public int getXPos(){

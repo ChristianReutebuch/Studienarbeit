@@ -32,8 +32,7 @@ public class GUI extends JFrame {
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
-	JCheckBox cblink = new JCheckBox("Paint Link");
-	JCheckBox cbmove = new JCheckBox("Move Node");
+	JCheckBox cbdel = new JCheckBox("Delete Node");
 	
 	JMenuBar menubar = new JMenuBar();
 	JMenu paint = new JMenu("Paint");
@@ -58,41 +57,31 @@ public class GUI extends JFrame {
 		paintpanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (cbnode.isSelected() == true) {
-					createNode(e.getX(), e.getY(), false);
+					createGraph(e.getX(), e.getY(), false);
 					paintAll();
 					if (nodes.size() == 5) {
 						System.out.println("Algorithm gets slow with more than 5 nodes.");
 					}
 				}
 				if (cbstart.isSelected() == true) {
-					createNode(e.getX(), e.getY(), true);
+					createGraph(e.getX(), e.getY(), false);
 					paintAll();
 				}
-				if (cblink.isSelected() == true) {
-					nodeSelected(e.getX(), e.getY());
-					checkLink();
-					paintAll();
-				}
-				if (cbmove.isSelected() == true){
+				if (cbdel.isSelected() == true){
 					deleteNode(e.getX(), e.getY());
 					paintAll();
 				}
-//				if (e.getButton() == 3) {
-//					System.out.println("Rechtsklick");
-//				}
 			}
 		});
 
 		// CheckPanel Settings
 		btngr.add(cbnode);
 		btngr.add(cbstart);
-		btngr.add(cblink);
-		btngr.add(cbmove);
+		btngr.add(cbdel);
 		checkpanel.setBackground(Color.red);
 		checkpanel.add(cbnode);
 		checkpanel.add(cbstart);
-		checkpanel.add(cblink);
-		checkpanel.add(cbmove);
+		checkpanel.add(cbdel);
 		checkpanel.add(btndelnode);
 
 		// Design Frame
@@ -100,63 +89,51 @@ public class GUI extends JFrame {
 		this.add(paintpanel, BorderLayout.CENTER);
 		this.add(checkpanel, BorderLayout.SOUTH);
 	}
+	
+	public void createGraph(int xpos, int ypos, boolean isStart){
+		createNode(xpos, ypos, isStart);
+		createLinks();
+	}
 
 	public void createNode(int xpos, int ypos, boolean isStart) {
 		Node node = new Node(xpos, ypos, isStart);
 		nodes.add(node);
 	}
 	
-	public void createLink(Node startlink, Node endlink) {
-		Link link = new Link(startlink, endlink, 1);
-		links.add(link);
+	public void createLinks(){
+		links.clear();
+		for (int i = 0; i < nodes.size(); i++){
+			Node firstnode = nodes.get(i);
+			for (int j = 0; j < nodes.size(); j++){
+				Node secondnode = nodes.get(j);
+				if (firstnode != secondnode){
+					System.out.println("First: "+firstnode.getName()+" Second "+secondnode.getName());
+					Link link = new Link(firstnode, secondnode, 1);
+					links.add(link);
+				}
+			}
+		}
 	}
 
 	public void paintAll(){
 		paintpanel.paint(paintpanel.getGraphics());
 		paintLinks();
+		paintNodes();
+	}
+	
+	public void paintNodes(){
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
+			node.setName(i);
 			node.paintNode(paintpanel.getGraphics());
 		}
 	}
-
-	public void checkLink() {
-		if (selectednodes.size() == 2) {
-			Node startlink = selectednodes.get(0);
-			Node endlink = selectednodes.get(1);
-			createLink(startlink, endlink);
-			paintLinks();
-			selectednodes.clear();
-		} else {
-			// Es kann nicht verbunden werden"
-		}
-	}
-
-	public void paintLinks() {
+	
+	public void paintLinks(){
+		System.out.println("Size: " +links.size());
 		for (int i = 0; i < links.size(); i++) {
 			Link link = links.get(i);
 			link.paintLink(paintpanel.getGraphics());
-		}
-	}
-
-	public void nodeSelected(int xposMouse, int yposMouse) {
-		boolean selected = false;
-		for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
-			Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
-			if (xposMouse >= node.getXPos()
-					&& xposMouse <= node.getXPos() + node.RADIUS
-					&& yposMouse >= node.getYPos()
-					&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
-				selectednodes.add(node);	//Knoten zu ausgewählte Liste hinzufügen
-				node.isSelected = true;		//Knoten ist selektiert
-				selected = true;
-			}
-			else{					//Maus nicht in Kreis
-				node.isSelected = false;
-			}
-		}
-		if (selected == false || selectednodes.size() == 3){
-			selectednodes.clear();
 		}
 	}
 
@@ -166,17 +143,35 @@ public class GUI extends JFrame {
 			if (xposMouse >= node.getXPos()
 					&& xposMouse <= node.getXPos() + node.RADIUS
 					&& yposMouse >= node.getYPos()
-					&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
-				//node.isDeleted = true;
+					&& yposMouse <= node.getYPos() + node.RADIUS) {
 				nodes.remove(i);
+				for (int j = 0; j < links.size(); j++){
+					Link link = links.get(j);
+					if (link.getFirstNode() == node || link.getSecondNode() == node){
+						links.remove(j);
+					}
+				}
 			}
 		}
 	}
-
-	boolean deleteLink(Link link) {
-		if (links.remove(link)) {
-			return true;
-		}
-		return false;
-	}
 }
+//public void nodeSelected(int xposMouse, int yposMouse) {
+//boolean selected = false;
+//for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
+//	Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
+//	if (xposMouse >= node.getXPos()
+//			&& xposMouse <= node.getXPos() + node.RADIUS
+//			&& yposMouse >= node.getYPos()
+//			&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
+//		selectednodes.add(node);	//Knoten zu ausgewählte Liste hinzufügen
+//		node.isSelected = true;		//Knoten ist selektiert
+//		selected = true;
+//	}
+//	else{					//Maus nicht in Kreis
+//		node.isSelected = false;
+//	}
+//}
+//if (selected == false || selectednodes.size() == 3){
+//	selectednodes.clear();
+//}
+//}
