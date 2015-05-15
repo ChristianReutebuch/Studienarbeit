@@ -26,7 +26,6 @@ public class Node{
 	}
 	
 	public void paintNode(Graphics g){
-		String text = "";
 		if(isStartnode == true){
 			g.setColor(Color.BLUE);
 		}

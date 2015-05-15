@@ -2,22 +2,14 @@ package TSP;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 
 public class GUI extends JFrame {
 
@@ -58,6 +50,7 @@ public class GUI extends JFrame {
 				}
 				if (cbdel.isSelected() == true){
 					deleteNode(e.getX(), e.getY());
+					createLinks();
 					paintAll();
 				}
 				if (cbsel.isSelected() == true){
@@ -141,12 +134,6 @@ public class GUI extends JFrame {
 					&& yposMouse >= node.getYPos()
 					&& yposMouse <= node.getYPos() + node.RADIUS) {
 				nodes.remove(i);
-				for (int j = 0; j < links.size(); j++){
-					Link link = links.get(j);
-					if (link.getFirstNode() == node || link.getSecondNode() == node){
-						links.remove(j);
-					}
-				}
 			}
 		}
 	}
@@ -169,6 +156,7 @@ public class GUI extends JFrame {
 		Node sel = selectednodes.getFirst();
 		deleteNode(sel.getXPos(),sel.getYPos());
 		createNode(xposMouse, yposMouse, false);
+		createLinks();
 		selectednodes.clear();
 	}
 }
