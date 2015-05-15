@@ -25,23 +25,22 @@ public class Node{
 	}
 	
 	public void paintNode(Graphics g){
+		String text = "";
 		if(isStartnode == true){
 			g.setColor(Color.BLUE);
-			g.fillOval(xpos, ypos, RADIUS, RADIUS);
+			text = "A";
 		}
 		if(isStartnode == false){
 			g.setColor(Color.BLACK);
-			g.fillOval(xpos, ypos, RADIUS, RADIUS);
+			text = "B";
 		}
 		if(isSelected == true){
 			g.setColor(Color.GREEN);
-			g.fillOval(xpos, ypos, RADIUS, RADIUS);
+			text = "B";
 		}
-		if (isDeleted == true){
-			System.out.println("Deleted");
-			g.setColor(Color.WHITE);
-			g.fillOval(xpos, ypos, RADIUS, RADIUS);
-		}
+		g.fillOval(xpos, ypos, RADIUS, RADIUS);
+		g.setColor(Color.WHITE);
+		g.drawString(text, xpos + RADIUS/2, ypos + RADIUS/2);
 	}
 	
 	public void deleteNode(Graphics g){

@@ -112,7 +112,8 @@ public class GUI extends JFrame {
 	}
 
 	public void paintAll(){
-		paintpanel.paintComponents(paintpanel.getGraphics());
+		paintpanel.paint(paintpanel.getGraphics());
+		paintLinks();
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
 			node.paintNode(paintpanel.getGraphics());
@@ -166,7 +167,8 @@ public class GUI extends JFrame {
 					&& xposMouse <= node.getXPos() + node.RADIUS
 					&& yposMouse >= node.getYPos()
 					&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
-				node.isDeleted = true;
+				//node.isDeleted = true;
+				nodes.remove(i);
 			}
 		}
 	}
