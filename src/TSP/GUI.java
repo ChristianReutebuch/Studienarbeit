@@ -28,16 +28,11 @@ public class GUI extends JFrame {
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
 	JPanel checkpanel = new JPanel();
-	JButton btndelnode = new JButton ("Delete Node");
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cbdel = new JCheckBox("Delete Node");
-	
-	JMenuBar menubar = new JMenuBar();
-	JMenu paint = new JMenu("Paint");
-	JMenuItem node = new JMenuItem("Paint Nodes");
-	JMenuItem start = new JMenuItem("Paint StartNode");
+	JCheckBox cbsel = new JCheckBox("Select Node");
 
 	public GUI() {
 		// Frame Settings
@@ -45,12 +40,6 @@ public class GUI extends JFrame {
 		this.setBounds(0, 0, 800, 400);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Titelpanel Settings
-		titelpanel.add(menubar);
-		menubar.add(paint);
-		paint.add(node);
-		paint.add(start);
 		
 		// Paintpanel Listener
 		paintpanel.setBackground(Color.WHITE);
@@ -64,11 +53,19 @@ public class GUI extends JFrame {
 					}
 				}
 				if (cbstart.isSelected() == true) {
-					createGraph(e.getX(), e.getY(), false);
+					createGraph(e.getX(), e.getY(), true);
 					paintAll();
 				}
 				if (cbdel.isSelected() == true){
 					deleteNode(e.getX(), e.getY());
+					paintAll();
+				}
+				if (cbsel.isSelected() == true){
+					selectNode(e.getX(), e.getY());
+					paintAll();
+				}
+				if (e.getButton() == 3){
+					moveNode(e.getX(), e.getY());
 					paintAll();
 				}
 			}
@@ -78,12 +75,13 @@ public class GUI extends JFrame {
 		btngr.add(cbnode);
 		btngr.add(cbstart);
 		btngr.add(cbdel);
+		btngr.add(cbsel);
 		checkpanel.setBackground(Color.red);
 		checkpanel.add(cbnode);
 		checkpanel.add(cbstart);
 		checkpanel.add(cbdel);
-		checkpanel.add(btndelnode);
-
+		checkpanel.add(cbsel);
+		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
 		this.add(paintpanel, BorderLayout.CENTER);
@@ -107,7 +105,6 @@ public class GUI extends JFrame {
 			for (int j = 0; j < nodes.size(); j++){
 				Node secondnode = nodes.get(j);
 				if (firstnode != secondnode){
-					System.out.println("First: "+firstnode.getName()+" Second "+secondnode.getName());
 					Link link = new Link(firstnode, secondnode, 1);
 					links.add(link);
 				}
@@ -130,7 +127,6 @@ public class GUI extends JFrame {
 	}
 	
 	public void paintLinks(){
-		System.out.println("Size: " +links.size());
 		for (int i = 0; i < links.size(); i++) {
 			Link link = links.get(i);
 			link.paintLink(paintpanel.getGraphics());
@@ -154,24 +150,25 @@ public class GUI extends JFrame {
 			}
 		}
 	}
+
+	public void selectNode(int xposMouse, int yposMouse){
+		for (int i = 0; i < nodes.size(); i++){
+			Node node = nodes.get(i);
+			if (xposMouse >= node.getXPos()
+					&& xposMouse <= node.getXPos() + node.RADIUS
+					&& yposMouse >= node.getYPos()
+					&& yposMouse <= node.getYPos() + node.RADIUS) {
+				selectednodes.add(node);
+				node.isSelected = true;
+				System.out.println("Node "+node.getName()+" is selected. New Position with click right.");
+			}
+		}
+	}
+	
+	public void moveNode(int xposMouse, int yposMouse){
+		Node sel = selectednodes.getFirst();
+		deleteNode(sel.getXPos(),sel.getYPos());
+		createNode(xposMouse, yposMouse, false);
+		selectednodes.clear();
+	}
 }
-//public void nodeSelected(int xposMouse, int yposMouse) {
-//boolean selected = false;
-//for (int i = 0; i < nodes.size(); i++) { //Durchsuche aktuelle Knotenliste
-//	Node node = nodes.get(i);			 //Aktueller Knoten temporär speichern	
-//	if (xposMouse >= node.getXPos()
-//			&& xposMouse <= node.getXPos() + node.RADIUS
-//			&& yposMouse >= node.getYPos()
-//			&& yposMouse <= node.getYPos() + node.RADIUS) { //Maus in Kreis?
-//		selectednodes.add(node);	//Knoten zu ausgewählte Liste hinzufügen
-//		node.isSelected = true;		//Knoten ist selektiert
-//		selected = true;
-//	}
-//	else{					//Maus nicht in Kreis
-//		node.isSelected = false;
-//	}
-//}
-//if (selected == false || selectednodes.size() == 3){
-//	selectednodes.clear();
-//}
-//}
