@@ -92,17 +92,46 @@ public class GUI extends JFrame {
 	}
 	
 	public void createLinks(){
+		LinkedList<Link> templinks = new LinkedList<Link>();
+		templinks.clear();
 		links.clear();
 		for (int i = 0; i < nodes.size(); i++){
 			Node firstnode = nodes.get(i);
 			for (int j = 0; j < nodes.size(); j++){
 				Node secondnode = nodes.get(j);
 				if (firstnode != secondnode){
-					Link link = new Link(firstnode, secondnode, 1);
-					links.add(link);
+					Link templink = new Link(firstnode, secondnode, 1);
+					templinks.add(templink);
 				}
 			}
 		}
+		for (int j = 0; j < templinks.size(); j++){
+			Link jlink = templinks.get(j);
+			Node jfirst = jlink.getFirstNode();
+			Node jsecond = jlink.getSecondNode();
+			if(links.size() == 0){
+				links.add(jlink);
+			}
+			else{
+				boolean set = true;
+				for(int k = 0; k < links.size(); k++){
+					Link klink = links.get(k);
+					Node kfirst = klink.getFirstNode();
+					Node ksecond = klink.getSecondNode();
+					if( jfirst == ksecond && jsecond == kfirst){
+						set = false;
+					}
+				}
+				if(set == true){
+					links.add(jlink);
+				}
+			}
+		}
+		//Testausgabe
+				for (int k = 0; k < links.size();k++){
+					Link conlink = links.get(k);
+					System.out.println("First "+ conlink.getFirstNode().getName() + " "+"Second "+ conlink.getSecondNode().getName());
+				}
 	}
 
 	public void paintAll(){

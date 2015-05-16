@@ -16,20 +16,20 @@ public class Link {
 		this.distance = distance;
 	}
 	
-	public void paintLink(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.drawLine(firstNode.getXPos()+20, firstNode.getYPos()+20, secondNode.getXPos()+20, secondNode.getYPos()+20);
-		String text = Integer.toString(distance);
-		calcPosLbl();
-		g.drawString(text, (int)xPosLbl, (int)yPosLbl);
-	}
-	
 	public Node getFirstNode() {
 		return firstNode;
 	}
 	
 	public Node getSecondNode() {
 		return secondNode;
+	}
+	
+	public void setFirstNode(Node firstNode){
+		this.firstNode = firstNode;
+	}
+	
+	public void setSecondNode(Node secondNode){
+		this.secondNode = secondNode;
 	}
 	
 	public int getDistance() {
@@ -51,5 +51,12 @@ public class Link {
 		else{
 			yPosLbl = secondNode.getYPos() + yAbstand;
 		}
+	}
+	public void paintLink(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.drawLine(firstNode.getXPos()+20, firstNode.getYPos()+20, secondNode.getXPos()+20, secondNode.getYPos()+20);
+		String text = Integer.toString(distance);
+		calcPosLbl();
+		g.drawString(text, (int)xPosLbl, (int)yPosLbl);
 	}
 }

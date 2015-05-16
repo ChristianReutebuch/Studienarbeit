@@ -7,6 +7,7 @@ public class Node{
 	private int xpos;
 	private int ypos;
 	private String name;
+	private int intname;
 	public final int RADIUS = 40;
 	private boolean isStartnode = false;
 	public boolean isSelected = false;
@@ -41,10 +42,14 @@ public class Node{
 	}
 	
 	public void setName(int number){
+		intname = number;
 		this.name = Integer.toString(number);
 	}
 	public String getName(){
 		return name;
+	}
+	public int getIntName(){
+		return intname;
 	}
 	
 	public int getXPos(){
