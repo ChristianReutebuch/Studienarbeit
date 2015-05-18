@@ -2,11 +2,13 @@ package TSP;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,8 +35,11 @@ public class GUI extends JFrame {
 	JTextArea txtarea = new JTextArea();
 	JLabel lblfnode = new JLabel("FirstNode: ");
 	JLabel lblsnode = new JLabel("SecondNode: ");
-	JTextField txtfnode = new JTextField();
-	JTextField txtsnode = new JTextField();
+	JLabel lbldist = new JLabel("Distance: ");
+	JTextField txtfnode = new JTextField(10);
+	JTextField txtsnode = new JTextField(10);
+	JTextField txtdist = new JTextField(2);
+	JButton btnchange = new JButton("Change");
 
 	public GUI() {
 		// Frame Settings
@@ -53,6 +58,8 @@ public class GUI extends JFrame {
 					if (nodes.size() == 5) {
 						System.out.println("Algorithm gets slow with more than 5 nodes.");
 					}
+					Node node = nodes.getLast();
+					txtfnode.setText(node.getName());
 				}
 				if (cbstart.isSelected() == true) {
 					createGraph(e.getX(), e.getY(), true);
@@ -66,13 +73,20 @@ public class GUI extends JFrame {
 				if (cbsel.isSelected() == true){
 					selectNode(e.getX(), e.getY());
 					paintAll();
+					if (selectednodes.size() == 2){
+						String first = selectednodes.get(0).getName();
+						String second = selectednodes.get(1).getName();
+						txtfnode.setText(first);
+						txtsnode.setText(second);
+					}
 				}
 				if (e.getButton() == 3){
 					if (selectednodes.size() == 1){
 						moveNode(e.getX(), e.getY());
 					}
 					if (selectednodes.size() == 2){
-						changeValue();
+						int distance = Integer.parseInt(txtdist.getText());
+						changeValue(distance);
 					}
 					if (selectednodes.size() > 2){
 						System.out.println("Error");
@@ -97,13 +111,17 @@ public class GUI extends JFrame {
 		
 		//Txtpanel Settings
 		txtpanel.add(txtarea);
-		//To do: von Anfang an eine festdefinierte Größe
+		txtpanel.setPreferredSize(new Dimension(100,0));
 		
 		//Editpanel Settings
+		editpanel.setPreferredSize(new Dimension(150,0));
 		editpanel.add(lblfnode);
 		editpanel.add(txtfnode);
 		editpanel.add(lblsnode);
 		editpanel.add(txtsnode);
+		editpanel.add(lbldist);
+		editpanel.add(txtdist);
+		editpanel.add (btnchange);
 		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
@@ -132,7 +150,7 @@ public class GUI extends JFrame {
 			for (int j = 0; j < nodes.size(); j++){
 				Node secondnode = nodes.get(j);
 				if (firstnode != secondnode){
-					Link templink = new Link(firstnode, secondnode, 1);
+					Link templink = new Link(firstnode, secondnode);
 					templinks.add(templink);
 				}
 			}
@@ -215,7 +233,7 @@ public class GUI extends JFrame {
 		clearSelectedNode();
 	}
 	
-	public void changeValue(){
+	public void changeValue(int distance){
 		Node firstsel = selectednodes.getFirst();
 		Node secondsel = selectednodes.get(1);
 		for (int i=0; i<links.size(); i++){
@@ -223,7 +241,7 @@ public class GUI extends JFrame {
 			Node first = link.getFirstNode();
 			Node second = link.getSecondNode();
 			if ((first == firstsel && second == secondsel)||(first == secondsel && second == firstsel)){
-				link.setDistance(2);
+				link.setDistance(distance);
 			}
 		}
 		clearSelectedNode();

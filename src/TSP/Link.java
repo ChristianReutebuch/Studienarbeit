@@ -10,10 +10,9 @@ public class Link {
 	private float xPosLbl;
 	private float yPosLbl;
 	
-	public Link(Node firstNode, Node secondNode, int distance){
+	public Link(Node firstNode, Node secondNode){
 		this.firstNode = firstNode;
 		this.secondNode = secondNode;
-		this.distance = distance;
 	}
 	
 	public Node getFirstNode() {
