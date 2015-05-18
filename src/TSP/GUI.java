@@ -3,8 +3,11 @@ package TSP;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
@@ -122,6 +125,18 @@ public class GUI extends JFrame {
 		editpanel.add(lbldist);
 		editpanel.add(txtdist);
 		editpanel.add (btnchange);
+		btnchange.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Integer> lst = new ArrayList<Integer>();
+				for (int i = 0; i <nodes.size(); i++){
+					Node node = nodes.get(i);
+					lst.add(node.getIntName());
+				}
+				ArrayList<Integer> route = new ArrayList<Integer>();
+				Algorithm algo = new Algorithm();
+				algo.bruteForce(route, lst);
+			}
+		});
 		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
