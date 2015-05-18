@@ -10,6 +10,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class GUI extends JFrame {
 
@@ -20,11 +21,13 @@ public class GUI extends JFrame {
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
 	JPanel checkpanel = new JPanel();
+	JPanel txtpanel = new JPanel();
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cbdel = new JCheckBox("Delete Node");
 	JCheckBox cbsel = new JCheckBox("Select Node");
+	JTextArea txtarea = new JTextArea();
 
 	public GUI() {
 		// Frame Settings
@@ -61,6 +64,7 @@ public class GUI extends JFrame {
 					moveNode(e.getX(), e.getY());
 					paintAll();
 				}
+				filltxtarea();
 			}
 		});
 
@@ -75,10 +79,14 @@ public class GUI extends JFrame {
 		checkpanel.add(cbdel);
 		checkpanel.add(cbsel);
 		
+		//Txtpanel Settings
+		txtpanel.add(txtarea);
+		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
 		this.add(paintpanel, BorderLayout.CENTER);
 		this.add(checkpanel, BorderLayout.SOUTH);
+		this.add(txtpanel, BorderLayout.WEST);
 	}
 	
 	public void createGraph(int xpos, int ypos, boolean isStart){
@@ -127,11 +135,6 @@ public class GUI extends JFrame {
 				}
 			}
 		}
-		//Testausgabe
-				for (int k = 0; k < links.size();k++){
-					Link conlink = links.get(k);
-					System.out.println("First "+ conlink.getFirstNode().getName() + " "+"Second "+ conlink.getSecondNode().getName());
-				}
 	}
 
 	public void paintAll(){
@@ -187,5 +190,24 @@ public class GUI extends JFrame {
 		createNode(xposMouse, yposMouse, false);
 		createLinks();
 		selectednodes.clear();
+	}
+	
+	public void filltxtarea(){
+		txtarea.removeAll();
+		String txt;
+		txt = "Nodes: \n";
+		for (int i = 0; i < nodes.size(); i++){
+			Node node = nodes.get(i);
+			String nodename = node.getName();
+			txt = txt + "Node "+i+": "+nodename+"\n";
+		}
+		txt = txt + "Links: \n";
+		for ( int j = 0; j < links.size();j++){
+			Link link = links.get(j);
+			String firstnodename = link.getFirstNode().getName();
+			String secondnodename = link.getSecondNode().getName();
+			txt = txt + firstnodename+ " " + secondnodename+" \n";
+		}
+		txtarea.setText(txt);
 	}
 }
