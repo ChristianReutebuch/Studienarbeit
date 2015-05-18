@@ -9,8 +9,10 @@ import java.util.LinkedList;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class GUI extends JFrame {
 
@@ -22,12 +24,17 @@ public class GUI extends JFrame {
 	JPanel paintpanel = new JPanel();
 	JPanel checkpanel = new JPanel();
 	JPanel txtpanel = new JPanel();
+	JPanel editpanel = new JPanel();
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cbdel = new JCheckBox("Delete Node");
 	JCheckBox cbsel = new JCheckBox("Select Node");
 	JTextArea txtarea = new JTextArea();
+	JLabel lblfnode = new JLabel("FirstNode: ");
+	JLabel lblsnode = new JLabel("SecondNode: ");
+	JTextField txtfnode = new JTextField();
+	JTextField txtsnode = new JTextField();
 
 	public GUI() {
 		// Frame Settings
@@ -90,12 +97,20 @@ public class GUI extends JFrame {
 		
 		//Txtpanel Settings
 		txtpanel.add(txtarea);
+		//To do: von Anfang an eine festdefinierte Größe
+		
+		//Editpanel Settings
+		editpanel.add(lblfnode);
+		editpanel.add(txtfnode);
+		editpanel.add(lblsnode);
+		editpanel.add(txtsnode);
 		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
 		this.add(paintpanel, BorderLayout.CENTER);
 		this.add(checkpanel, BorderLayout.SOUTH);
 		this.add(txtpanel, BorderLayout.WEST);
+		this.add(editpanel, BorderLayout.EAST);
 	}
 	
 	public void createGraph(int xpos, int ypos, boolean isStart){
