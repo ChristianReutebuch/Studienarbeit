@@ -36,6 +36,10 @@ public class Link {
 		return distance;
 	}
 	
+	public void setDistance(int distance){
+		this.distance = distance;
+	}
+	
 	public void calcPosLbl(){
 		float xAbstand = (Math.abs(firstNode.getXPos() - secondNode.getXPos()))/2;
 		float yAbstand = (Math.abs(firstNode.getYPos() - secondNode.getYPos()))/2;

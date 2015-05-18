@@ -61,8 +61,17 @@ public class GUI extends JFrame {
 					paintAll();
 				}
 				if (e.getButton() == 3){
-					moveNode(e.getX(), e.getY());
-					paintAll();
+					if (selectednodes.size() == 1){
+						moveNode(e.getX(), e.getY());
+					}
+					if (selectednodes.size() == 2){
+						changeValue();
+					}
+					if (selectednodes.size() > 2){
+						System.out.println("Error");
+					}
+					clearSelectedNode();
+					paintAll();	
 				}
 				filltxtarea();
 			}
@@ -187,8 +196,29 @@ public class GUI extends JFrame {
 	public void moveNode(int xposMouse, int yposMouse){
 		Node sel = selectednodes.getFirst();
 		deleteNode(sel.getXPos(),sel.getYPos());
-		createNode(xposMouse, yposMouse, false);
-		createLinks();
+		createGraph(xposMouse, yposMouse, false);
+		clearSelectedNode();
+	}
+	
+	public void changeValue(){
+		Node firstsel = selectednodes.getFirst();
+		Node secondsel = selectednodes.get(1);
+		for (int i=0; i<links.size(); i++){
+			Link link = links.get(i);
+			Node first = link.getFirstNode();
+			Node second = link.getSecondNode();
+			if ((first == firstsel && second == secondsel)||(first == secondsel && second == firstsel)){
+				link.setDistance(2);
+			}
+		}
+		clearSelectedNode();
+	}
+	
+	public void clearSelectedNode(){
+		for (int i = 0; i<nodes.size();i++){
+			Node node = nodes.get(i);
+			node.isSelected = false;
+		}
 		selectednodes.clear();
 	}
 	
