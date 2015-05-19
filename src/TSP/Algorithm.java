@@ -1,8 +1,6 @@
 package TSP;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
 
 public class Algorithm {
