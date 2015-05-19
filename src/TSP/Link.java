@@ -42,18 +42,19 @@ public class Link {
 	public void calcPosLbl(){
 		float xAbstand = (Math.abs(firstNode.getXPos() - secondNode.getXPos()))/2;
 		float yAbstand = (Math.abs(firstNode.getYPos() - secondNode.getYPos()))/2;
-		if ( firstNode.getXPos() <= secondNode.getXPos()){
-			xPosLbl = firstNode.getXPos() + xAbstand;
-		}
-		else{
-			xPosLbl = secondNode.getXPos() + xAbstand;
-		}
-		if ( firstNode.getYPos() <= secondNode.getYPos()){
-			yPosLbl = firstNode.getYPos() + yAbstand;
-		}
-		else{
-			yPosLbl = secondNode.getYPos() + yAbstand;
-		}
+		
+//		if ( firstNode.getXPos() <= secondNode.getXPos()){
+//			xPosLbl = firstNode.getXPos() + xAbstand;
+//		}
+//		else{
+//			xPosLbl = secondNode.getXPos() + xAbstand;
+//		}
+//		if ( firstNode.getYPos() <= secondNode.getYPos()){
+//			yPosLbl = firstNode.getYPos() + yAbstand;
+//		}
+//		else{
+//			yPosLbl = secondNode.getYPos() + yAbstand;
+//		}
 	}
 	public void paintLink(Graphics g) {
 		g.setColor(Color.BLACK);
