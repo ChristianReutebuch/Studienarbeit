@@ -75,7 +75,7 @@ public class Algorithm {
 				++row;
 			}
 		}
-		//Möglichkeiten
+		//Möglichkeiten in ways-Array schreiben
 		//Zeilenweise über die Spalten schleifen
 		for(int rowCount = row; rowCount < numberOfWays; ++rowCount) {
 			
@@ -87,6 +87,13 @@ public class Algorithm {
 				//}			
 			}
 		}
+		//Kosten für einzelne Wege berechnen
+		int cost = 0;
+		
+		//Wege mit geringsten Kosten finden
+		int costColumn = ways.length;
+		int shortestPath = 0;
+		
 	}
 
 }
