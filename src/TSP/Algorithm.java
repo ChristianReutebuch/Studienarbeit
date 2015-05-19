@@ -22,58 +22,62 @@ public class Algorithm {
 				bestRoute = route;
 		}
 	}
-	
-<<<<<<< HEAD
-	void calculate(){
-		//Sonderfallbehandlung:
-		//3 Knoten: nur eine Möglichkeit ( 1231 = 1321 )
-		
-		//Anzahl der Möglichkeiten
-		int numberOfWays = numOfNodes-1;
-		for (int i=1; i<=numOfNodes; i++){
-			numberOfWays = numberOfWays * i;
-        }
-		numberOfWays = numberOfWays / 2;
-		
-		//Array für Reisemöglichkeiten
-		//Startknoten wird nicht aufgeschrieben, sondern lediglich die Reihenfolge der anderen Knoten
-		//letzte Spalte enthält die Kosten des gesamten Wegs
-		int[][] ways = new int[numOfNodes][numberOfWays];
-		//
-		int row = 0;
-		//erste Möglichkeit
-		for( int n = 1; n < numOfNodes; ++n) {
-			if( n != startNode) {
-				ways[n][row] = n;
-				++row;
-			}
-		}
-		//Möglichkeiten in ways-Array schreiben
-		//Zeilenweise über die Spalten schleifen
-		for(int rowCount = row; rowCount < numberOfWays; ++rowCount) {
-			
-			for( int n = 1; n < ( numOfNodes - 1 ); ++n ) {
-				//letzte zwei Knoten wechseln immer ab
-				//if( n > ( numOfNodes - 2 ) ) {
-				//	ways[n][row] = ways[n+1][row-n];
-				//	ways[n+1][row+1] = ways[n][row-n];
-				//}			
-			}
-		}
-		//Kosten für einzelne Wege berechnen
-		int cost = 0;
-		
-		//Wege mit geringsten Kosten finden
-		int costColumn = ways.length;
-		int shortestPath = 0;
-		
-=======
 	private static boolean isBestRoute(ArrayList<Integer> route){
 		System.out.println(route.toString());
 		return false;
->>>>>>> origin/master
 	}
-	
+}
+//<<<<<<< HEAD
+//	void calculate(){
+//		//Sonderfallbehandlung:
+//		//3 Knoten: nur eine Möglichkeit ( 1231 = 1321 )
+//		
+//		//Anzahl der Möglichkeiten
+//		int numberOfWays = numOfNodes-1;
+//		for (int i=1; i<=numOfNodes; i++){
+//			numberOfWays = numberOfWays * i;
+//        }
+//		numberOfWays = numberOfWays / 2;
+//		
+//		//Array für Reisemöglichkeiten
+//		//Startknoten wird nicht aufgeschrieben, sondern lediglich die Reihenfolge der anderen Knoten
+//		//letzte Spalte enthält die Kosten des gesamten Wegs
+//		int[][] ways = new int[numOfNodes][numberOfWays];
+//		//
+//		int row = 0;
+//		//erste Möglichkeit
+//		for( int n = 1; n < numOfNodes; ++n) {
+//			if( n != startNode) {
+//				ways[n][row] = n;
+//				++row;
+//			}
+//		}
+//		//Möglichkeiten in ways-Array schreiben
+//		//Zeilenweise über die Spalten schleifen
+//		for(int rowCount = row; rowCount < numberOfWays; ++rowCount) {
+//			
+//			for( int n = 1; n < ( numOfNodes - 1 ); ++n ) {
+//				//letzte zwei Knoten wechseln immer ab
+//				//if( n > ( numOfNodes - 2 ) ) {
+//				//	ways[n][row] = ways[n+1][row-n];
+//				//	ways[n+1][row+1] = ways[n][row-n];
+//				//}			
+//			}
+//		}
+//		//Kosten für einzelne Wege berechnen
+//		int cost = 0;
+//		
+//		//Wege mit geringsten Kosten finden
+//		int costColumn = ways.length;
+//		int shortestPath = 0;
+//		
+//=======
+//	private static boolean isBestRoute(ArrayList<Integer> route){
+//		System.out.println(route.toString());
+//		return false;
+//>>>>>>> origin/master
+//	}
+//	
 	///Silkes Code///////////////////////////////////////////////////////////////////////////////////////////////
 //	private int numOfNodes, numOfLinks;
 //	private LinkedList<Node> nodes = new LinkedList<Node>();
@@ -158,5 +162,3 @@ public class Algorithm {
 //			}
 //		}
 //	}
-
-}
