@@ -23,7 +23,12 @@ public class Algorithm {
 		}
 	}
 	
-<<<<<<< HEAD
+	private static boolean isBestRoute(ArrayList<Integer> route){
+		System.out.println(route.toString());
+		return false;
+	}
+	
+/*
 	void calculate(){
 		//Sonderfallbehandlung:
 		//3 Knoten: nur eine Möglichkeit ( 1231 = 1321 )
@@ -66,13 +71,7 @@ public class Algorithm {
 		//Wege mit geringsten Kosten finden
 		int costColumn = ways.length;
 		int shortestPath = 0;
-		
-=======
-	private static boolean isBestRoute(ArrayList<Integer> route){
-		System.out.println(route.toString());
-		return false;
->>>>>>> origin/master
-	}
+*/
 	
 	///Silkes Code///////////////////////////////////////////////////////////////////////////////////////////////
 //	private int numOfNodes, numOfLinks;
