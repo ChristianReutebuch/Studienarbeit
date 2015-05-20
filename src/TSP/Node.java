@@ -48,6 +48,8 @@ public class Node{
 	public String getName(){
 		return name;
 	}
+	
+	//wird eventuell nicht gebraucht
 	public int getIntName(){
 		return intname;
 	}

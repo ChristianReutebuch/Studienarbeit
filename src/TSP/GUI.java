@@ -43,6 +43,7 @@ public class GUI extends JFrame {
 	JTextField txtsnode = new JTextField(10);
 	JTextField txtdist = new JTextField(2);
 	JButton btnchange = new JButton("Change");
+	private int delpos = -1;
 
 	public GUI() {
 		// Frame Settings
@@ -153,7 +154,11 @@ public class GUI extends JFrame {
 
 	public void createNode(int xpos, int ypos, boolean isStart) {
 		Node node = new Node(xpos, ypos, isStart);
-		nodes.add(node);
+		if(delpos == -1){
+			nodes.add(node);
+		}else{
+			nodes.add(delpos, node);
+		}
 	}
 	
 	public void createLinks(){
@@ -223,6 +228,7 @@ public class GUI extends JFrame {
 					&& yposMouse >= node.getYPos()
 					&& yposMouse <= node.getYPos() + node.RADIUS) {
 				nodes.remove(i);
+				delpos = i;
 			}
 		}
 	}
@@ -246,6 +252,7 @@ public class GUI extends JFrame {
 		deleteNode(sel.getXPos(),sel.getYPos());
 		createGraph(xposMouse, yposMouse, false);
 		clearSelectedNode();
+		delpos = -1; 
 	}
 	
 	public void changeValue(int distance){
