@@ -130,8 +130,7 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Integer> lst = new ArrayList<Integer>();
 				for (int i = 0; i <nodes.size(); i++){
-					Node node = nodes.get(i);
-					lst.add(node.getIntName());
+					lst.add(i);
 				}
 				ArrayList<Integer> route = new ArrayList<Integer>();
 				Algorithm algo = new Algorithm();
