@@ -3,9 +3,9 @@ package TSP;
 import java.util.ArrayList;
 
 //TODO
-////- Distances-Array füllen
-//- Startknoten bei Brute-Force rausnehmen
-//- errechnete Pfade in Wege-Array eintragen
+//- Distances-Array füllen-->DONE
+//- Startknoten bei Brute-Force rausnehmen-->DONE
+//- errechnete Pfade in Wege-Array eintragen-->in Arbeit
 //- Gesamtkosten ausrechnen und in Wege-Array eintragen
 //- kleinste Wege rausfinden
 
@@ -13,7 +13,6 @@ public class Algorithm {
 	private ArrayList<Integer> bestRoute;
 	int numOfNodes = GUI.nodes.size();
 	int numOfLinks = GUI.links.size();
-	int numOfWays = 1;
 	int[][] distances = new int[ numOfNodes ][ numOfNodes ];
 	
 	//routes: ist zu Beginn leer und enthält am Ende alle möglichen Pfade
@@ -22,7 +21,7 @@ public class Algorithm {
 		//prüfen, ob die übergebene Knotenliste Knoten enthält
 		if(!nodesNotInRoute.isEmpty()){
 			//Schleife über noch nicht in den aktuellen Pfad eingefügte Knoten
-			for(int i = 0; i<nodesNotInRoute.size();i++){
+			for(int i = 0; i < nodesNotInRoute.size(); ++i){
 				int justRemoved = nodesNotInRoute.remove(0);
 				//übergebene Liste kopieren
 				ArrayList<Integer> newRoute = (ArrayList<Integer>) routes.clone();
@@ -32,7 +31,8 @@ public class Algorithm {
 				nodesNotInRoute.add(justRemoved);
 			}
 		}else{
-			showRoutes(routes);
+			showRoutes( routes );
+			setPaths( routes );
 		}
 	}
 	
@@ -54,14 +54,28 @@ public class Algorithm {
 		
 	}
 	
-	private boolean calculateCosts(ArrayList<Integer> routes) {
+	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
+	private void setPaths(ArrayList<Integer> routes) {
+		//distances-Array wird befüllt
 		setDistances();
+		
+		//Anzahl der Wege wird zur Array-Erstellung errechnet
+		int numOfWays = 1;
 		for( int i = 1; i < numOfNodes; i++ ) {
 			numOfWays *= i;
 		}
 		int[][] ways = new int[ numOfNodes ][ numOfWays ];
+		//eintragen der möglichen Wege
+		int counter = 0;
+		for( int i = 0; i < ( numOfNodes - 1 ); ++i ) {
+			for( int j = 0; j < numOfWays; ++j) {
+				if( counter < routes.size()) {
+					ways[i][j] = routes.get(counter);
+					++counter;
+				}
+			}
+		}
 		
-		return false;
 	}
 
 }

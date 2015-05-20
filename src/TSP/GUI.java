@@ -45,6 +45,7 @@ public class GUI extends JFrame {
 	JButton btnchange = new JButton("Change Distance");
 	JButton btnstart = new JButton("set Start");
 	private int delpos = -1;
+	public static int startNode = -1;
 
 	public GUI() {
 		// Frame Settings
@@ -141,9 +142,18 @@ public class GUI extends JFrame {
 		editpanel.add (btnchange);
 		btnchange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Startknoten finden
+				for(int i = 0; i < nodes.size(); ++i) {
+					if( nodes.get( i ).isStartNode() == true){
+						startNode = i;
+					}
+				}
+				//Kontenliste erstellen, ohne den Startknoten
 				ArrayList<Integer> lst = new ArrayList<Integer>();
-				for (int i = 0; i <nodes.size(); i++){
-					lst.add(i);
+				for (int i = 0; i < nodes.size(); i++){
+					if( i != startNode) {
+						lst.add(i);
+					}
 				}
 				ArrayList<Integer> route = new ArrayList<Integer>();
 				Algorithm algo = new Algorithm();
