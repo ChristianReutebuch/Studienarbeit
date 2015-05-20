@@ -2,19 +2,21 @@ package TSP;
 
 import java.util.ArrayList;
 
+//TODO
+////- Distances-Array füllen
+//- Startknoten bei Brute-Force rausnehmen
+//- errechnete Pfade in Wege-Array eintragen
+//- Gesamtkosten ausrechnen und in Wege-Array eintragen
+//- kleinste Wege rausfinden
 
 public class Algorithm {
 	private ArrayList<Integer> bestRoute;
-	int numOfNodes = nodes.size();
+	int numOfNodes = GUI.nodes.size();
+	int numOfLinks = GUI.links.size();
+	int numOfWays = 1;
+	int[][] distances = new int[ numOfNodes ][ numOfNodes ];
 	
-	//Anzahl der möglichen Wege
-	int numberOfWays = numOfNodes-1;
-	for (int i=1; i<=numOfNodes; i++){
-		numberOfWays = numberOfWays * i;
-	}
-	numberOfWays = numberOfWays / 2;
-	
-	//routes: ist zu Beginn leet und enthält am Ende alle möglichen Pfade
+	//routes: ist zu Beginn leer und enthält am Ende alle möglichen Pfade
 	//nodesNotInRoute: enthält zu Beginn alle Knoten und wird jeweils um den Knoten reduziert, der bereits eingefügt wurde
 	public void bruteForce(ArrayList<Integer> routes, ArrayList<Integer> nodesNotInRoute){
 		//prüfen, ob die übergebene Knotenliste Knoten enthält
@@ -33,8 +35,32 @@ public class Algorithm {
 			showRoutes(routes);
 		}
 	}
-	private static boolean showRoutes(ArrayList<Integer> route){
+	
+	
+	private boolean showRoutes(ArrayList<Integer> route){
 		System.out.println(route.toString());
+		return false;
+	}
+	
+	private void setDistances() {
+		for( int i = 0; i < numOfLinks; ++i) {
+			Link link = GUI.links.get(i);
+			int first = link.getFirstNode().getIntName();
+			int second = link.getSecondNode().getIntName();
+			int dist = link.getDistance();
+			distances[first][second] = dist;
+			distances[second][first] = dist;
+		}
+		
+	}
+	
+	private boolean calculateCosts(ArrayList<Integer> routes) {
+		setDistances();
+		for( int i = 1; i < numOfNodes; i++ ) {
+			numOfWays *= i;
+		}
+		int[][] ways = new int[ numOfNodes ][ numOfWays ];
+		
 		return false;
 	}
 

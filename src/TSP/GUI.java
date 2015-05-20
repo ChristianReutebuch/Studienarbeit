@@ -24,7 +24,7 @@ public class GUI extends JFrame {
 	// Datendeklaration
 	public static LinkedList<Node> nodes = new LinkedList<Node>();
 	LinkedList<Node> selectednodes = new LinkedList<Node>();
-	LinkedList<Link> links = new LinkedList<Link>();
+	public static LinkedList<Link> links = new LinkedList<Link>();
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
 	JPanel checkpanel = new JPanel();
