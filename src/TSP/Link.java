@@ -40,24 +40,24 @@ public class Link {
 	}
 	
 	public void calcPosLbl(){
-		int xAbstand = (Math.abs(firstNode.getXPos() - secondNode.getXPos()))/2;
-		int yAbstand = (Math.abs(firstNode.getYPos() - secondNode.getYPos()))/2;
-		if ( firstNode.getXPos() <= secondNode.getXPos()){
-			xPosLbl = firstNode.getXPos() + xAbstand;
+		int xAbstand = (Math.abs((firstNode.getXPos()+firstNode.RADIUS/2) - (secondNode.getXPos()+secondNode.RADIUS/2) ))/2;
+		int yAbstand = (Math.abs((firstNode.getYPos()+firstNode.RADIUS/2) - (secondNode.getYPos()+secondNode.RADIUS/2) ))/2;
+		if ( (firstNode.getXPos()+ firstNode.RADIUS/2) <= (secondNode.getXPos()+secondNode.RADIUS/2)){
+			xPosLbl = (firstNode.getXPos() + firstNode.RADIUS/2) + xAbstand;
 		}
 		else{
-			xPosLbl = secondNode.getXPos() + xAbstand;
+			xPosLbl = (secondNode.getXPos()+secondNode.RADIUS/2) + xAbstand;
 		}
-		if ( firstNode.getYPos() <= secondNode.getYPos()){
-			yPosLbl = firstNode.getYPos() + yAbstand;
+		if ( (firstNode.getYPos() + firstNode.RADIUS/2) <= (secondNode.getYPos()+secondNode.RADIUS/2)){
+			yPosLbl = (firstNode.getYPos() + firstNode.RADIUS/2) + yAbstand;
 		}
 		else{
-			yPosLbl = secondNode.getYPos() + yAbstand;
+			yPosLbl = (secondNode.getYPos()+secondNode.RADIUS/2) + yAbstand;
 		}
 	}
 	public void paintLink(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.drawLine(firstNode.getXPos()+20, firstNode.getYPos()+20, secondNode.getXPos()+20, secondNode.getYPos()+20);
+		g.drawLine(firstNode.getXPos()+ firstNode.RADIUS/2, firstNode.getYPos()+ firstNode.RADIUS/2, secondNode.getXPos()+ secondNode.RADIUS/2, secondNode.getYPos()+secondNode.RADIUS/2);
 		String text = Integer.toString(distance);
 		calcPosLbl();
 		g.drawString(text, (int)xPosLbl, (int)yPosLbl);

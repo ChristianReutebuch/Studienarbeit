@@ -76,5 +76,8 @@ public class Node{
 	public boolean isStartNode() {
 		return isStartnode;
 	}
+	public int getRadius(){
+		return RADIUS;
+	}
 	
 }
