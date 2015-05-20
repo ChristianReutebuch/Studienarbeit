@@ -9,7 +9,7 @@ public class Node{
 	private String name;
 	private int intname;
 	public final int RADIUS = 40;
-	private boolean isStartnode = false;
+	public boolean isStartnode = false;
 	public boolean isSelected = false;
 	public boolean isDeleted = false;
 

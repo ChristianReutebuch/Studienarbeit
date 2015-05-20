@@ -42,8 +42,8 @@ public class GUI extends JFrame {
 	JTextField txtfnode = new JTextField(10);
 	JTextField txtsnode = new JTextField(10);
 	JTextField txtdist = new JTextField(2);
-	JButton btnchange = new JButton("Change");
-	JButton btnstart = new JButton("Startnode");
+	JButton btnchange = new JButton("Change Distance");
+	JButton btnstart = new JButton("set Start");
 	private int delpos = -1;
 
 	public GUI() {
@@ -67,6 +67,18 @@ public class GUI extends JFrame {
 					txtfnode.setText(node.getName());
 				}
 				if (cbstart.isSelected() == true) {
+					boolean isThereAStartNode = false;
+					Node oldStartNode = null;
+					for (int i = 0; i<nodes.size();i++){
+						Node nd = nodes.get(i);
+						if(nd.isStartnode == true){
+							isThereAStartNode = true;
+							oldStartNode = nd;
+						}
+					}
+					if (isThereAStartNode == true){
+						oldStartNode.isStartnode = false;
+					}
 					createGraph(e.getX(), e.getY(), true);
 					paintAll();
 				}
