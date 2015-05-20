@@ -229,10 +229,16 @@ public class GUI extends JFrame {
 		paintNodes();
 	}
 	
+	//In Arbeit
 	public void paintNodes(){
 		for (int i = 0; i < nodes.size(); i++){
+			System.out.println("Zahler: "+ i);
 			Node node = nodes.get(i);
-			node.setName(i);
+			if(node.getName() == null){
+				node.setName(i);
+			}else{
+				node.setName(node.getIntName());
+			}
 			node.paintNode(paintpanel.getGraphics());
 		}
 	}

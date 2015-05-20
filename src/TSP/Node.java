@@ -49,7 +49,6 @@ public class Node{
 		return name;
 	}
 	
-	//wird eventuell nicht gebraucht
 	public int getIntName(){
 		return intname;
 	}
