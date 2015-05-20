@@ -14,16 +14,16 @@ public class Node{
 	public boolean isDeleted = false;
 
 	//Konstruktor
-	public Node( int xpos, int ypos, boolean start) {
+	public Node( int xpos, int ypos, boolean isStartnode) {
 		this.xpos = xpos;
 		this.ypos = ypos;
-		isStartnode = start;
+		this.isStartnode = isStartnode;
 	}
 	
-	public void addNode(int xpos, int ypos, boolean start){
+	public void addNode(int xpos, int ypos, boolean isStartnode){
 		this.xpos = xpos;
 		this.ypos = ypos;
-		isStartnode = start;
+		this.isStartnode = isStartnode;
 	}
 	
 	public void paintNode(Graphics g){
@@ -66,6 +66,13 @@ public class Node{
 	public void setYPos(int ypos){
 		this.ypos = ypos;
 	}
+	public void setStartNode(){
+		isStartnode = true;
+	}
+	public void delStartNode(){
+		isStartnode = false;
+	}
+	
 	public boolean isStartNode() {
 		return isStartnode;
 	}

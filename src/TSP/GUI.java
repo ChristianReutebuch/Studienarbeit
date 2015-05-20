@@ -43,6 +43,7 @@ public class GUI extends JFrame {
 	JTextField txtsnode = new JTextField(10);
 	JTextField txtdist = new JTextField(2);
 	JButton btnchange = new JButton("Change");
+	JButton btnstart = new JButton("Startnode");
 	private int delpos = -1;
 
 	public GUI() {
@@ -137,6 +138,18 @@ public class GUI extends JFrame {
 				algo.bruteForce(route, lst);
 			}
 		});
+		editpanel.add(btnstart);
+		btnstart.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Node node = selectednodes.getFirst();
+				node.setStartNode();
+				paintAll();
+				for (int i = 0; i<nodes.size(); i++){
+					Node nd = nodes.get(i);
+					System.out.println(nd.isStartNode());
+				}
+			}
+		});
 		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
@@ -146,13 +159,13 @@ public class GUI extends JFrame {
 		this.add(editpanel, BorderLayout.EAST);
 	}
 	
-	public void createGraph(int xpos, int ypos, boolean isStart){
-		createNode(xpos, ypos, isStart);
+	public void createGraph(int xpos, int ypos, boolean isStartnode){
+		createNode(xpos, ypos, isStartnode);
 		createLinks();
 	}
 
-	public void createNode(int xpos, int ypos, boolean isStart) {
-		Node node = new Node(xpos, ypos, isStart);
+	public void createNode(int xpos, int ypos, boolean isStartnode) {
+		Node node = new Node(xpos, ypos, isStartnode);
 		if(delpos == -1){
 			nodes.add(node);
 		}else{
