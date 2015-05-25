@@ -245,10 +245,17 @@ public class GUI{
 	
 	//In Arbeit
 	public void paintNodes(){
+		int counter;
+		if(nodes.size()==0){
+			counter = 0;
+		}
+		else{
+			counter = nodes.size();
+		}
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
 			if(node.getName() == null){
-				node.setName(i);
+				node.setName(counter++);
 			}else{
 				node.setName(node.getIntName());
 			}
