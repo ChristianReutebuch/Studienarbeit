@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -50,9 +51,14 @@ public class GUI extends JFrame {
 	public GUI() {
 		// Frame Settings
 		this.setLayout(new BorderLayout());
-		this.setBounds(0, 0, 800, 400);
+		this.setBounds(0, 0, 1000, 600);
+		this.setTitle("Travelling Salesman Problem");
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//Titelpanel Settings
+		titelpanel.setBackground(Color.lightGray);
+		
 		
 		// Paintpanel Listener
 		paintpanel.setBackground(Color.WHITE);
@@ -117,22 +123,16 @@ public class GUI extends JFrame {
 		});
 
 		// CheckPanel Settings
-		btngr.add(cbnode);
-		btngr.add(cbstart);
-		btngr.add(cbdel);
-		btngr.add(cbsel);
-		checkpanel.setBackground(Color.red);
-		checkpanel.add(cbnode);
-		checkpanel.add(cbstart);
-		checkpanel.add(cbdel);
-		checkpanel.add(cbsel);
+		checkpanel.setBackground(Color.lightGray);
 		
 		//Txtpanel Settings
 		txtpanel.add(txtarea);
 		txtpanel.setPreferredSize(new Dimension(100,0));
+		txtpanel.setBackground(Color.lightGray);
 		
 		//Editpanel Settings
 		editpanel.setPreferredSize(new Dimension(150,0));
+		editpanel.setBackground(Color.lightGray);
 		editpanel.add(lblfnode);
 		editpanel.add(txtfnode);
 		editpanel.add(lblsnode);
@@ -172,6 +172,14 @@ public class GUI extends JFrame {
 				}
 			}
 		});
+		btngr.add(cbnode);
+		btngr.add(cbstart);
+		btngr.add(cbdel);
+		btngr.add(cbsel);
+		editpanel.add(cbnode);
+		editpanel.add(cbstart);
+		editpanel.add(cbdel);
+		editpanel.add(cbsel);
 		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
@@ -185,13 +193,35 @@ public class GUI extends JFrame {
 		createNode(xpos, ypos, isStartnode);
 		createLinks();
 	}
-
+	
+	public boolean checkNewNodePos(int xpos, int ypos){
+		boolean ok = true;
+		if (nodes.size() == 0){
+			ok = true;
+		}
+		else{
+			for(int i = 0; i< nodes.size(); i++){
+				Node cnode = nodes.get(i);
+				if (xpos >= cnode.getXPos()
+						&& xpos <= cnode.getXPos() + cnode.RADIUS
+						&& ypos >= cnode.getYPos()
+						&& ypos <= cnode.getYPos() + cnode.RADIUS) {
+					ok = false;
+					JOptionPane.showMessageDialog(this, "An dieser Stelle kann kein Knoten gezeichnet werden.");
+				}
+			}
+		}
+		return ok;
+	}
+	
 	public void createNode(int xpos, int ypos, boolean isStartnode) {
-		Node node = new Node(xpos, ypos, isStartnode);
-		if(delpos == -1){
-			nodes.add(node);
-		}else{
-			nodes.add(delpos, node);
+		if (checkNewNodePos(xpos, ypos)==true){
+			Node node = new Node(xpos, ypos, isStartnode);
+			if(delpos == -1){
+				nodes.add(node);
+			}else{
+				nodes.add(delpos, node);
+			}
 		}
 	}
 	
@@ -242,7 +272,6 @@ public class GUI extends JFrame {
 	//In Arbeit
 	public void paintNodes(){
 		for (int i = 0; i < nodes.size(); i++){
-			System.out.println("Zahler: "+ i);
 			Node node = nodes.get(i);
 			if(node.getName() == null){
 				node.setName(i);
