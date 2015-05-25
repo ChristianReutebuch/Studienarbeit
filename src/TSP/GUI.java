@@ -35,7 +35,6 @@ public class GUI extends JFrame {
 	JCheckBox cbnode = new JCheckBox("Paint Node");
 	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cbdel = new JCheckBox("Delete Node");
-	JCheckBox cbsel = new JCheckBox("Select Node");
 	JTextArea txtarea = new JTextArea();
 	JLabel lblfnode = new JLabel("FirstNode: ");
 	JLabel lblsnode = new JLabel("SecondNode: ");
@@ -65,14 +64,21 @@ public class GUI extends JFrame {
 		paintpanel.setBackground(Color.WHITE);
 		paintpanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (cbnode.isSelected() == true) {
-					createGraph(e.getX(), e.getY(), false);
-					paintAll();
-					if (nodes.size() == 5) {
-						System.out.println("Algorithm gets slow with more than 5 nodes.");
+				if (cbnode.isSelected() == true && e.getButton()==1) {
+					if (selectednodes.size()== 1){
+						moveNode(e.getX(), e.getY());
+						clearSelectedNode();
+						paintAll();	
 					}
-					Node node = nodes.getLast();
-					txtfnode.setText(node.getName());
+					else{
+						createGraph(e.getX(), e.getY(), false);
+						paintAll();
+						if (nodes.size() == 5) {
+							System.out.println("Algorithm gets slow with more than 5 nodes.");
+						}
+						Node node = nodes.getLast();
+						txtfnode.setText(node.getName());
+					}
 				}
 				if (cbstart.isSelected() == true) {
 					boolean isThereAStartNode = false;
@@ -95,7 +101,7 @@ public class GUI extends JFrame {
 					createLinks();
 					paintAll();
 				}
-				if (cbsel.isSelected() == true){
+				if (e.getButton() == 3){
 					selectNode(e.getX(), e.getY());
 					paintAll();
 					if (selectednodes.size() == 2){
@@ -104,13 +110,6 @@ public class GUI extends JFrame {
 						txtfnode.setText(first);
 						txtsnode.setText(second);
 					}
-				}
-				if (e.getButton() == 3){
-					if (selectednodes.size() == 1){
-						moveNode(e.getX(), e.getY());
-					}
-					clearSelectedNode();
-					paintAll();	
 				}
 				filltxtarea();
 			}
@@ -184,11 +183,9 @@ public class GUI extends JFrame {
 		btngr.add(cbnode);
 		btngr.add(cbstart);
 		btngr.add(cbdel);
-		btngr.add(cbsel);
 		editpanel.add(cbnode);
 		editpanel.add(cbstart);
 		editpanel.add(cbdel);
-		editpanel.add(cbsel);
 		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
