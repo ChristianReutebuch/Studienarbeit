@@ -10,36 +10,26 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
-public class GUI extends JFrame {
-
+//public class GUI extends JFrame {
+public class GUI{
+	
 	// Datendeklaration
 	public static LinkedList<Node> nodes = new LinkedList<Node>();
-	LinkedList<Node> selectednodes = new LinkedList<Node>();
+	public static LinkedList<Node> selectednodes = new LinkedList<Node>();
 	public static LinkedList<Link> links = new LinkedList<Link>();
+	JFrame frame = new JFrame();
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
-	JPanel checkpanel = new JPanel();
-	JPanel txtpanel = new JPanel();
 	JPanel editpanel = new JPanel();
-	ButtonGroup btngr = new ButtonGroup();
-	JCheckBox cbnode = new JCheckBox("Paint Node");
+	JPanel txtpanel = new JPanel();
+	JPanel planepanel = new JPanel();
 	JTextArea txtarea = new JTextArea();
-	JLabel lblfnode = new JLabel("FirstNode: ");
-	JLabel lblsnode = new JLabel("SecondNode: ");
-	JLabel lbldist = new JLabel("Distance: ");
-	JTextField txtfnode = new JTextField(10);
-	JTextField txtsnode = new JTextField(10);
-	JTextField txtdist = new JTextField(2);
 	JButton btncalc = new JButton("Berechne");
 	JButton btnchng = new JButton("Ändern");
 	JButton btnstart = new JButton("Start setzen");
@@ -49,11 +39,11 @@ public class GUI extends JFrame {
 
 	public GUI() {
 		// Frame Settings
-		this.setLayout(new BorderLayout());
-		this.setBounds(0, 0, 1000, 600);
-		this.setTitle("Travelling Salesman Problem");
-		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(new BorderLayout());
+		frame.setBounds(0, 0, 1000, 600);
+		frame.setTitle("Travelling Salesman Problem");
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Titelpanel Settings
 		titelpanel.setBackground(Color.lightGray);
@@ -63,7 +53,7 @@ public class GUI extends JFrame {
 		paintpanel.setBackground(Color.WHITE);
 		paintpanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (cbnode.isSelected() == true && e.getButton()==1) {
+				if (e.getButton()==1) {
 					if (selectednodes.size()== 1){
 						moveNode(e.getX(), e.getY());
 						clearSelectedNode();
@@ -76,25 +66,18 @@ public class GUI extends JFrame {
 							System.out.println("Algorithm gets slow with more than 5 nodes.");
 						}
 						Node node = nodes.getLast();
-						txtfnode.setText(node.getName());
 					}
 				}
 				if (e.getButton() == 3){ //Knoten auswählen via Rechtsklick
 					selectNode(e.getX(), e.getY());
 					paintAll();
-					if (selectednodes.size() == 2){
-						String first = selectednodes.get(0).getName();
-						String second = selectednodes.get(1).getName();
-						txtfnode.setText(first);
-						txtsnode.setText(second);
-					}
 				}
 				filltxtarea();
 			}
 		});
 
-		// CheckPanel Settings
-		checkpanel.setBackground(Color.lightGray);
+		// PlanePanel Settings
+		planepanel.setBackground(Color.lightGray);
 		
 		//Txtpanel Settings
 		txtpanel.add(txtarea);
@@ -102,24 +85,18 @@ public class GUI extends JFrame {
 		txtpanel.setBackground(Color.lightGray);
 		
 		//Editpanel Settings
-		editpanel.setPreferredSize(new Dimension(150,0));
 		editpanel.setBackground(Color.lightGray);
-		editpanel.add(lblfnode);
-		editpanel.add(txtfnode);
-		editpanel.add(lblsnode);
-		editpanel.add(txtsnode);
-		editpanel.add(lbldist);
-		editpanel.add(txtdist);
 		editpanel.add(btnchng);
 		btnchng.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ce){
 				System.out.println("Size: "+selectednodes.size());
 				if (selectednodes.size() == 2){ // Distanz ändern
-					int distance = Integer.parseInt(txtdist.getText());
+					String newdist = JOptionPane.showInputDialog(frame, "Neue Distanz:");
+					int distance = Integer.parseInt(newdist);
 					changeValue(distance);
 				}
-				else{ //Ändern nicht möglich --> Meldung noch in Messagebox packen
-					System.out.println("Es müssen genau zwei Knoten ausgewählt sein.");
+				else{ //Ändern nicht möglich
+					JOptionPane.showMessageDialog(frame, "Es müssen genau zwei Knoten ausgewählt sein.");
 				}
 				clearSelectedNode();
 				paintAll();	
@@ -177,15 +154,13 @@ public class GUI extends JFrame {
 				}
 			}
 		});
-		btngr.add(cbnode);
-		editpanel.add(cbnode);
 		
 		// Design Frame
-		this.add(titelpanel, BorderLayout.NORTH);
-		this.add(paintpanel, BorderLayout.CENTER);
-		this.add(checkpanel, BorderLayout.SOUTH);
-		this.add(txtpanel, BorderLayout.WEST);
-		this.add(editpanel, BorderLayout.EAST);
+		frame.add(titelpanel, BorderLayout.NORTH);
+		frame.add(paintpanel, BorderLayout.CENTER);
+		frame.add(editpanel, BorderLayout.SOUTH);
+		frame.add(txtpanel, BorderLayout.WEST);
+		frame.add(planepanel, BorderLayout.EAST);
 	}
 	
 	public void createGraph(int xpos, int ypos, boolean isStartnode){
@@ -206,7 +181,7 @@ public class GUI extends JFrame {
 						&& ypos >= cnode.getYPos()
 						&& ypos <= cnode.getYPos() + cnode.RADIUS) {
 					ok = false;
-					JOptionPane.showMessageDialog(this, "An dieser Stelle kann kein Knoten gezeichnet werden.");
+					JOptionPane.showMessageDialog(frame, "An dieser Stelle kann kein Knoten gezeichnet werden.");
 				}
 			}
 		}
