@@ -43,7 +43,8 @@ public class GUI extends JFrame {
 	JTextField txtfnode = new JTextField(10);
 	JTextField txtsnode = new JTextField(10);
 	JTextField txtdist = new JTextField(2);
-	JButton btnchange = new JButton("Change Distance");
+	JButton btncalc = new JButton("Berechne");
+	JButton btnchng = new JButton("Ändern");
 	JButton btnstart = new JButton("set Start");
 	private int delpos = -1;
 	public static int startNode = -1;
@@ -108,13 +109,6 @@ public class GUI extends JFrame {
 					if (selectednodes.size() == 1){
 						moveNode(e.getX(), e.getY());
 					}
-					if (selectednodes.size() == 2){
-						int distance = Integer.parseInt(txtdist.getText());
-						changeValue(distance);
-					}
-					if (selectednodes.size() > 2){
-						System.out.println("Error");
-					}
 					clearSelectedNode();
 					paintAll();	
 				}
@@ -139,8 +133,23 @@ public class GUI extends JFrame {
 		editpanel.add(txtsnode);
 		editpanel.add(lbldist);
 		editpanel.add(txtdist);
-		editpanel.add (btnchange);
-		btnchange.addActionListener(new ActionListener() {
+		editpanel.add(btnchng);
+		btnchng.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ce){
+				System.out.println("Size: "+selectednodes.size());
+				if (selectednodes.size() == 2){ // Distanz ändern
+					int distance = Integer.parseInt(txtdist.getText());
+					changeValue(distance);
+				}
+				else{ //Ändern nicht möglich --> Meldung noch in Messagebox packen
+					System.out.println("Es müssen genau zwei Knoten ausgewählt sein.");
+				}
+				clearSelectedNode();
+				paintAll();	
+			}
+		});
+		editpanel.add (btncalc);
+		btncalc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Startknoten finden
 				for(int i = 0; i < nodes.size(); ++i) {
