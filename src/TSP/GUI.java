@@ -33,7 +33,6 @@ public class GUI extends JFrame {
 	JPanel editpanel = new JPanel();
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
-	JCheckBox cbdel = new JCheckBox("Delete Node");
 	JTextArea txtarea = new JTextArea();
 	JLabel lblfnode = new JLabel("FirstNode: ");
 	JLabel lblsnode = new JLabel("SecondNode: ");
@@ -43,7 +42,8 @@ public class GUI extends JFrame {
 	JTextField txtdist = new JTextField(2);
 	JButton btncalc = new JButton("Berechne");
 	JButton btnchng = new JButton("Ändern");
-	JButton btnstart = new JButton("set Start");
+	JButton btnstart = new JButton("Start setzen");
+	JButton btndel = new JButton("Löschen");
 	private int delpos = -1;
 	public static int startNode = -1;
 
@@ -79,12 +79,7 @@ public class GUI extends JFrame {
 						txtfnode.setText(node.getName());
 					}
 				}
-				if (cbdel.isSelected() == true){
-					deleteNode(e.getX(), e.getY());
-					createLinks();
-					paintAll();
-				}
-				if (e.getButton() == 3){
+				if (e.getButton() == 3){ //Knoten auswählen via Rechtsklick
 					selectNode(e.getX(), e.getY());
 					paintAll();
 					if (selectednodes.size() == 2){
@@ -170,10 +165,20 @@ public class GUI extends JFrame {
 				}
 			}
 		});
+		editpanel.add(btndel);
+		btndel.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent de){
+				if (selectednodes.size() == 1){
+					Node node = selectednodes.get(0);
+					deleteNode(node);
+					clearSelectedNode();
+					createLinks();
+					paintAll();
+				}
+			}
+		});
 		btngr.add(cbnode);
-		btngr.add(cbdel);
 		editpanel.add(cbnode);
-		editpanel.add(cbdel);
 		
 		// Design Frame
 		this.add(titelpanel, BorderLayout.NORTH);
@@ -283,13 +288,10 @@ public class GUI extends JFrame {
 		}
 	}
 
-	public void deleteNode(int xposMouse, int yposMouse) {
+	public void deleteNode(Node delnode) {
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
-			if (xposMouse >= node.getXPos()
-					&& xposMouse <= node.getXPos() + node.RADIUS
-					&& yposMouse >= node.getYPos()
-					&& yposMouse <= node.getYPos() + node.RADIUS) {
+			if (node == delnode) {
 				nodes.remove(i);
 				delpos = i;
 			}
@@ -312,7 +314,7 @@ public class GUI extends JFrame {
 	
 	public void moveNode(int xposMouse, int yposMouse){
 		Node sel = selectednodes.getFirst();
-		deleteNode(sel.getXPos(),sel.getYPos());
+		deleteNode(sel);
 		createGraph(xposMouse, yposMouse, false);
 		clearSelectedNode();
 		delpos = -1; 
