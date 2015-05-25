@@ -26,21 +26,6 @@ public class Node{
 		this.isStartnode = isStartnode;
 	}
 	
-	public void paintNode(Graphics g){
-		if(isStartnode == true){
-			g.setColor(Color.BLUE);
-		}
-		if(isStartnode == false){
-			g.setColor(Color.BLACK);
-		}
-		if(isSelected == true){
-			g.setColor(Color.GREEN);
-		}
-		g.fillOval(xpos, ypos, RADIUS, RADIUS);
-		g.setColor(Color.WHITE);
-		g.drawString(name, xpos + RADIUS/2, ypos + RADIUS/2);
-	}
-	
 	public void setName(int number){
 		intname = number;
 		this.name = Integer.toString(number);
@@ -78,5 +63,18 @@ public class Node{
 	public int getRadius(){
 		return RADIUS;
 	}
-	
+	public void paintNode(Graphics g){
+		if(isStartnode == true){
+			g.setColor(Color.BLUE);
+		}
+		if(isStartnode == false){
+			g.setColor(Color.BLACK);
+		}
+		if(isSelected == true){
+			g.setColor(Color.GREEN);
+		}
+		g.fillOval(xpos, ypos, RADIUS, RADIUS);
+		g.setColor(Color.WHITE);
+		g.drawString(name, xpos + RADIUS/2, ypos + RADIUS/2);
+	}
 }

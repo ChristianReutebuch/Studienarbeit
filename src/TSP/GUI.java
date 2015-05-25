@@ -33,7 +33,6 @@ public class GUI extends JFrame {
 	JPanel editpanel = new JPanel();
 	ButtonGroup btngr = new ButtonGroup();
 	JCheckBox cbnode = new JCheckBox("Paint Node");
-	JCheckBox cbstart = new JCheckBox("Paint StartNode");
 	JCheckBox cbdel = new JCheckBox("Delete Node");
 	JTextArea txtarea = new JTextArea();
 	JLabel lblfnode = new JLabel("FirstNode: ");
@@ -79,22 +78,6 @@ public class GUI extends JFrame {
 						Node node = nodes.getLast();
 						txtfnode.setText(node.getName());
 					}
-				}
-				if (cbstart.isSelected() == true) {
-					boolean isThereAStartNode = false;
-					Node oldStartNode = null;
-					for (int i = 0; i<nodes.size();i++){
-						Node nd = nodes.get(i);
-						if(nd.isStartnode == true){
-							isThereAStartNode = true;
-							oldStartNode = nd;
-						}
-					}
-					if (isThereAStartNode == true){
-						oldStartNode.isStartnode = false;
-					}
-					createGraph(e.getX(), e.getY(), true);
-					paintAll();
 				}
 				if (cbdel.isSelected() == true){
 					deleteNode(e.getX(), e.getY());
@@ -171,20 +154,25 @@ public class GUI extends JFrame {
 		editpanel.add(btnstart);
 		btnstart.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Node node = selectednodes.getFirst();
-				node.setStartNode();
-				paintAll();
-				for (int i = 0; i<nodes.size(); i++){
-					Node nd = nodes.get(i);
-					System.out.println(nd.isStartNode());
+				if(selectednodes.size() == 1){
+					//Alte StartNodes löschen
+					for (int i = 0; i<nodes.size();i++){
+						Node nd = nodes.get(i);
+						if(nd.isStartnode == true){
+							nd.delStartNode();
+						}
+					}
+					//Neuer StartNode setzen
+					Node node = selectednodes.get(0);
+					node.setStartNode();
+					clearSelectedNode();
+					paintAll();
 				}
 			}
 		});
 		btngr.add(cbnode);
-		btngr.add(cbstart);
 		btngr.add(cbdel);
 		editpanel.add(cbnode);
-		editpanel.add(cbstart);
 		editpanel.add(cbdel);
 		
 		// Design Frame
