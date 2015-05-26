@@ -35,6 +35,8 @@ public class GUI{
 	JButton btnstart = new JButton("Start setzen");
 	JButton btndel = new JButton("Löschen");
 	private int delpos = -1;
+	private int nodecounter = 1;
+	private int delname;
 	public static int startNode = -1;
 
 	public GUI() {
@@ -149,6 +151,7 @@ public class GUI{
 					Node node = selectednodes.get(0);
 					deleteNode(node);
 					clearSelectedNode();
+					delpos = -1;
 					createLinks();
 					paintAll();
 				}
@@ -192,8 +195,11 @@ public class GUI{
 		if (checkNewNodePos(xpos, ypos)==true){
 			Node node = new Node(xpos, ypos, isStartnode);
 			if(delpos == -1){
+				node.setName(nodecounter);
+				nodecounter++;
 				nodes.add(node);
 			}else{
+				node.setName(delname);
 				nodes.add(delpos, node);
 			}
 		}
@@ -243,22 +249,9 @@ public class GUI{
 		paintNodes();
 	}
 	
-	//In Arbeit
 	public void paintNodes(){
-		int counter;
-		if(nodes.size()==0){
-			counter = 0;
-		}
-		else{
-			counter = nodes.size();
-		}
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
-			if(node.getName() == null){
-				node.setName(counter++);
-			}else{
-				node.setName(node.getIntName());
-			}
 			node.paintNode(paintpanel.getGraphics());
 		}
 	}
@@ -274,6 +267,7 @@ public class GUI{
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
 			if (node == delnode) {
+				delname = node.getIntName();
 				nodes.remove(i);
 				delpos = i;
 			}
