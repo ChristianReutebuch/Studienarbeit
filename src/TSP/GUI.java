@@ -224,6 +224,9 @@ public class GUI{
 			Node jfirst = jlink.getFirstNode();
 			Node jsecond = jlink.getSecondNode();
 			if(links.size() == 0){
+				int test = jlink.getDistance();
+				System.out.println("B1: "+test);
+				jlink.setDistance(1);
 				links.add(jlink);
 			}
 			else{
@@ -237,6 +240,9 @@ public class GUI{
 					}
 				}
 				if(set == true){
+					int testn = jlink.getDistance();
+					System.out.println("B2: "+testn);
+					jlink.setDistance(1);
 					links.add(jlink);
 				}
 			}
