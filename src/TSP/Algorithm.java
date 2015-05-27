@@ -5,12 +5,12 @@ import java.util.ArrayList;
 //TODO
 //- Distances-Array füllen-->DONE
 //- Startknoten bei Brute-Force rausnehmen-->DONE
-//- errechnete Pfade in Wege-Array eintragen-->in Arbeit
-//- Gesamtkosten ausrechnen und in Wege-Array eintragen
+//- errechnete Pfade in Wege-Array eintragen-->DONE
+//- Gesamtkosten ausrechnen und in Wege-Array eintragen-->DONE
 //- kleinste Wege rausfinden
 
 public class Algorithm {
-	private ArrayList<Integer> bestRoute;
+	//private ArrayList<Integer> bestRoute;
 	int numOfNodes = GUI.nodes.size();
 	int numOfLinks = GUI.links.size();
 	int[][] distances = new int[ numOfNodes ][ numOfNodes ];
@@ -55,7 +55,7 @@ public class Algorithm {
 	}
 	
 	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
-	private void setPaths(ArrayList<Integer> routes) {
+	private int[][] setPaths(ArrayList<Integer> routes) {
 		//distances-Array wird befüllt
 		setDistances();
 		
@@ -75,7 +75,27 @@ public class Algorithm {
 				}
 			}
 		}
+		return calcCosts( ways );
+	}
+	
+	//Berechnung der Kosten der einzelnen Wege
+	private int[][] calcCosts( int[][] ways ){
+		int leftNode = 0;
+		int rightNode = 0;
+		int dist = 0;
+		int distSum = 0;
+		for ( int j = 0; j < ( ways.length - 1 ); ++j ) {
+			for ( int i = 0; i < ( ways.length - 1 ); ++i ) {
+				leftNode = ways[ i ][ j ];
+				rightNode = ways[ i + 1 ][ j ];
+				dist = distances[leftNode][rightNode];
+				distSum += dist;
+			}
+			ways[ ways.length - 1 ][ j ] = distSum;
+			distSum = 0;
+		}
 		
+		return ways;
 	}
 
 }
