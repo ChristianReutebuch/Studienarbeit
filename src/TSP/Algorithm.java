@@ -7,7 +7,7 @@ import java.util.ArrayList;
 //- Startknoten bei Brute-Force rausnehmen-->DONE
 //- errechnete Pfade in Wege-Array eintragen-->DONE
 //- Gesamtkosten ausrechnen und in Wege-Array eintragen-->DONE
-//- kleinste Wege rausfinden
+//- kleinste Wege rausfinden--> inArbeit 
 
 public class Algorithm {
 	//private ArrayList<Integer> bestRoute;
@@ -96,6 +96,23 @@ public class Algorithm {
 		}
 		
 		return ways;
+	}
+	
+	//TODO: mehrere gleich lange Pfade!!!
+	private int findShortestPath( int[][] ways ) {
+		int shortestPath = 0;		
+		int upperPath = 0;
+		int downPath = 0;
+		for( int i = 1; i < ways.length- 1; ++i ){
+			upperPath = ways[ ways.length ][ i ];
+			downPath = ways[ ways.length ][ i + 1 ];
+			if( upperPath < downPath ){
+				shortestPath = i;
+			} else {
+				shortestPath = i + 1;
+			}
+		}
+		return shortestPath;
 	}
 
 }
