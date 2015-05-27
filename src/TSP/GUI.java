@@ -23,6 +23,7 @@ public class GUI{
 	public static LinkedList<Node> nodes = new LinkedList<Node>();
 	public static LinkedList<Node> selectednodes = new LinkedList<Node>();
 	public static LinkedList<Link> links = new LinkedList<Link>();
+	public static LinkedList<Link> dellinks = new LinkedList<Link>();
 	JFrame frame = new JFrame();
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
@@ -152,7 +153,6 @@ public class GUI{
 					deleteNode(node);
 					clearSelectedNode();
 					delpos = -1;
-					createLinks();
 					paintAll();
 				}
 			}
@@ -168,7 +168,6 @@ public class GUI{
 	
 	public void createGraph(int xpos, int ypos, boolean isStartnode){
 		createNode(xpos, ypos, isStartnode);
-		createLinks();
 	}
 	
 	public boolean checkNewNodePos(int xpos, int ypos){
@@ -198,85 +197,44 @@ public class GUI{
 				node.setName(nodecounter);
 				nodecounter++;
 				nodes.add(node);
+				createLinks();
 			}else{
 				node.setName(delname);
 				nodes.add(delpos, node);
+				for(int i = 0; i<dellinks.size();i++){
+					Link dellink = dellinks.get(i);
+					if(dellink.getFirstNode().getName().equals( node.getName())){
+						Node first = node;
+						Node second = dellink.getSecondNode();
+						Link newLink = new Link(first, second);
+						newLink.setDistance(dellink.getDistance());
+						links.add(newLink);
+					}
+					if(dellink.getSecondNode().getName().equals( node.getName())){
+						Node first = dellink.getFirstNode();
+						Node second = node;
+						Link newLink = new Link(first, second);
+						newLink.setDistance(dellink.getDistance());
+						links.add(newLink);
+					}
+				}
+				dellinks.clear();
 			}
 		}
 	}
 	
 	public void createLinks(){
-		LinkedList<Link> alllinks = new LinkedList<Link>();
-		for(int i = 0; i< nodes.size(); i++){
-			Node allnode = nodes.get(i);
-			if((links.size() == 0)&&(nodes.size() == 2)){
-				System.out.println("Test");
-				Link flink = new Link(nodes.get(0), nodes.get(1));
-				links.add(flink);
-			}
-			for(int j = 0; j < links.size();j++){
-				Link link = links.get(j);
-				if(allnode == link.getFirstNode()){//ist link schon in der Liste
-					//do nothing
-				}else{
-					for(int k = 0; k < nodes.size();k++){
-						Node cnode = nodes.get(k);
-						if(allnode == cnode){//keine Verbindung
-							//do nothing
-						}else{
-							Link nlink = new Link(allnode, cnode);
-							links.add(nlink);
-						}
-					}
+		if(nodes.size()>=2){
+			Node nnode = nodes.getLast();
+			System.out.println("Node: "+nnode.getName());
+			for(int i=0; i < nodes.size(); i++){
+				Node lnode = nodes.get(i);
+				if(nnode != lnode){
+					Link nlink = new Link(lnode, nnode);
+					links.add(nlink);
 				}
 			}
 		}
-//		for(int l = 0; l < links.size(); l++){//Testausgabe
-//			Link tlink = links.get(l);
-//			System.out.println(tlink.getFirstNode().getName()+" - "+tlink.getSecondNode().getName());
-//		}
-		
-		/*LinkedList<Link> templinks = new LinkedList<Link>();
-		templinks.clear();
-		links.clear();
-		for (int i = 0; i < nodes.size(); i++){
-			Node firstnode = nodes.get(i);
-			for (int j = 0; j < nodes.size(); j++){
-				Node secondnode = nodes.get(j);
-				if (firstnode != secondnode){
-					Link templink = new Link(firstnode, secondnode);
-					templinks.add(templink);
-				}
-			}
-		}
-		for (int j = 0; j < templinks.size(); j++){
-			Link jlink = templinks.get(j);
-			Node jfirst = jlink.getFirstNode();
-			Node jsecond = jlink.getSecondNode();
-			if(links.size() == 0){
-				int test = jlink.getDistance();
-				System.out.println("B1: "+test);
-				jlink.setDistance(1);
-				links.add(jlink);
-			}
-			else{
-				boolean set = true;
-				for(int k = 0; k < links.size(); k++){
-					Link klink = links.get(k);
-					Node kfirst = klink.getFirstNode();
-					Node ksecond = klink.getSecondNode();
-					if( jfirst == ksecond && jsecond == kfirst){
-						set = false;
-					}
-				}
-				if(set == true){
-					int testn = jlink.getDistance();
-					System.out.println("B2: "+testn);
-					jlink.setDistance(1);
-					links.add(jlink);
-				}
-			}
-		}*/
 	}
 
 	public void paintAll(){
@@ -308,6 +266,22 @@ public class GUI{
 				delpos = i;
 			}
 		}
+		LinkedList<Link> templink = links;
+		for(int j = 0; j < templink.size(); j++){
+			Link link = templink.get(j);
+			if((link.getFirstNode() == delnode) || (link.getSecondNode() == delnode)){
+				dellinks.add(link);
+			}
+		}
+		for(int k=0;k<dellinks.size();k++){
+			Link dellink =  dellinks.get(k);
+			for(int l = 0; l < templink.size(); l++){
+				Link clink = templink.get(l);
+				if(clink == dellink){
+					links.remove(l);
+				}
+			}
+		}
 	}
 
 	public void selectNode(int xposMouse, int yposMouse){
@@ -319,7 +293,6 @@ public class GUI{
 					&& yposMouse <= node.getYPos() + node.RADIUS) {
 				selectednodes.add(node);
 				node.isSelected = true;
-				System.out.println("Node "+node.getName()+" is selected. New Position with click right.");
 			}
 		}
 	}
