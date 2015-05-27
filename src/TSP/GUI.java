@@ -206,7 +206,37 @@ public class GUI{
 	}
 	
 	public void createLinks(){
-		LinkedList<Link> templinks = new LinkedList<Link>();
+		LinkedList<Link> alllinks = new LinkedList<Link>();
+		for(int i = 0; i< nodes.size(); i++){
+			Node allnode = nodes.get(i);
+			if((links.size() == 0)&&(nodes.size() == 2)){
+				System.out.println("Test");
+				Link flink = new Link(nodes.get(0), nodes.get(1));
+				links.add(flink);
+			}
+			for(int j = 0; j < links.size();j++){
+				Link link = links.get(j);
+				if(allnode == link.getFirstNode()){//ist link schon in der Liste
+					//do nothing
+				}else{
+					for(int k = 0; k < nodes.size();k++){
+						Node cnode = nodes.get(k);
+						if(allnode == cnode){//keine Verbindung
+							//do nothing
+						}else{
+							Link nlink = new Link(allnode, cnode);
+							links.add(nlink);
+						}
+					}
+				}
+			}
+		}
+//		for(int l = 0; l < links.size(); l++){//Testausgabe
+//			Link tlink = links.get(l);
+//			System.out.println(tlink.getFirstNode().getName()+" - "+tlink.getSecondNode().getName());
+//		}
+		
+		/*LinkedList<Link> templinks = new LinkedList<Link>();
 		templinks.clear();
 		links.clear();
 		for (int i = 0; i < nodes.size(); i++){
@@ -246,7 +276,7 @@ public class GUI{
 					links.add(jlink);
 				}
 			}
-		}
+		}*/
 	}
 
 	public void paintAll(){
