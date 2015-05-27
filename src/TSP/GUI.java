@@ -41,6 +41,12 @@ public class GUI{
 	public static int startNode = -1;
 
 	public GUI() {
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Gestaltung der Oberfläche:
+	// Hier werden alle GUI-Komponenten implementiert und die Interaktion des Users verarbeitet
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		// Frame Settings
 		frame.setLayout(new BorderLayout());
 		frame.setBounds(0, 0, 1000, 600);
@@ -63,10 +69,10 @@ public class GUI{
 						paintAll();	
 					}
 					else{
-						createGraph(e.getX(), e.getY(), false);
+						createNode(e.getX(), e.getY(), false);
 						paintAll();
 						if (nodes.size() == 5) {
-							System.out.println("Algorithm gets slow with more than 5 nodes.");
+							JOptionPane.showMessageDialog(frame, "Algorithmus wird sehr langsam mit mehr als 5 Knoten");
 						}
 						Node node = nodes.getLast();
 					}
@@ -76,6 +82,7 @@ public class GUI{
 					paintAll();
 				}
 				filltxtarea();
+				sortLinkList();
 			}
 		});
 
@@ -92,7 +99,6 @@ public class GUI{
 		editpanel.add(btnchng);
 		btnchng.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ce){
-				System.out.println("Size: "+selectednodes.size());
 				if (selectednodes.size() == 2){ // Distanz ändern
 					String newdist = JOptionPane.showInputDialog(frame, "Neue Distanz:");
 					int distance = Integer.parseInt(newdist);
@@ -166,9 +172,11 @@ public class GUI{
 		frame.add(planepanel, BorderLayout.EAST);
 	}
 	
-	public void createGraph(int xpos, int ypos, boolean isStartnode){
-		createNode(xpos, ypos, isStartnode);
-	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Erstellen von Knoten und Kanten:
+// Die Klasse checkNewNodePos überprüft, ob an der vom User gewählten Stelle ein Knoten gemalt werden darf.
+// Die Klasse createNode und createLink implementieren Knoten und Kanten.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public boolean checkNewNodePos(int xpos, int ypos){
 		boolean ok = true;
@@ -226,7 +234,6 @@ public class GUI{
 	public void createLinks(){
 		if(nodes.size()>=2){
 			Node nnode = nodes.getLast();
-			System.out.println("Node: "+nnode.getName());
 			for(int i=0; i < nodes.size(); i++){
 				Node lnode = nodes.get(i);
 				if(nnode != lnode){
@@ -237,11 +244,11 @@ public class GUI{
 		}
 	}
 
-	public void paintAll(){
-		paintpanel.paint(paintpanel.getGraphics());
-		paintLinks();
-		paintNodes();
-	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Zeichnen:
+// Die Klassen paintNodes und paintLinks zeichen die entsprecheneden Elemente.
+// In der Klasse paintAll sind beide Klassen zu einem Aufruf zusammengefasst.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	public void paintNodes(){
 		for (int i = 0; i < nodes.size(); i++){
@@ -256,7 +263,17 @@ public class GUI{
 			link.paintLink(paintpanel.getGraphics());
 		}
 	}
+	
+	public void paintAll(){
+		paintpanel.paint(paintpanel.getGraphics());
+		paintLinks();
+		paintNodes();
+	}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Knoten löschen:
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public void deleteNode(Node delnode) {
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
@@ -283,6 +300,10 @@ public class GUI{
 			}
 		}
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Knoten markieren:
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void selectNode(int xposMouse, int yposMouse){
 		for (int i = 0; i < nodes.size(); i++){
@@ -296,14 +317,22 @@ public class GUI{
 			}
 		}
 	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Knoten verschieben:
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	public void moveNode(int xposMouse, int yposMouse){
 		Node sel = selectednodes.getFirst();
 		deleteNode(sel);
-		createGraph(xposMouse, yposMouse, false);
+		createNode(xposMouse, yposMouse, false);
 		clearSelectedNode();
 		delpos = -1; 
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Distanz verändern:
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void changeValue(int distance){
 		Node firstsel = selectednodes.getFirst();
@@ -319,6 +348,10 @@ public class GUI{
 		clearSelectedNode();
 	}
 	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Liste mit ausgewählten Knoten löschen:
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public void clearSelectedNode(){
 		for (int i = 0; i<nodes.size();i++){
 			Node node = nodes.get(i);
@@ -327,6 +360,29 @@ public class GUI{
 		selectednodes.clear();
 	}
 	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Linkliste aufsteigend sortieren
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void sortLinkList(){
+		LinkedList<Link> templinks = new LinkedList<Link>();
+		for (int i = 0; i<nodes.size();i++){
+			Node node = nodes.get(i);
+			for(int j = 0; j<links.size();j++){
+				Link link = links.get(j);
+				Node first = link.getFirstNode();
+				if(node == first){
+					templinks.add(link);
+				}
+			}
+		}
+		links = templinks;
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Knoten und Kanten Übersicht erstellen
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public void filltxtarea(){
 		txtarea.removeAll();
 		String txt;
@@ -334,14 +390,18 @@ public class GUI{
 		for (int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
 			String nodename = node.getName();
-			txt = txt + "Node "+i+": "+nodename+"\n";
+			if(nodename.equals("1")){
+				txt = txt+nodename;
+			}else{
+				txt = txt + ", "+nodename;
+			}
 		}
-		txt = txt + "Links: \n";
+		txt = txt + "\nLinks: \n";
 		for ( int j = 0; j < links.size();j++){
 			Link link = links.get(j);
 			String firstnodename = link.getFirstNode().getName();
 			String secondnodename = link.getSecondNode().getName();
-			txt = txt + firstnodename+ " " + secondnodename+" \n";
+			txt = txt + firstnodename + " - "+secondnodename+"\n";
 		}
 		txtarea.setText(txt);
 	}
