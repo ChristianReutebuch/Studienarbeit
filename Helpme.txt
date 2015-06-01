@@ -1,0 +1,22 @@
+Studienarbeit - Visualisierung komplexer Graphenalgorithmen
+
+Anleitung zur Bedienung der GUI
+
+- Starten Sie das Programm. Sie sehen ein zentrales weißes Viereck ( die Zeichenfläche ) und eine Buttonleiste
+  im unteren Bereich.
+- Mit einem Linksklick in die Zeichenfläche, können Sie einen Knoten zeichnen.
+- Die Kanten werden automatisch beim zeichnen eines weiteren Knoten angelegt. Initial ist die Distanz auf 0 gesetzt.
+- Mit einem Rechtsklick in einen Knoten können diese markiert werden. Danach wird der Knoten grün gefärbt
+  und es sind mehrere Aktionen möglich:
+	- Ist ein Knoten markiert, können Sie ihn mit Rechtsklick an eine neue Stelle verschieben.
+	- Ist ein Knoten markiert, können Sie ihn mit Button "Löschen" löschen.
+	- Ist ein Knoten markiert, können Sie ihn mit Button "Start setzen" als Startknoten markieren.
+	  Der Knoten wird blau gefärbt. Es kann immer nur einen Startknoten geben.
+	- Sind zwei Knoten markiert, kann die Distanz der Kante zwischen den ausgewählten Knoten mit Button
+	  "Ändern" gesetz werden. Die Eingabe erfolgt über ein Popup.
+- Im linken Bildschirmbereich, wird eine Liste der aktuellen Knoten und Kanten angezeigt.
+
+Autoren: Silke Hildebrand und Christian Reutebuch
+
+Änderunshistorie:
+01.06.2015	Erstellung des Dokuments 
