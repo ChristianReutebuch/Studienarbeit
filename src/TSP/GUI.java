@@ -129,9 +129,13 @@ public class GUI{
 						lst.add(i);
 					}
 				}
-				ArrayList<Integer> route = new ArrayList<Integer>();
-				Algorithm algo = new Algorithm();
-				algo.bruteForce(route, lst);
+				if( startNode > -1 ){
+					ArrayList<Integer> route = new ArrayList<Integer>();
+					Algorithm algo = new Algorithm();
+					algo.bruteForce(route, lst);
+				} else {
+					System.out.println( "Kein Startknoten gesetzt!" );
+				}
 			}
 		});
 		editpanel.add(btnstart);
