@@ -114,22 +114,24 @@ public class GUI{
 		editpanel.add (btncalc);
 		btncalc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Startknoten finden
-				for(int i = 0; i < nodes.size(); ++i) {
-					if( nodes.get( i ).isStartNode() == true){
-						startNode = i;
-					}
-				}
-				//Kontenliste erstellen, ohne den Startknoten
-				ArrayList<Integer> lst = new ArrayList<Integer>();
-				for (int i = 0; i < nodes.size(); i++){
-					if( i != startNode) {
-						lst.add(i);
-					}
-				}
-				ArrayList<Integer> route = new ArrayList<Integer>();
-				Algorithm algo = new Algorithm();
-				algo.bruteForce(route, lst);
+//				An dieser Stelle wird der Algorithmus aufgerufen
+				
+//				//Startknoten finden
+//				for(int i = 0; i < nodes.size(); ++i) {
+//					if( nodes.get( i ).isStartNode() == true){
+//						startNode = i;
+//					}
+//				}
+//				//Kontenliste erstellen, ohne den Startknoten
+//				ArrayList<Integer> lst = new ArrayList<Integer>();
+//				for (int i = 0; i < nodes.size(); i++){
+//					if( i != startNode) {
+//						lst.add(i);
+//					}
+//				}
+//				ArrayList<Integer> route = new ArrayList<Integer>();
+//				Algorithm algo = new Algorithm();
+//				algo.bruteForce(route, lst);
 			}
 		});
 		editpanel.add(btnstart);

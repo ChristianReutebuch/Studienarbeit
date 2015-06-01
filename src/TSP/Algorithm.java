@@ -124,17 +124,17 @@ public class Algorithm {
 	//Testklasse
 	private void ausgabe( ArrayList<Integer> routes, int[][] ways, int shortestPath){
 		//Routen
-		//System.out.println( "Routen: \n" + routes.toString() );
-		
-		//Kosten der Verbindungen
+//		System.out.println( "Routen: \n" + routes.toString() );
+//		
+//		//Kosten der Verbindungen
 //		System.out.println( "Entfernungen: \n" );
 //		for( int i = 0; i < numOfNodes; ++i){
 //			for( int j = 0; j < numOfNodes; ++j){
 //				System.out.println("[" + ( i + 1 ) +"][" + ( j + 1 ) + "] = " + distances[i][j]);
 //			}
 //		}
-		
-		//mögliche Wege
+//		
+//		//mögliche Wege
 //		System.out.println( "mögliche Wege:" );
 //		String way = "";
 //		for (int i = 0; i < numOfNodes; ++i ){
