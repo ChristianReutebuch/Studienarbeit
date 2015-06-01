@@ -136,9 +136,10 @@ public class GUI{
 				if( startNode > -1 ){
 					ArrayList<Integer> route = new ArrayList<Integer>();
 					Algorithm algo = new Algorithm();
-					algo.bruteForce(route, lst);
+					ArrayList<Integer> listOfRoutes = algo.bruteForce(route, lst);
+					algo.ausprobieren( listOfRoutes );
 				} else {
-					System.out.println( "Kein Startknoten gesetzt!" );
+					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 				}
 			}
 		});

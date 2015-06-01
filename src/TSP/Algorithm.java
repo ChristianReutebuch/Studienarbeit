@@ -22,47 +22,67 @@ public class Algorithm {
 	
 	//routes: ist zu Beginn leer und enthält am Ende alle möglichen Pfade, ohne Start- bzw. Endknoten
 	//nodesNotInRoute: enthält zu Beginn alle Knoten und wird jeweils um den Knoten reduziert, der bereits eingefügt wurde
-	public void bruteForce(ArrayList<Integer> routes, ArrayList<Integer> nodesNotInRoute){
+	public ArrayList<Integer> bruteForce(ArrayList<Integer> routes, ArrayList<Integer> nodesNotInRoute){
 		//prüfen, ob die übergebene Knotenliste Knoten enthält
 		if(!nodesNotInRoute.isEmpty()){
 			//Schleife über noch nicht in den aktuellen Pfad eingefügte Knoten
-			for(int i = 0; i < nodesNotInRoute.size(); ++i){
+			for(int i = 0; i < nodesNotInRoute.size(); i++){
 				int justRemoved = nodesNotInRoute.remove(0);
 				//übergebene Liste kopieren
 				ArrayList<Integer> newRoute = (ArrayList<Integer>) routes.clone();
 				//erstes, zuvor gelöschtes Element hinten anhängen
 				newRoute.add(justRemoved);
-				listOfRoutes.add(justRemoved);
 				bruteForce(newRoute, nodesNotInRoute);
 				nodesNotInRoute.add(justRemoved);
 			}
 		}else{
-			buildRoutes( routes );
+			System.out.println("routes" + routes.toString());
+			for(int i = 0; i < routes.size();i++) {
+				listOfRoutes.add(routes.get(i));
+			}
 			//setDistances();
 			//int [][] ways = setPaths( routes );
 			//ways = calcCosts( ways );
 			//int shortestPath = findShortestPath(ways);
 			//ausgabe( routes, ways, 0 );
 		}
+		return listOfRoutes;
 	}
 	
-	//Testklasse
-	private boolean buildRoutes( ArrayList<Integer> route ){
-		String routesStr = listOfRoutes.toString();
-		System.out.println("global: \n" + routesStr );
-		
-		routesStr.replace("[", "");
-		routesStr.replace("]", "");
-		String[] routesStrArray = routesStr.split(" , ");
-		
-		String helpStr = route.toString();
-		System.out.println( "Routes(showRoutes): \n" + helpStr );
-		return false;
+	public int[][] ausprobieren( ArrayList<Integer> listOfRoutes ){
+		//Array erstellen
+		numOfWays = calcNumOfWays();
+		int[][] ways = new int[ numOfNodes ][ numOfWays ];
+				
+		//eintragen der möglichen Wege
+		int counter = 0;
+		for( int j = 0; j < numOfWays; j++ ) {
+			for( int i = 0; i < ( numOfNodes - 1 ); i++) {
+				if( counter < listOfRoutes.size()) {
+					ways[i][j] = listOfRoutes.get(counter);
+					counter++;
+				}
+			}
+			//Statt Kosten in letzter Spalte 0 eintragen
+			ways[ numOfNodes - 1 ][ j ] = 88;
+		}
+		System.out.println( "Routes probieren: \n" + listOfRoutes.toString() );
+		System.out.println( "Kosten probieren: " );
+		System.out.println("Wege" + numOfWays);
+		for ( int j = 0; j < numOfWays; j++ ) {
+			String helpi = "";
+			for ( int i = 0; i < numOfNodes; i++){
+				Integer helpiI = ways[i][j];
+				helpi += helpiI.toString();
+			}
+			System.out.println( helpi );
+		}
+		return ways;
 	}
 	
 	//Klasse befüllt ein zweidimensionales Array, welches die Entfernungen zwischen den Knoten enthält
 	//getestet
-	private void setDistances() {
+	public void setDistances() {
 		for( int i = 0; i < numOfLinks; ++i) {
 			Link link = GUI.links.get(i);
 			int first = link.getFirstNode().getIntName() - 1;
@@ -74,15 +94,17 @@ public class Algorithm {
 	}
 	
 	//Berechnung der Anzahl der möglichen Wege
-	private void calcNumOfWays(){
+	public int calcNumOfWays(){
 		numOfWays = 1;
 		for( int i = 1; i < numOfNodes; i++ ) {
 			numOfWays *= i;
 		}
+		numOfWays /= 2;
+		return numOfWays;
 	}
 	
 	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
-	private int[][] setPaths(ArrayList<Integer> routes) {
+	public int[][] setPaths(ArrayList<Integer> routes) {
 		//Array erstellen
 		int[][] ways = new int[ numOfNodes + 1 ][ numOfWays - 1];
 		
@@ -112,7 +134,7 @@ public class Algorithm {
 	}
 	
 	//Berechnung der Kosten der einzelnen Wege
-	private int[][] calcCosts( int[][] ways ){
+	public int[][] calcCosts( int[][] ways ){
 		int leftNode = 0;
 		int rightNode = 0;
 		int dist = 0;
@@ -148,7 +170,7 @@ public class Algorithm {
 	}
 	
 	//in Arbeit
-	private int findShortestPath( int[][] ways ) {
+	public int findShortestPath( int[][] ways ) {
 		int shortestPath = 0;		
 		int path = 0;
 		for( int j = 0; j < numOfWays; ++j ){
