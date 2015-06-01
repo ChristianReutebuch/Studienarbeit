@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-//public class GUI extends JFrame {
 public class GUI{
 	
 	// Datendeklaration
