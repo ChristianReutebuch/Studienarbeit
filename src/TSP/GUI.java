@@ -1,3 +1,8 @@
+//Studienarbeit "Visualisierung graphentheoretischer Algorithmen"
+//Christian Reutebuch, Silke Hildebrand
+//28.10.2014 - 
+
+
 package TSP;
 
 import java.awt.BorderLayout;

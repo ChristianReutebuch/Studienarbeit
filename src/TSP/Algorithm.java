@@ -1,3 +1,8 @@
+//Studienarbeit "Visualisierung graphentheoretischer Algorithmen"
+//Christian Reutebuch, Silke Hildebrand
+//28.10.2014 - 
+
+
 package TSP;
 
 import java.util.ArrayList;
@@ -43,7 +48,13 @@ public class Algorithm {
 	
 	//Testklasse
 	private boolean buildRoutes( ArrayList<Integer> route ){
-		System.out.println("global: \n" + listOfRoutes.toString());
+		String routesStr = listOfRoutes.toString();
+		System.out.println("global: \n" + routesStr );
+		
+		routesStr.replace("[", "");
+		routesStr.replace("]", "");
+		String[] routesStrArray = routesStr.split(" , ");
+		
 		String helpStr = route.toString();
 		System.out.println( "Routes(showRoutes): \n" + helpStr );
 		return false;
@@ -62,14 +73,16 @@ public class Algorithm {
 		}
 	}
 	
-	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
-	private int[][] setPaths(ArrayList<Integer> routes) {
-		
-		//Anzahl der Wege wird zur Array-Erstellung errechnet
+	//Berechnung der Anzahl der möglichen Wege
+	private void calcNumOfWays(){
 		numOfWays = 1;
 		for( int i = 1; i < numOfNodes; i++ ) {
 			numOfWays *= i;
 		}
+	}
+	
+	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
+	private int[][] setPaths(ArrayList<Integer> routes) {
 		//Array erstellen
 		int[][] ways = new int[ numOfNodes + 1 ][ numOfWays - 1];
 		
