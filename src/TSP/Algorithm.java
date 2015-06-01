@@ -3,11 +3,8 @@ package TSP;
 import java.util.ArrayList;
 
 //TODO
-//- Distances-Array füllen-->DONE
-//- Startknoten bei Brute-Force rausnehmen-->DONE
-//- errechnete Pfade in Wege-Array eintragen-->DONE
-//- Gesamtkosten ausrechnen und in Wege-Array eintragen-->DONE
 //- kleinste Wege rausfinden--> inArbeit: derzeit wird nur ein Weg gefunden.
+//- in der GUI-Klasse überprüfen, ob ein Startknoten gesetzt ist
 
 public class Algorithm {
 	//private ArrayList<Integer> bestRoute;
@@ -62,8 +59,6 @@ public class Algorithm {
 	}
 	
 	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
-	//getestet
-	//TODO: in der GUI-Klasse überprüfen, ob ein Startknoten gesetzt ist
 	private int[][] setPaths(ArrayList<Integer> routes) {
 		
 		//Anzahl der Wege wird zur Array-Erstellung errechnet
