@@ -162,7 +162,7 @@ public class Algorithm {
 		for ( int j = 0; j < numOfWays; j++ ) {
 			String helpStr = "";
 			for ( int i = 0; i < ( numOfNodes - 1); i++){
-				Integer helpI = ways[i][j] + 1;//ArrayIndexOutOfBoundsException
+				Integer helpI = ways[i][j] + 1;
 				helpStr += helpI.toString();
 				helpStr += " ";
 			}
