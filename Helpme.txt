@@ -2,7 +2,7 @@ Studienarbeit - Visualisierung komplexer Graphenalgorithmen
 
 Anleitung zur Bedienung der GUI
 
-- Starten Sie das Programm. Sie sehen ein zentrales weißes Viereck ( die Zeichenfläche ) und eine Buttonleiste
+- Starten Sie das die Datei "Studienarbeit.bat". Sie sehen ein zentrales weißes Viereck ( die Zeichenfläche ) und eine Buttonleiste
   im unteren Bereich.
 - Mit einem Linksklick in die Zeichenfläche, können Sie einen Knoten zeichnen.
 - Die Kanten werden automatisch beim zeichnen eines weiteren Knoten angelegt. Initial ist die Distanz auf 0 gesetzt.
