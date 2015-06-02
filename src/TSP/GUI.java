@@ -137,7 +137,9 @@ public class GUI{
 					ArrayList<Integer> route = new ArrayList<Integer>();
 					Algorithm algo = new Algorithm();
 					ArrayList<Integer> listOfRoutes = algo.bruteForce(route, lst);
-					algo.ausprobieren( listOfRoutes );
+					int[][] ways = algo.buildRoutes( listOfRoutes );
+					algo.setDistances();
+					ways = algo.calcCosts(ways);
 				} else {
 					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 				}

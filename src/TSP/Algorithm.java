@@ -36,7 +36,8 @@ public class Algorithm {
 				nodesNotInRoute.add(justRemoved);
 			}
 		}else{
-			System.out.println("routes" + routes.toString());
+			//Testausgabe
+			//System.out.println("route " + routes.toString());
 			for(int i = 0; i < routes.size();i++) {
 				listOfRoutes.add(routes.get(i));
 			}
@@ -49,7 +50,10 @@ public class Algorithm {
 		return listOfRoutes;
 	}
 	
-	public int[][] ausprobieren( ArrayList<Integer> listOfRoutes ){
+	//erstellt aus der ArrayList, die alle Routen beinhaltet, ein 2D-Array
+	//In die letzte Spalte werden später die Kosten dieser Route eingetragen
+	//getestet
+	public int[][] buildRoutes( ArrayList<Integer> listOfRoutes ){
 		//Array erstellen
 		numOfWays = calcNumOfWays();
 		int[][] ways = new int[ numOfNodes ][ numOfWays ];
@@ -64,19 +68,21 @@ public class Algorithm {
 				}
 			}
 			//Statt Kosten in letzter Spalte 0 eintragen
-			ways[ numOfNodes - 1 ][ j ] = 88;
+			ways[ numOfNodes - 1 ][ j ] = 0;
 		}
-		System.out.println( "Routes probieren: \n" + listOfRoutes.toString() );
-		System.out.println( "Kosten probieren: " );
-		System.out.println("Wege" + numOfWays);
-		for ( int j = 0; j < numOfWays; j++ ) {
-			String helpi = "";
-			for ( int i = 0; i < numOfNodes; i++){
-				Integer helpiI = ways[i][j];
-				helpi += helpiI.toString();
-			}
-			System.out.println( helpi );
-		}
+		//Testausgabe
+//		System.out.println( "buildRoutes/Routeslist: \n" + listOfRoutes.toString() );
+//		System.out.println( "buildRoutes/Routesarray: " );
+//		System.out.println("#Wege: " + numOfWays);
+//		for ( int j = 0; j < numOfWays; j++ ) {
+//			String helpStr = "";
+//			for ( int i = 0; i < numOfNodes; i++){
+//				Integer helpI = ways[i][j];
+//				helpStr += helpI.toString();
+//				helpStr += " ";
+//			}
+//			System.out.println( helpStr );
+//		}
 		return ways;
 	}
 	
@@ -91,9 +97,21 @@ public class Algorithm {
 			distances[first][second] = dist;
 			distances[second][first] = dist;
 		}
+		//Testausgabe
+//		System.out.println("setDistances/Array:");
+//		for ( int j = 0; j < numOfNodes; j++ ) {
+//			String helpStr = "";
+//			for ( int i = 0; i < numOfNodes; i++){
+//				Integer helpI = distances[i][j];
+//				helpStr += helpI.toString();
+//				helpStr += " ";
+//			}
+//			System.out.println( helpStr );
+//		}
 	}
 	
 	//Berechnung der Anzahl der möglichen Wege
+	//getestet
 	public int calcNumOfWays(){
 		numOfWays = 1;
 		for( int i = 1; i < numOfNodes; i++ ) {
@@ -103,35 +121,36 @@ public class Algorithm {
 		return numOfWays;
 	}
 	
-	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
-	public int[][] setPaths(ArrayList<Integer> routes) {
-		//Array erstellen
-		int[][] ways = new int[ numOfNodes + 1 ][ numOfWays - 1];
-		
-		//eintragen der möglichen Wege
-		int counter = 0;
-		for( int j = 0; j < ( numOfWays - 1 ); ++j ) {
-			for( int i = 0; i < ( numOfNodes - 1 ); ++i) {
-				if( counter < routes.size()) {
-					ways[i][j] = routes.get(counter);
-					++counter;
-				}
-			}
-			//Statt Kosten in letzter Spalte 0 eintragen
-			ways[ numOfNodes ][ j ] = 0;
-		}
-		System.out.println( "Routes: \n" + routes.toString() );
-		System.out.println( "Kosten setPath: " );
-		for ( int j = 0; j < numOfWays; ++j ) {
-			String helpi = "";
-			for ( int i = 0; i < numOfNodes; ++i){
-				Integer helpiI = ways[i][j];
-				helpi += helpiI.toString();
-			}
-			System.out.println( helpi );
-		}
-		return ways;
-	}
+//	//ALTE FUNKTION
+//	//routes enthält alle möglichen Wege, wobei der Startknoten(und Endknoten) nicht enthalten ist
+//	public int[][] setPaths(ArrayList<Integer> routes) {
+//		//Array erstellen
+//		int[][] ways = new int[ numOfNodes + 1 ][ numOfWays - 1];
+//		
+//		//eintragen der möglichen Wege
+//		int counter = 0;
+//		for( int j = 0; j < ( numOfWays - 1 ); ++j ) {
+//			for( int i = 0; i < ( numOfNodes - 1 ); ++i) {
+//				if( counter < routes.size()) {
+//					ways[i][j] = routes.get(counter);
+//					++counter;
+//				}
+//			}
+//			//Statt Kosten in letzter Spalte 0 eintragen
+//			ways[ numOfNodes ][ j ] = 0;
+//		}
+//		System.out.println( "Routes: \n" + routes.toString() );
+//		System.out.println( "Kosten setPath: " );
+//		for ( int j = 0; j < numOfWays; ++j ) {
+//			String helpi = "";
+//			for ( int i = 0; i < numOfNodes; ++i){
+//				Integer helpiI = ways[i][j];
+//				helpi += helpiI.toString();
+//			}
+//			System.out.println( helpi );
+//		}
+//		return ways;
+//	}
 	
 	//Berechnung der Kosten der einzelnen Wege
 	public int[][] calcCosts( int[][] ways ){
@@ -139,31 +158,34 @@ public class Algorithm {
 		int rightNode = 0;
 		int dist = 0;
 		int distSum = 0;
-		System.out.println( "Kosten calcCosts: " );
-		for ( int j = 0; j < numOfWays; ++j ) {
-			String helpi = "";
-			for ( int i = 0; i < numOfNodes; ++i){
-				Integer helpiI = ways[i][j];
-				helpi += helpiI.toString();
-			}
-			System.out.println( helpi );
-		}
+
 		for ( int j = 0; j < numOfWays; ++j ) {
 			//Entfernung vom Startknoten weg und zum Startknoten mit einbeziehen
 			int startNode = GUI.startNode;
 			int firstNode = ways[ 0 ][ j ];
-			int lastNode = ways[ numOfNodes - 1 ][ j ];
+			int lastNode = ways[ numOfNodes - 2 ][ j ];
 			distSum += distances[ startNode ][ firstNode ];
 			distSum += distances[ startNode ][ lastNode ];
-			
-			for ( int i = 0; i < ( numOfNodes - 1 ); ++i ) {
-				leftNode = ways[ i ][ j ]; //ArrayIndexOutOfBoundsException
+			//Entfernungen der Knoten im Wege-Array dazurechnen
+			for ( int i = 0; i < ( numOfNodes - 2 ); ++i ) {
+				leftNode = ways[ i ][ j ]; 
 				rightNode = ways[ i + 1 ][ j ];
 				dist = distances[leftNode][rightNode];
 				distSum += dist;
 			}
-			ways[ numOfNodes ][ j ] = distSum;
+			ways[ numOfNodes - 1 ][ j ] = distSum;
 			distSum = 0;
+		}
+		//Testausgabe
+		System.out.println("calcCosts/Array:");
+		for ( int j = 0; j < ( numOfNodes - 1 ); ++j ) {
+			String helpStr = "";
+			for ( int i = 0; i < numOfNodes; ++i){
+				Integer helpI = ways[i][j];//ArrayIndexOutOfBoundsException
+				helpStr += helpI.toString();
+				helpStr += " ";
+			}
+			System.out.println( helpStr );
 		}
 		
 		return ways;
@@ -178,36 +200,4 @@ public class Algorithm {
 		}
 		return shortestPath;
 	}
-	
-	//Testklasse
-	private void ausgabe( ArrayList<Integer> routes, int[][] ways, int shortestPath){
-		//Routen
-//		System.out.println( "Routen: \n" + routes.toString() );
-//		
-//		//Kosten der Verbindungen
-//		System.out.println( "Entfernungen: \n" );
-//		for( int i = 0; i < numOfNodes; ++i){
-//			for( int j = 0; j < numOfNodes; ++j){
-//				System.out.println("[" + ( i + 1 ) +"][" + ( j + 1 ) + "] = " + distances[i][j]);
-//			}
-//		}
-//		
-//		//mögliche Wege
-//		System.out.println( "mögliche Wege:" );
-//		String way = "";
-//		for (int i = 0; i < numOfNodes; ++i ){
-//			for (int j = 0; j < numOfWays; ++j ){
-//				Integer wayI = ways[i][j];
-//				way += wayI.toString();
-//			}
-//			System.out.println( way );
-//			way = "";
-//		}
-		
-		
-		//einer der kürzesten Wege
-		//System.out.println( "ShortestPath: " + shortestPath );
-		
-	}
-
 }
