@@ -178,9 +178,9 @@ public class Algorithm {
 		}
 		//Testausgabe
 		System.out.println("calcCosts/Array:");
-		for ( int j = 0; j < ( numOfNodes - 1 ); ++j ) {
+		for ( int j = 0; j < numOfWays; j++ ) {
 			String helpStr = "";
-			for ( int i = 0; i < numOfNodes; ++i){
+			for ( int i = 0; i < numOfNodes; i++){
 				Integer helpI = ways[i][j];//ArrayIndexOutOfBoundsException
 				helpStr += helpI.toString();
 				helpStr += " ";
@@ -194,10 +194,11 @@ public class Algorithm {
 	//in Arbeit
 	public int findShortestPath( int[][] ways ) {
 		int shortestPath = 0;		
-		int path = 0;
+		int costs = 0;
 		for( int j = 0; j < numOfWays; ++j ){
-			path = ways[ numOfNodes ][ j ];
+			costs = ways[ numOfNodes - 1 ][ j ];
 		}
+		System.out.println("Costs: " + costs );
 		return shortestPath;
 	}
 }

@@ -140,6 +140,7 @@ public class GUI{
 					int[][] ways = algo.buildRoutes( listOfRoutes );
 					algo.setDistances();
 					ways = algo.calcCosts(ways);
+					algo.findShortestPath(ways);
 				} else {
 					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 				}
