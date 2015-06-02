@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class Algorithm {
 	//private ArrayList<Integer> bestRoute;
+	static final int MAXINT = Integer.MAX_VALUE;
 	int numOfNodes = GUI.nodes.size();
 	int numOfLinks = GUI.links.size();
 	int[][] distances = new int[ numOfNodes + 1 ][ numOfNodes + 1 ];
@@ -157,33 +158,92 @@ public class Algorithm {
 			ways[ numOfNodes - 1 ][ j ] = distSum;
 			distSum = 0;
 		}
-		//Testausgabe
-		System.out.println("calcCosts/Array:");
-		for ( int j = 0; j < numOfWays; j++ ) {
-			String helpStr = "";
-			for ( int i = 0; i < ( numOfNodes - 1); i++){
-				Integer helpI = ways[i][j] + 1;
-				helpStr += helpI.toString();
-				helpStr += " ";
-			}
-			Integer helpI = ways[ numOfNodes - 1 ][ j ];
-			helpStr += helpI.toString();
-			System.out.println( helpStr );
-		}
+//		//Testausgabe
+//		System.out.println("calcCosts/Array:");
+//		for ( int j = 0; j < numOfWays; j++ ) {
+//			String helpStr = "";
+//			for ( int i = 0; i < ( numOfNodes - 1); i++){
+//				Integer helpI = ways[i][j] + 1;
+//				helpStr += helpI.toString();
+//				helpStr += " ";
+//			}
+//			Integer helpI = ways[ numOfNodes - 1 ][ j ];
+//			helpStr += helpI.toString();
+//			System.out.println( helpStr );
+//		}
 		
 		return ways;
 	}
 	
 	//in Arbeit
-	public int findShortestPath( int[][] ways ) {
+	public void findShortestPath( int[][] ways ) {
 		int pathCounter = 0;
-		int costs = 0;// MAXINT;
-		for( int j = 0; j < numOfWays; ++j ){
-			costs = ways[ numOfNodes - 1 ][ j ];
-		}
-		int[][] shortestPath = new int[ numOfNodes ][ pathCounter ];
+		int costs = MAXINT;
 		
-		System.out.println("Costs: " + costs );
-		return 0;
+		//geringste Kosten finden, zählen wie oft diese vorkommen
+		for( int j = 0; j < numOfWays; ++j ){
+			int newCosts = ways[ numOfNodes - 1 ][ j ];
+			if( costs >= newCosts ) {
+				costs = newCosts;
+				pathCounter++;
+			}
+		}
+//		//Testausgabe
+//		System.out.println("Pfade mit geringsten Kosten: " + pathCounter );
+		System.out.println("Geringste Kosten: " + costs );
+		
+		//Array erstellen, welches die kürzesten Pfade enthält
+		int[][] shortestPaths = new int[ numOfNodes - 1 ][ pathCounter ];
+		int rowCounter = 0;
+		for( int j = 0; j < numOfWays; ++j ){
+			if( ways[ numOfNodes - 1 ][ j ] == costs ) {
+				for ( int i = 0; i < ( numOfNodes - 1 ); i++ ) {
+					shortestPaths[ i ][ rowCounter ] = ways[ i ][ j ];
+				}
+				rowCounter++;
+			}
+		}
+		
+		int[] nodes = new int[ numOfNodes ];
+//		String nodesStr = "";
+		for ( int i =  0; i < numOfNodes; i++ ) {
+			int nodeName = GUI.nodes.get(i).getIntName();
+			nodes[i] = nodeName;
+//			nodesStr += nodeName;
+//			nodesStr += " ";
+		}
+//		System.out.println( "Nodes " + nodesStr );
+		
+		//Ersetzen der Indizes durch Knotennamen
+		int[][] shortestPathsNames = new int[ numOfNodes - 1 ][ pathCounter ];
+		for( int j = 0; j < pathCounter; ++j ){
+			for ( int i = 0; i < ( numOfNodes - 1 ); i++ ) {
+				int nodeIndex = shortestPaths[ i ][ j ];
+				shortestPathsNames[ i ][ j ] = nodes[ nodeIndex ]; 
+			}
+		}
+		
+//		//Testausgabe
+//		System.out.println("findShortestPath/shortestPaths:");
+//		for ( int j = 0; j < pathCounter; j++ ) {
+//			String helpStr = "";
+//			for ( int i = 0; i < ( numOfNodes - 1 ); i++){
+//				Integer helpI = shortestPaths[ i ][ j ];
+//				helpStr += helpI.toString();
+//				helpStr += " ";
+//			}
+//			System.out.println( helpStr );
+//		}
+		
+		System.out.println("findShortestPath/Pfade mit geringsten Kosten (Start- und Endknoten: " + nodes[ GUI.startNode ] +"):");
+		for ( int j = 0; j < pathCounter; j++ ) {
+			String helpStr = "";
+			for ( int i = 0; i < ( numOfNodes - 1); i++){
+				Integer helpI = shortestPathsNames[ i ][ j ];
+				helpStr += helpI.toString();
+				helpStr += " ";
+			}
+			System.out.println( helpStr );
+		}
 	}
 }
