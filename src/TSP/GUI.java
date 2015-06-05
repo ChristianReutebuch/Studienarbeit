@@ -411,25 +411,27 @@ public class GUI{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void filltxtarea(){
-		txtarea.removeAll();
-		String txt;
-		txt = "Nodes: \n";
-		for (int i = 0; i < nodes.size(); i++){
-			Node node = nodes.get(i);
-			String nodename = node.getName();
-			if(nodename.equals("1")){
-				txt = txt+nodename;
-			}else{
-				txt = txt + ", "+nodename;
-			}
-		}
-		txt = txt + "\nLinks: \n";
-		for ( int j = 0; j < links.size();j++){
-			Link link = links.get(j);
-			String firstnodename = link.getFirstNode().getName();
-			String secondnodename = link.getSecondNode().getName();
-			txt = txt + firstnodename + " - "+secondnodename+"\n";
-		}
-		txtarea.setText(txt);
+		
+		
+//		txtarea.removeAll();
+//		String txt;
+//		txt = "Nodes: \n";
+//		for (int i = 0; i < nodes.size(); i++){
+//			Node node = nodes.get(i);
+//			String nodename = node.getName();
+//			if(nodename.equals("1")){
+//				txt = txt+nodename;
+//			}else{
+//				txt = txt + ", "+nodename;
+//			}
+//		}
+//		txt = txt + "\nLinks: \n";
+//		for ( int j = 0; j < links.size();j++){
+//			Link link = links.get(j);
+//			String firstnodename = link.getFirstNode().getName();
+//			String secondnodename = link.getSecondNode().getName();
+//			txt = txt + firstnodename + " - "+secondnodename+"\n";
+//		}
+//		txtarea.setText(txt);
 	}
 }
