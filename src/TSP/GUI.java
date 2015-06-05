@@ -46,6 +46,7 @@ public class GUI{
 	private int pcosts = Integer.MAX_VALUE;
 	private int[][] shortestPathsNames;
 	private int pathCounter;
+	private int[][] spn;
 	
 
 	public GUI() {
@@ -154,6 +155,7 @@ public class GUI{
 					shortestPathsNames = algo.getShortestPathsNames();
 					pathCounter = algo.getPathCounter();
 					filltxtarea();
+					markLink();
 				} else {
 					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 					paintAll();
@@ -424,12 +426,62 @@ public class GUI{
 		txt += "Kürzeste Route: ";
 		for ( int j = 0; j < pathCounter; j++ ) {
 			txt += " \n";
+			txt += nodes.get(startNode).getName();
 			for ( int i = 0; i < ( nodes.size() - 1); i++){
 				Integer helpI = shortestPathsNames[ i ][ j ];
 				txt += helpI.toString();
 				txt += " ";
 			}
+			txt += nodes.get(startNode).getName();
 		}
 		txtarea.setText(txt);
+	}
+	
+	public void cspn(){//completeShortestPathNames
+		spn = new int[nodes.size()+1][pathCounter];
+		for(int j = 0; j<pathCounter; j++){
+			spn[0][j] = nodes.get(startNode).getIntName();
+			spn[nodes.size()][j] = nodes.get(startNode).getIntName();
+			for( int i = 1; i<nodes.size(); i++){
+				spn[i][j] = shortestPathsNames[i-1][j];
+			}
+		}
+	}
+	
+	public void markLink(){
+		int fnn = 0;
+		int snn = 0;
+		Link link;
+		Node fn;
+		Node sn;
+		cspn();
+		for ( int j = 0; j < pathCounter; j++ ) { //Hoehe
+			for ( int i = 0; i < ( nodes.size()+1); i++){ //Breite
+				if(i<nodes.size()){
+					fnn = spn[ i ][ j ];
+					snn = spn[i+1][j];
+					if(fnn > snn){
+						int tmp = fnn;
+						fnn = snn;
+						snn = tmp;
+					}
+					for(int k =0; k<links.size();k++){
+						link = links.get(k);
+						fn = link.getFirstNode();
+						sn = link.getSecondNode();
+						if(fn.getIntName()==fnn && sn.getIntName()==snn){
+							link.setMarkStatus(true);
+						}
+					}
+				}
+			}
+		}
+		paintAll();
+	}
+	public void delMarkLink(){
+		for ( int i = 0; i< links.size(); i++){
+			Link link = links.get(i);
+			link.setMarkStatus(false);
+		}
 	}
 }

@@ -14,6 +14,7 @@ public class Link {
 	private int distance;
 	private float xPosLbl;
 	private float yPosLbl;
+	private boolean isMarked = false;
 	
 	public Link(Node firstNode, Node secondNode){
 		this.firstNode = firstNode;
@@ -60,8 +61,22 @@ public class Link {
 			yPosLbl = (secondNode.getYPos()+secondNode.RADIUS/2) + yAbstand;
 		}
 	}
+	
+	public void setMarkStatus(boolean status){
+		isMarked = status;
+	}
+	
+	public boolean getMarkStatus(){
+		return isMarked;
+	}
+	
 	public void paintLink(Graphics g) {
-		g.setColor(Color.BLACK);
+		if(isMarked == true){
+			g.setColor(Color.GREEN);
+		}
+		if(isMarked == false){
+			g.setColor(Color.BLACK);
+		}
 		g.drawLine(firstNode.getXPos()+ firstNode.RADIUS/2, firstNode.getYPos()+ firstNode.RADIUS/2, secondNode.getXPos()+ secondNode.RADIUS/2, secondNode.getYPos()+secondNode.RADIUS/2);
 		String text = Integer.toString(distance);
 		calcPosLbl();
