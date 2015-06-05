@@ -227,6 +227,16 @@ public class Algorithm {
 			}
 		}
 		
+//		//Umgekehrte Pfade löschen
+//		//Hinzufügen von Start- und Endknoten
+//		int[][] shortestPathsFinal = new int[ numOfNodes + 1 ][ pathCounter / 2 ];
+//		int[] path = new int[ numOfNodes - 1 ];
+//		for( int j = 0; j < pathCounter; j++ ){
+//			for ( int i = 0; i < ( numOfNodes - 1 ); i++ ) {
+//				path[ i ] =  shortestPathsNames[ j ][ i ];
+//			}
+//		}
+		
 //		//Testausgabe
 //		System.out.println("findShortestPath/shortestPaths:");
 //		for ( int j = 0; j < pathCounter; j++ ) {
