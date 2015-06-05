@@ -18,6 +18,9 @@ public class Algorithm {
 	int numOfLinks = GUI.links.size();
 	int[][] distances = new int[ numOfNodes + 1 ][ numOfNodes + 1 ];
 	int numOfWays = 0;
+	int costs = MAXINT;
+	int[][] shortestPathsNames;
+	int pathCounter = 0;
 
 	ArrayList<Integer> listOfRoutes = new ArrayList<Integer>();
 	
@@ -177,8 +180,8 @@ public class Algorithm {
 	
 	//in Arbeit
 	public void findShortestPath( int[][] ways ) {
-		int pathCounter = 0;
-		int costs = MAXINT;
+//		int pathCounter = 0;//Deklaration aus Klasse rausgezogen, für getter-Methode; reucr
+//		int costs = MAXINT; //Deklaration aus Klasse rausgezogen, für getter-Methode; reucr
 		
 		//geringste Kosten finden, zählen wie oft diese vorkommen
 		for( int j = 0; j < numOfWays; ++j ){
@@ -215,7 +218,8 @@ public class Algorithm {
 //		System.out.println( "Nodes " + nodesStr );
 		
 		//Ersetzen der Indizes durch Knotennamen
-		int[][] shortestPathsNames = new int[ numOfNodes - 1 ][ pathCounter ];
+//		int[][] shortestPathsNames = new int[ numOfNodes - 1 ][ pathCounter ];//Deklaration aus Klasse rausgezogen, für getter-Methode; reucr
+		shortestPathsNames = new int[ numOfNodes - 1 ][ pathCounter ];
 		for( int j = 0; j < pathCounter; ++j ){
 			for ( int i = 0; i < ( numOfNodes - 1 ); i++ ) {
 				int nodeIndex = shortestPaths[ i ][ j ];
@@ -245,5 +249,20 @@ public class Algorithm {
 			}
 			System.out.println( helpStr );
 		}
+	}
+	
+//	Getter-Methode für die GUI-Ausgabe; reucr
+	public int getCosts(){
+		return costs;
+	}
+	
+//	Getter-Methode für die GUI-Ausgabe; reucr
+	public int [][] getShortestPathsNames(){
+		return shortestPathsNames;
+	}
+	
+//	Getter-Methode für die GUI-Ausgabe; reucr
+	public int getPathCounter(){
+		return pathCounter;
 	}
 }

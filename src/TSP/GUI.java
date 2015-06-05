@@ -43,7 +43,10 @@ public class GUI{
 	private int nodecounter = 1;
 	private int delname;
 	public static int startNode = -1;
-	private int ccounter = 0;
+	private int pcosts = Integer.MAX_VALUE;
+	private int[][] shortestPathsNames;
+	private int pathCounter;
+	
 
 	public GUI() {
 	
@@ -91,7 +94,6 @@ public class GUI{
 					}
 					paintAll();
 				}
-				filltxtarea();
 				sortLinkList();
 			}
 		});
@@ -148,6 +150,10 @@ public class GUI{
 					algo.setDistances();
 					ways = algo.calcCosts(ways);
 					algo.findShortestPath(ways);
+					pcosts = algo.getCosts();
+					shortestPathsNames = algo.getShortestPathsNames();
+					pathCounter = algo.getPathCounter();
+					filltxtarea();
 				} else {
 					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 					paintAll();
@@ -411,27 +417,19 @@ public class GUI{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void filltxtarea(){
-		
-		
-//		txtarea.removeAll();
-//		String txt;
-//		txt = "Nodes: \n";
-//		for (int i = 0; i < nodes.size(); i++){
-//			Node node = nodes.get(i);
-//			String nodename = node.getName();
-//			if(nodename.equals("1")){
-//				txt = txt+nodename;
-//			}else{
-//				txt = txt + ", "+nodename;
-//			}
-//		}
-//		txt = txt + "\nLinks: \n";
-//		for ( int j = 0; j < links.size();j++){
-//			Link link = links.get(j);
-//			String firstnodename = link.getFirstNode().getName();
-//			String secondnodename = link.getSecondNode().getName();
-//			txt = txt + firstnodename + " - "+secondnodename+"\n";
-//		}
-//		txtarea.setText(txt);
+		txtarea.removeAll();
+		String txt;
+		txt = "Kosten: \n";
+		txt += Integer.toString(pcosts)+"\n";
+		txt += "Kürzeste Route: ";
+		for ( int j = 0; j < pathCounter; j++ ) {
+			txt += " \n";
+			for ( int i = 0; i < ( nodes.size() - 1); i++){
+				Integer helpI = shortestPathsNames[ i ][ j ];
+				txt += helpI.toString();
+				txt += " ";
+			}
+		}
+		txtarea.setText(txt);
 	}
 }
