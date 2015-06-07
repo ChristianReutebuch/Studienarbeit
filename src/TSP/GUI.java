@@ -150,12 +150,11 @@ public class GUI{
 					int[][] ways = algo.buildRoutes( listOfRoutes );
 					algo.setDistances();
 					ways = algo.calcCosts(ways);
-					algo.findShortestPath(ways);
+					pathCounter = algo.findShortestPaths(ways);
 					pcosts = algo.getCosts();
-					shortestPathsNames = algo.getShortestPathsNames();
-					pathCounter = algo.getPathCounter();
-					filltxtarea();
-					markLink();
+					//shortestPathsNames = algo.getShortestPathsNames();
+					//filltxtarea();
+					//markLink();
 				} else {
 					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 					paintAll();

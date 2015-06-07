@@ -13,14 +13,14 @@ import java.util.ArrayList;
 
 public class Algorithm {
 	//private ArrayList<Integer> bestRoute;
-	static final int MAXINT = Integer.MAX_VALUE;
-	int numOfNodes = GUI.nodes.size();
-	int numOfLinks = GUI.links.size();
-	int[][] distances = new int[ numOfNodes + 1 ][ numOfNodes + 1 ];
-	int numOfWays = 0;
-	int costs = MAXINT;
-	int[][] shortestPathsNames;
-	int pathCounter = 0;
+	private static final int MAXINT = Integer.MAX_VALUE;
+	private int numOfNodes = GUI.nodes.size();
+	private int numOfLinks = GUI.links.size();
+	private int[][] distances = new int[ numOfNodes + 1 ][ numOfNodes + 1 ];
+	private int numOfWays = 0;
+	private int costs = MAXINT;
+	private int[][] shortestPathsNames;
+//	private int pathCounter = 0;
 
 	ArrayList<Integer> listOfRoutes = new ArrayList<Integer>();
 	
@@ -41,7 +41,7 @@ public class Algorithm {
 			}
 		}else{
 			//Testausgabe
-			//System.out.println("route " + routes.toString());
+			System.out.println("route " + routes.toString());
 			for(int i = 0; i < routes.size();i++) {
 				listOfRoutes.add(routes.get(i));
 			}
@@ -67,6 +67,7 @@ public class Algorithm {
 		for( int j = 0; j < numOfWays; j++ ) {
 			for( int i = 0; i < ( numOfNodes - 1 ); i++) {
 				if( counter < listOfRoutes.size()) {
+					//TODO:Überprüfen, ob der Pfad bereits in umgekehrter Reihenfolge enthalten ist
 					ways[i][j] = listOfRoutes.get(counter);
 					counter++;
 				}
@@ -74,10 +75,10 @@ public class Algorithm {
 			//Statt Kosten in letzter Spalte 0 eintragen
 			ways[ numOfNodes - 1 ][ j ] = 0;
 		}
-		//Testausgabe
+		//Testausgabe- alle möglichen Wege
 //		System.out.println( "buildRoutes/Routeslist: \n" + listOfRoutes.toString() );
 //		System.out.println( "buildRoutes/Routesarray: " );
-//		System.out.println("#Wege: " + numOfWays);
+		System.out.println("#Wege: " + numOfWays);
 //		for ( int j = 0; j < numOfWays; j++ ) {
 //			String helpStr = "";
 //			for ( int i = 0; i < numOfNodes; i++){
@@ -113,7 +114,7 @@ public class Algorithm {
 			distances[second][first] = dist;
 		}
 		
-		//Testausgabe
+		//Testausgabe- Entfernungen
 //		System.out.println("setDistances/Array:");
 //		for ( int j = 0; j < numOfNodes; j++ ) {
 //			String helpStr = "";
@@ -161,26 +162,26 @@ public class Algorithm {
 			ways[ numOfNodes - 1 ][ j ] = distSum;
 			distSum = 0;
 		}
-//		//Testausgabe
-//		System.out.println("calcCosts/Array:");
-//		for ( int j = 0; j < numOfWays; j++ ) {
-//			String helpStr = "";
-//			for ( int i = 0; i < ( numOfNodes - 1); i++){
-//				Integer helpI = ways[i][j] + 1;
-//				helpStr += helpI.toString();
-//				helpStr += " ";
-//			}
-//			Integer helpI = ways[ numOfNodes - 1 ][ j ];
-//			helpStr += helpI.toString();
-//			System.out.println( helpStr );
-//		}
+//		//Testausgabe- Wege mit Kosten
+		System.out.println("calcCosts/Array:");
+		for ( int j = 0; j < numOfWays; j++ ) {
+			String helpStr = "";
+			for ( int i = 0; i < ( numOfNodes - 1); i++){
+				Integer helpI = ways[i][j] + 1;
+				helpStr += helpI.toString();
+				helpStr += " ";
+			}
+			Integer helpI = ways[ numOfNodes - 1 ][ j ];
+			helpStr += helpI.toString();
+			System.out.println( helpStr );
+		}
 		
 		return ways;
 	}
 	
 	//in Arbeit
-	public void findShortestPath( int[][] ways ) {
-//		int pathCounter = 0;//Deklaration aus Klasse rausgezogen, für getter-Methode; reucr
+	public int findShortestPaths( int[][] ways ) {
+		int pathCounter = 0; //Deklaration aus Klasse rausgezogen, für getter-Methode; reucr
 //		int costs = MAXINT; //Deklaration aus Klasse rausgezogen, für getter-Methode; reucr
 		
 		//geringste Kosten finden, zählen wie oft diese vorkommen
@@ -227,16 +228,6 @@ public class Algorithm {
 			}
 		}
 		
-//		//Umgekehrte Pfade löschen
-//		//Hinzufügen von Start- und Endknoten
-//		int[][] shortestPathsFinal = new int[ numOfNodes + 1 ][ pathCounter / 2 ];
-//		int[] path = new int[ numOfNodes - 1 ];
-//		for( int j = 0; j < pathCounter; j++ ){
-//			for ( int i = 0; i < ( numOfNodes - 1 ); i++ ) {
-//				path[ i ] =  shortestPathsNames[ j ][ i ];
-//			}
-//		}
-		
 //		//Testausgabe
 //		System.out.println("findShortestPath/shortestPaths:");
 //		for ( int j = 0; j < pathCounter; j++ ) {
@@ -249,7 +240,7 @@ public class Algorithm {
 //			System.out.println( helpStr );
 //		}
 		
-		System.out.println("findShortestPath/Pfade mit geringsten Kosten (Start- und Endknoten: " + nodes[ GUI.startNode ] +"):");
+		System.out.println("findShortestPath/Pfade mit geringsten Kosten (Start- und Endknoten): " + nodes[ GUI.startNode ] +"):");
 		for ( int j = 0; j < pathCounter; j++ ) {
 			String helpStr = "";
 			for ( int i = 0; i < ( numOfNodes - 1); i++){
@@ -259,6 +250,7 @@ public class Algorithm {
 			}
 			System.out.println( helpStr );
 		}
+		return pathCounter;
 	}
 	
 //	Getter-Methode für die GUI-Ausgabe; reucr
@@ -271,8 +263,8 @@ public class Algorithm {
 		return shortestPathsNames;
 	}
 	
-//	Getter-Methode für die GUI-Ausgabe; reucr
-	public int getPathCounter(){
-		return pathCounter;
-	}
+////	Getter-Methode für die GUI-Ausgabe; reucr
+//	public int getPathCounter(){
+//		return pathCounter;
+//	}
 }
