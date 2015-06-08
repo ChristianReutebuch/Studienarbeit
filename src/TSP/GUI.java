@@ -28,7 +28,11 @@ public class GUI{
 	public static LinkedList<Node> selectednodes = new LinkedList<Node>();
 	public static LinkedList<Link> links = new LinkedList<Link>();
 	public static LinkedList<Link> dellinks = new LinkedList<Link>();
-	JFrame frame = new JFrame();
+	public static JFrame frame = new JFrame();
+	public static int delpos = -1;
+	public static int nodecounter = 1;
+	public static int delname;
+	
 	JPanel titelpanel = new JPanel();
 	JPanel paintpanel = new JPanel();
 	JPanel editpanel = new JPanel();
@@ -39,9 +43,6 @@ public class GUI{
 	JButton btnchng = new JButton("Ändern");
 	JButton btnstart = new JButton("Start setzen");
 	JButton btndel = new JButton("Löschen");
-	private int delpos = -1;
-	private int nodecounter = 1;
-	private int delname;
 	public static int startNode = -1;
 	private int pcosts = Integer.MAX_VALUE;
 	private int[][] shortestPathsNames;
@@ -78,7 +79,8 @@ public class GUI{
 						paintAll();	
 					}
 					else{
-						createNode(e.getX(), e.getY(), false);
+						CreateComp comp = new CreateComp();
+						comp.createNode(e.getX(), e.getY(), false);
 						paintAll();
 						if (nodes.size() == 5) {
 							JOptionPane.showMessageDialog(frame, "Algorithmus wird sehr langsam mit mehr als 5 Knoten");
@@ -88,7 +90,7 @@ public class GUI{
 					}
 				}
 				if (e.getButton() == 3){ //Knoten auswählen via Rechtsklick
-					if(checkPos(e.getX(), e.getY())==true){
+					if(new Checks().checkPos(e.getX(), e.getY())==true){
 						clearSelectedNode();
 					}else{
 						selectNode(e.getX(), e.getY());
@@ -152,9 +154,9 @@ public class GUI{
 					ways = algo.calcCosts(ways);
 					pathCounter = algo.findShortestPaths(ways);
 					pcosts = algo.getCosts();
-					//shortestPathsNames = algo.getShortestPathsNames();
-					//filltxtarea();
-					//markLink();
+//					shortestPathsNames = algo.getShortestPathsNames();
+//					filltxtarea();
+//					markLink();
 				} else {
 					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 					paintAll();
@@ -199,80 +201,6 @@ public class GUI{
 		frame.add(editpanel, BorderLayout.SOUTH);
 		frame.add(txtpanel, BorderLayout.WEST);
 		frame.add(planepanel, BorderLayout.EAST);
-	}
-	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Erstellen von Knoten und Kanten:
-// Die Klasse checkNewNodePos überprüft, ob an der vom User gewählten Stelle ein Knoten gemalt werden darf.
-// Die Klasse createNode und createLink implementieren Knoten und Kanten.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public boolean checkPos(int xpos, int ypos){
-		boolean paint = true;
-		if (nodes.size() == 0){
-			paint = true;
-		}
-		else{
-			for(int i = 0; i< nodes.size(); i++){
-				Node cnode = nodes.get(i);
-				if (xpos >= cnode.getXPos()
-						&& xpos <= cnode.getXPos() + cnode.RADIUS
-						&& ypos >= cnode.getYPos()
-						&& ypos <= cnode.getYPos() + cnode.RADIUS) {
-					paint = false;
-				}
-			}
-		}
-		return paint;
-	}
-	
-	public void createNode(int xpos, int ypos, boolean isStartnode) {
-		if (checkPos(xpos, ypos)==true){
-			Node node = new Node(xpos, ypos, isStartnode);
-			if(delpos == -1){
-				node.setName(nodecounter);
-				nodecounter++;
-				nodes.add(node);
-				createLinks();
-			}else{
-				node.setName(delname);
-				nodes.add(delpos, node);
-				for(int i = 0; i<dellinks.size();i++){
-					Link dellink = dellinks.get(i);
-					if(dellink.getFirstNode().getName().equals( node.getName())){
-						Node first = node;
-						Node second = dellink.getSecondNode();
-						Link newLink = new Link(first, second);
-						newLink.setDistance(dellink.getDistance());
-						links.add(newLink);
-					}
-					if(dellink.getSecondNode().getName().equals( node.getName())){
-						Node first = dellink.getFirstNode();
-						Node second = node;
-						Link newLink = new Link(first, second);
-						newLink.setDistance(dellink.getDistance());
-						links.add(newLink);
-					}
-				}
-				dellinks.clear();
-			}
-		}else{
-			JOptionPane.showMessageDialog(frame, "An dieser Stelle kann kein Knoten gezeichnet werden.");
-			paintAll();
-		}
-	}
-	
-	public void createLinks(){
-		if(nodes.size()>=2){
-			Node nnode = nodes.getLast();
-			for(int i=0; i < nodes.size(); i++){
-				Node lnode = nodes.get(i);
-				if(nnode != lnode){
-					Link nlink = new Link(lnode, nnode);
-					links.add(nlink);
-				}
-			}
-		}
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -359,7 +287,9 @@ public class GUI{
 	public void moveNode(int xposMouse, int yposMouse){
 		Node sel = selectednodes.getFirst();
 		deleteNode(sel);
-		createNode(xposMouse, yposMouse, false);
+		CreateComp comp = new CreateComp();
+		comp.createNode(xposMouse, yposMouse, false);
+//		createNode(xposMouse, yposMouse, false);
 		clearSelectedNode();
 		delpos = -1; 
 	}
