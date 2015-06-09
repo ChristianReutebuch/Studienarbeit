@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ public class GUI{
 	public static int delname;
 	
 	JPanel titelpanel = new JPanel();
-	JPanel paintpanel = new JPanel();
+	public static JPanel paintpanel = new JPanel();
 	JPanel editpanel = new JPanel();
 	JPanel txtpanel = new JPanel();
 	JPanel planepanel = new JPanel();
@@ -76,17 +79,17 @@ public class GUI{
 					if (selectednodes.size()== 1){
 						moveNode(e.getX(), e.getY());
 						clearSelectedNode();
-						paintAll();	
+						new PaintComp();
 					}
 					else{
 						CreateComp comp = new CreateComp();
 						comp.createNode(e.getX(), e.getY(), false);
-						paintAll();
+						new PaintComp();
 						if (nodes.size() == 5) {
 							JOptionPane.showMessageDialog(frame, "Algorithmus wird sehr langsam mit mehr als 5 Knoten");
-							paintAll();
+							new PaintComp();
 						}
-						Node node = nodes.getLast();
+//						Node node = nodes.getLast();
 					}
 				}
 				if (e.getButton() == 3){ //Knoten auswählen via Rechtsklick
@@ -95,7 +98,7 @@ public class GUI{
 					}else{
 						selectNode(e.getX(), e.getY());
 					}
-					paintAll();
+					new PaintComp();
 				}
 				sortLinkList();
 			}
@@ -121,10 +124,10 @@ public class GUI{
 				}
 				else{ //Ändern nicht möglich
 					JOptionPane.showMessageDialog(frame, "Es müssen genau zwei Knoten ausgewählt sein.");
-					paintAll();
+					new PaintComp();
 				}
 				clearSelectedNode();
-				paintAll();	
+				new PaintComp();
 			}
 		});
 		editpanel.add (btncalc);
@@ -159,7 +162,7 @@ public class GUI{
 //					markLink();
 				} else {
 					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
-					paintAll();
+					new PaintComp();
 				}
 			}
 		});
@@ -178,7 +181,7 @@ public class GUI{
 					Node node = selectednodes.get(0);
 					node.setStartNode();
 					clearSelectedNode();
-					paintAll();
+					new PaintComp();
 				}
 			}
 		});
@@ -190,7 +193,7 @@ public class GUI{
 					deleteNode(node);
 					clearSelectedNode();
 					delpos = -1;
-					paintAll();
+					new PaintComp();
 				}
 			}
 		});
@@ -201,32 +204,6 @@ public class GUI{
 		frame.add(editpanel, BorderLayout.SOUTH);
 		frame.add(txtpanel, BorderLayout.WEST);
 		frame.add(planepanel, BorderLayout.EAST);
-	}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Zeichnen:
-// Die Klassen paintNodes und paintLinks zeichen die entsprecheneden Elemente.
-// In der Klasse paintAll sind beide Klassen zu einem Aufruf zusammengefasst.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	
-	public void paintNodes(){
-		for (int i = 0; i < nodes.size(); i++){
-			Node node = nodes.get(i);
-			node.paintNode(paintpanel.getGraphics());
-		}
-	}
-	
-	public void paintLinks(){
-		for (int i = 0; i < links.size(); i++) {
-			Link link = links.get(i);
-			link.paintLink(paintpanel.getGraphics());
-		}
-	}
-	
-	public void paintAll(){
-		paintpanel.paint(paintpanel.getGraphics());
-		paintLinks();
-		paintNodes();
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -285,13 +262,13 @@ public class GUI{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	public void moveNode(int xposMouse, int yposMouse){
+		dellinks.clear();
 		Node sel = selectednodes.getFirst();
 		deleteNode(sel);
 		CreateComp comp = new CreateComp();
 		comp.createNode(xposMouse, yposMouse, false);
-//		createNode(xposMouse, yposMouse, false);
 		clearSelectedNode();
-		delpos = -1; 
+		delpos = -1;
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -409,7 +386,7 @@ public class GUI{
 				}
 			}
 		}
-		paintAll();
+		new PaintComp();
 	}
 	public void delMarkLink(){
 		for ( int i = 0; i< links.size(); i++){

@@ -16,10 +16,8 @@ public class CreateComp {
 	
 	public void createNode(int xpos, int ypos, boolean isStartnode) {
 		if (new Checks().checkPos(xpos, ypos)==true){
-			System.out.println("Create");
 			Node node = new Node(xpos, ypos, isStartnode);
 			if(GUI.delpos == -1){
-				System.out.println("Neu: "+GUI.nodecounter);
 				node.setName(GUI.nodecounter);
 				GUI.nodecounter++;
 				nodes.add(node);
@@ -44,12 +42,12 @@ public class CreateComp {
 						links.add(newLink);
 					}
 				}
-				dellinks.clear();
 			}
-		}else{
+			}else{
 			JOptionPane.showMessageDialog(GUI.frame, "An dieser Stelle kann kein Knoten gezeichnet werden.");
-			new GUI().paintAll();
+			new PaintComp();
 		}
+		dellinks.clear();
 	}
 	
 	public void createLinks(){
