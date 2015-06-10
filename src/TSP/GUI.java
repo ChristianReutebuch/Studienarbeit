@@ -42,15 +42,15 @@ public class GUI{
 	JPanel txtpanel = new JPanel();
 	JPanel planepanel = new JPanel();
 	JTextArea txtarea = new JTextArea();
-	JButton btncalc = new JButton("Berechne");
+//	JButton btncalc = new JButton("Berechne");
 	JButton btnchng = new JButton("Ändern");
 	JButton btnstart = new JButton("Start setzen");
 	JButton btndel = new JButton("Löschen");
+	JButton btnbf = new JButton("Brute Force");
 	public static int startNode = -1;
 	private int pcosts = Integer.MAX_VALUE;
-	private int[][] shortestPathsNames;
-	private int pathCounter;
-	private int[][] spn;
+	private int[][] shortestpaths;
+	private int pc;
 	
 
 	public GUI() {
@@ -80,16 +80,17 @@ public class GUI{
 						moveNode(e.getX(), e.getY());
 						clearSelectedNode();
 						new PaintComp();
+						delMarkLink();
 					}
 					else{
 						CreateComp comp = new CreateComp();
 						comp.createNode(e.getX(), e.getY(), false);
 						new PaintComp();
+						delMarkLink();
 						if (nodes.size() == 5) {
 							JOptionPane.showMessageDialog(frame, "Algorithmus wird sehr langsam mit mehr als 5 Knoten");
 							new PaintComp();
 						}
-//						Node node = nodes.getLast();
 					}
 				}
 				if (e.getButton() == 3){ //Knoten auswählen via Rechtsklick
@@ -99,6 +100,7 @@ public class GUI{
 						selectNode(e.getX(), e.getY());
 					}
 					new PaintComp();
+					delMarkLink();
 				}
 				sortLinkList();
 			}
@@ -130,42 +132,6 @@ public class GUI{
 				new PaintComp();
 			}
 		});
-		editpanel.add (btncalc);
-		btncalc.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//An dieser Stelle wird der Algorithmus aufgerufen
-				
-				//Startknoten finden
-				for(int i = 0; i < nodes.size(); ++i) {
-					if( nodes.get( i ).isStartNode() == true){
-						startNode = i;
-					}
-				}
-				//Kontenliste erstellen, ohne den Startknoten
-				ArrayList<Integer> lst = new ArrayList<Integer>();
-				for (int i = 0; i < nodes.size(); i++){
-					if( i != startNode) {
-						lst.add(i);
-					}
-				}
-				if( startNode > -1 ){
-					ArrayList<Integer> route = new ArrayList<Integer>();
-					Algorithm algo = new Algorithm();
-					ArrayList<Integer> listOfRoutes = algo.bruteForce(route, lst);
-					int[][] ways = algo.buildRoutes( listOfRoutes );
-					algo.setDistances();
-					ways = algo.calcCosts(ways);
-					pathCounter = algo.findShortestPaths(ways);
-					pcosts = algo.getCosts();
-//					shortestPathsNames = algo.getShortestPathsNames();
-//					filltxtarea();
-//					markLink();
-				} else {
-					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
-					new PaintComp();
-				}
-			}
-		});
 		editpanel.add(btnstart);
 		btnstart.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -193,6 +159,33 @@ public class GUI{
 					deleteNode(node);
 					clearSelectedNode();
 					delpos = -1;
+					new PaintComp();
+				}
+			}
+		});
+		editpanel.add(btnbf);
+		btnbf.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent de){
+				for(int i = 0; i < nodes.size(); ++i) {
+					if( nodes.get( i ).isStartNode() == true){
+						startNode = i;
+					}
+				}
+				if( startNode > -1 ){
+					System.out.println("Test");
+					ArrayList<Integer> lst = new ArrayList<Integer>();
+		        	for (int i = 0; i < nodes.size(); ++i)
+		            	lst.add(i);
+		        	ArrayList<Integer> route = new ArrayList<Integer>();
+		        	BruteForce bf = new BruteForce();
+		        	shortestpaths = bf.buildRoutes(bf.calcRoutes(route, lst));
+		        	pc = bf.rowCounter;
+		        	pcosts = bf.costs;
+		        	filltxtarea();
+		        	delMarkLink();
+		        	markLink();
+				}else {
+					JOptionPane.showMessageDialog(frame, "Kein Startknoten gesetzt.");
 					new PaintComp();
 				}
 			}
@@ -330,32 +323,15 @@ public class GUI{
 		txt = "Kosten: \n";
 		txt += Integer.toString(pcosts)+"\n";
 		txt += "Kürzeste Route: ";
-		for ( int j = 0; j < pathCounter; j++ ) {
+		for ( int j = 0; j < pc; j++ ) {
 			txt += " \n";
-			txt += nodes.get(startNode).getName();
-			for ( int i = 0; i < ( nodes.size() - 1); i++){
-				Integer helpI = shortestPathsNames[ i ][ j ];
+			for ( int i = 0; i < ( nodes.size() +1); i++){
+				Integer helpI = shortestpaths[ i ][ j ];
 				txt += helpI.toString();
 				txt += " ";
 			}
-			txt += nodes.get(startNode).getName();
 		}
 		txtarea.setText(txt);
-	}
-	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//ShortestPathName komplettieren
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public void cspn(){//completeShortestPathNames
-		spn = new int[nodes.size()+1][pathCounter];
-		for(int j = 0; j<pathCounter; j++){
-			spn[0][j] = nodes.get(startNode).getIntName();
-			spn[nodes.size()][j] = nodes.get(startNode).getIntName();
-			for( int i = 1; i<nodes.size(); i++){
-				spn[i][j] = shortestPathsNames[i-1][j];
-			}
-		}
 	}
 	
 	public void markLink(){
@@ -364,12 +340,11 @@ public class GUI{
 		Link link;
 		Node fn;
 		Node sn;
-		cspn();
-		for ( int j = 0; j < pathCounter; j++ ) { //Hoehe
-			for ( int i = 0; i < ( nodes.size()+1); i++){ //Breite
+		for ( int j = 0; j < pc; j++ ) { //Hoehe
+			for ( int i = 0; i < ( nodes.size()+2); i++){ //Breite
 				if(i<nodes.size()){
-					fnn = spn[ i ][ j ];
-					snn = spn[i+1][j];
+					fnn = shortestpaths[ i ][ j ];
+					snn = shortestpaths[i+1][j];
 					if(fnn > snn){
 						int tmp = fnn;
 						fnn = snn;
