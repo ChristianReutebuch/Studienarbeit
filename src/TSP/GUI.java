@@ -1,6 +1,6 @@
 //Studienarbeit "Visualisierung graphentheoretischer Algorithmen"
 //Christian Reutebuch, Silke Hildebrand
-//28.10.2014 - 
+//28.10.2014 - 10.07.2014
 
 
 package TSP;
@@ -10,9 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -42,7 +39,6 @@ public class GUI{
 	JPanel txtpanel = new JPanel();
 	JPanel planepanel = new JPanel();
 	JTextArea txtarea = new JTextArea();
-//	JButton btncalc = new JButton("Berechne");
 	JButton btnchng = new JButton("Ändern");
 	JButton btnstart = new JButton("Start setzen");
 	JButton btndel = new JButton("Löschen");
@@ -172,7 +168,6 @@ public class GUI{
 					}
 				}
 				if( startNode > -1 ){
-					System.out.println("Test");
 					ArrayList<Integer> lst = new ArrayList<Integer>();
 		        	for (int i = 0; i < nodes.size(); ++i)
 		            	lst.add(i);
@@ -323,7 +318,16 @@ public class GUI{
 		txt = "Kosten: \n";
 		txt += Integer.toString(pcosts)+"\n";
 		txt += "Kürzeste Route: ";
-		for ( int j = 0; j < pc; j++ ) {
+		for ( int j = 0; j < 1; j++ ) {
+			txt += " \n";
+			for ( int i = 0; i < ( nodes.size() +1); i++){
+				Integer helpI = shortestpaths[ i ][ j ];
+				txt += helpI.toString();
+				txt += " ";
+			}
+		}
+		txt += "\nWeiterer Routen:  ";
+		for ( int j = 1; j < pc; j++ ) {
 			txt += " \n";
 			for ( int i = 0; i < ( nodes.size() +1); i++){
 				Integer helpI = shortestpaths[ i ][ j ];
@@ -340,7 +344,7 @@ public class GUI{
 		Link link;
 		Node fn;
 		Node sn;
-		for ( int j = 0; j < pc; j++ ) { //Hoehe
+		for ( int j = 0; j < 1; j++ ) { //Hoehe
 			for ( int i = 0; i < ( nodes.size()+2); i++){ //Breite
 				if(i<nodes.size()){
 					fnn = shortestpaths[ i ][ j ];

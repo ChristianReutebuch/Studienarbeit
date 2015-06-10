@@ -1,3 +1,7 @@
+//Studienarbeit "Visualisierung graphentheoretischer Algorithmen"
+//Christian Reutebuch, Silke Hildebrand
+//28.10.2014 - 10.07.2014
+
 package TSP;
 
 import java.util.ArrayList;
@@ -66,15 +70,15 @@ public class BruteForce {
 //			System.out.println( helpStr );
 //		}
 		int[][] shortestPaths = findShortestPaths(allwithCosts);
-		for ( int j = 0; j < rowCounter; j++ ) {
-			String helpStr = "";
-			for ( int i = 0; i < numOfNodes+2; i++){
-				Integer helpI = shortestPaths[i][j];
-				helpStr += helpI.toString();
-				helpStr += " ";
-			}
-			System.out.println( helpStr );
-		}
+//		for ( int j = 0; j < rowCounter; j++ ) {
+//			String helpStr = "";
+//			for ( int i = 0; i < numOfNodes+2; i++){
+//				Integer helpI = shortestPaths[i][j];
+//				helpStr += helpI.toString();
+//				helpStr += " ";
+//			}
+//			System.out.println( helpStr );
+//		}
 		return shortestPaths;
 	}
 	
@@ -151,7 +155,7 @@ public class BruteForce {
 				pathCounter++;
 			}
 		}
-		System.out.println("Geringste Kosten: " + costs );
+//		System.out.println("Geringste Kosten: " + costs );
 		int[][] rsp = new int[numOfNodes+2][pathCounter];
 		rowCounter = 0;
 		for( int j = 0; j < numRout; ++j ){
